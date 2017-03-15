@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imagevieww"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:elevation="40dp"
+            android:src="@drawable/icon_driver"
+            android:layout_centerHorizontal="true" />
+
+    <RelativeLayout
+        android:id="@+id/layout5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+    <android.support.v7.widget.CardView
+      android:id="@+id/cardview1"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+       android:layout_marginTop="30dp"
+        app:cardCornerRadius="10dp">
+    <RelativeLayout
+        android:id="@+id/layout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/txtdrivername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:textColor="@android:color/black"
+            android:text="Brak obama"/>
+        <TextView
+            android:id="@+id/txtrequestid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff8533"
+            android:text="Request_id:: IDVIJAY"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/txtdrivername"
+            android:layout_centerHorizontal="true" />
+        <RelativeLayout
+            android:id="@+id/pricelayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="40dp"
+            android:padding="10dp"
+            android:background="@drawable/border_edittext"
+            android:layout_below="@+id/txtrequestid">
+            <TextView
+                android:id="@+id/txtdistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:drawablePadding="5dp"
+                android:drawableLeft="@drawable/ic_icon_distance"
+                android:text="15 km"
+                android:textSize="10dp"
+                android:textColor="@android:color/black" />
+            <TextView
+                android:id="@+id/txtdestvalue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/txtdistance"
+                android:textSize="10dp"
+                android:layout_marginLeft="20dp"
+                android:text="Chandigarh" />
+            <TextView
+                android:id="@+id/txttime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentRight="true"
+                android:textAlignment="center"
+                android:text="00:22"
+                android:drawableLeft="@drawable/ic_icon_time"
+                android:drawablePadding="5dp"
+                android:textSize="10dp"
+                android:textColor="@android:color/holo_red_dark" />
+            <TextView
+                android:id="@+id/txtpricevalue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="25dp"
+                android:layout_below="@+id/txttime"
+                android:text="Time"/>
+          <!--  <TextView
+                android:id="@+id/txtprice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="$ 55.00"
+                android:textSize="10dp"
+                android:textColor="@android:color/black"/>
+            <TextView
+                android:id="@+id/txtdatevalue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/txtprice"
+                android:text="Price"
+                android:textSize="10dp" />-->
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/addresslayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_below="@+id/pricelayout">
+            <TextView
+                android:id="@+id/txtpickaddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textSize="10dp"
+                android:gravity="center"
+                android:drawableLeft="@drawable/ic_icon_destination"
+                android:text="Chandigarh"
+                android:textColor="@android:color/black" />
+            <TextView
+                android:id="@+id/txtdesheading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/txtpickaddress"
+                android:layout_centerHorizontal="true"
+                android:textSize="10dp"
+                android:layout_marginLeft="20dp"
+                android:text="Source" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:background="@android:color/transparent"
+            android:layout_below="@+id/addresslayout"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true">
+            <TextView
+                android:id="@+id/btReject"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reject"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:textColor="@android:color/black"
+                android:background="@color/white"/>
+            <TextView
+                android:id="@+id/btnaccept"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Accept"
+                android:layout_weight="1"
+                android:textAllCaps="false"
+                android:gravity="center"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:background="@color/white"
+                android:layout_toRightOf="@id/btReject"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+    </android.support.v7.widget.CardView>
+    </RelativeLayout>
+
+</RelativeLayout>
+
+

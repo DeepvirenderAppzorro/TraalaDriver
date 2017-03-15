@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_icon_bg"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignTop="@+id/map"
+        android:textAlignment="center"
+        android:background="@android:color/transparent"
+        app:popupTheme="@style/AppTheme.PopupOverlay" />
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar">
+        <LinearLayout
+            android:id="@+id/layout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:orientation="vertical">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/driverimage"
+                android:src="@drawable/ic_icon_profile_pic"
+                app:civ_border_color="@android:color/transparent"
+                android:layout_below="@+id/toolbar"
+                android:layout_gravity="center"/>
+            <EditText
+                android:id="@+id/edtname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:inputType="text"
+                android:background="@drawable/round_edit_shape"
+                android:drawablePadding="10dp"
+                android:drawableLeft="@drawable/ic_icon_user"
+                android:hint="Name"
+                android:padding="12dp" />
+
+            <EditText
+                android:id="@+id/edtemail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/round_edit_shape"
+                android:drawablePadding="10dp"
+                android:inputType="text"
+                android:drawableLeft="@drawable/ic_icon_email"
+                android:hint="Emal"
+                android:padding="12dp" />
+            <EditText
+                android:id="@+id/edtphone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:inputType="number"
+                android:background="@drawable/round_edit_shape"
+                android:drawablePadding="10dp"
+                android:drawableLeft="@drawable/ic_icon_phone"
+                android:hint="Phone"
+                android:padding="12dp" />
+            <EditText
+                android:id="@+id/edtpassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:inputType="textPassword"
+                android:background="@drawable/round_edit_shape"
+                android:drawablePadding="10dp"
+                android:drawableLeft="@drawable/ic_icon_lock"
+                android:hint="Password"
+                android:padding="12dp" />
+            <EditText
+                android:id="@+id/edtconfirmpassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/round_edit_shape"
+                android:drawablePadding="10dp"
+                android:inputType="textPassword"
+                android:drawableLeft="@drawable/ic_icon_lock"
+                android:hint="Confirm Password"
+                android:padding="12dp" />
+            <EditText
+                android:id="@+id/edtdriverlicence"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/round_edit_shape"
+                android:drawablePadding="10dp"
+                android:inputType="text"
+                android:drawableLeft="@drawable/ic_icon_user"
+                android:hint="Driving Licence"
+                android:padding="12dp" />
+            <RelativeLayout
+                android:id="@+id/layout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp">
+
+                <EditText
+                    android:id="@+id/edtcity"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:background="@drawable/round_edit_shape"
+                    android:hint="City"
+                    android:inputType="text"
+                    android:padding="12dp"
+                    android:textAlignment="center" />
+                <EditText
+                    android:id="@+id/edtzipcode"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/round_edit_shape"
+                    android:hint="Zip"
+                    android:padding="10dp"
+                    android:inputType="number"
+                    android:textAlignment="center"/>
+            </RelativeLayout>
+            <CheckBox
+                android:id="@+id/termsCheckbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="I have read, understood and degree to the"
+                android:textSize="12dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="term of services"
+                android:layout_marginLeft="35dp"
+                android:textColor="@color/colorRed" />
+            <CheckBox
+                android:id="@+id/privacyCheckbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="I have read, understood and degree to the privacy policy" />
+
+
+            <Button
+                android:id="@+id/btSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/round_button_red"
+                android:text="@string/submit"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tvAlreadyacc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:text="Alrady have an account? Sign Up "
+                android:textColor="#01229b"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+</RelativeLayout>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/payment"
+        android:title=" Map"
+        android:icon="@drawable/ic_icon_map"/>
+    <item android:id="@+id/rideHistory"
+        android:title=" Ride_history"
+       android:icon="@drawable/ic_icon_history" />
+    <item android:id="@+id/myBooking"
+        android:title="My_booking"
+        android:icon="@drawable/ic_icon_payment" />
+    <item android:id="@+id/settings"
+        android:title=" Setting"
+        android:icon="@drawable/ic_icon_setting"/>
+    <item android:id="@+id/review"
+        android:title=" Reviews"
+        android:icon="@mipmap/review"/>
+    <item android:id="@+id/fareDetail"
+        android:title=" Fare Deatil"
+        android:icon="@mipmap/review"/>
+    <item android:id="@+id/help"
+        android:title=" Help"
+    android:icon="@drawable/ic_icon_contact"/>
+    <item android:id="@+id/logout"
+        android:title=" Logout"
+        android:icon="@drawable/ic_icon_logout"/>
+    </menu>

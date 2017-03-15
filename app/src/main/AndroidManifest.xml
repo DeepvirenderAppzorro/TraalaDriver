@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.appzorro.driverappcabscout">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:replace="android:theme">
+        <activity
+            android:name=".view.SplashActivity"
+            android:label="@string/title_activity_maps">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:label="@string/app_name" />
+        <activity android:name=".view.LoginActivity" />
+        <activity android:name=".view.HomeScreenActivity" />
+        <activity android:name=".view.ReviewActivity" />
+        <activity android:name=".view.SignUp" />
+        <activity android:name=".view.CabCompanyActivity" />
+        <activity android:name=".view.TripHistory" />
+        <activity android:name=".view.PathMapActivity" />
+        <activity android:name=".view.RideHistory" />
+        <activity android:name=".view.MyBookingActivity" />
+        <activity android:name=".view.Profile_Activity" />
+        <activity android:name=".view.CashCollect" />
+        <activity android:name=".view.HelpActivity" />
+        <activity android:name=".view.FareDetail"/>
+
+        <service android:name=".model.FireIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".model.FireMsgService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="410517842613797" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCYJrzwtfrcS0C39thi8z6KN2KkMgKHSdo" />
+        <!--
+ ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity android:name=".view.HistoryDeatil" />
+        <activity android:name=".view.DriverPathActivity" />
+        <activity android:name=".view.Practiseactivity"></activity>
+        <activity android:name=".view.FareDetail"></activity>
+    </application>
+
+</manifest>

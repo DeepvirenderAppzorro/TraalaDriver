@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "317720684970",
+    "firebase_url": "https://driverapp-cabscout.firebaseio.com",
+    "project_id": "driverapp-cabscout",
+    "storage_bucket": "driverapp-cabscout.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:317720684970:android:4deb2006486e7f9a",
+        "android_client_info": {
+          "package_name": "com.appzorro.driverappcabscout"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "317720684970-i7nt7hgnt0gp230g6b25pml54aht79qm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAv9hYHuIhpYFg4ACLoGrMyaWBwEmuvFOo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

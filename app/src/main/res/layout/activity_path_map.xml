@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_path_map"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignTop="@+id/map"
+        android:textAlignment="center"
+        app:popupTheme="@style/AppTheme.PopupOverlay" />
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <android.support.v7.widget.CardView
+        android:id="@+id/card1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:cardCornerRadius="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@android:color/white"
+        android:layout_marginLeft="10dp"
+        android:padding="20dp"
+        android:layout_alignParentBottom="true">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/imagelayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_icon_profile_pic"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/customerimage" />
+                <!--<TextView
+                    android:id="@+id/customername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vijay"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/customerimage"/>-->
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@android:color/darker_gray"
+                    android:layout_toRightOf="@+id/customerimage"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/callinglayut"
+                android:layout_width="match_parent"
+                android:layout_toRightOf="@+id/imagelayout"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="5dp">
+                <ImageView
+                    android:id="@+id/makecall"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_icon_call_driver"
+                    android:layout_alignParentLeft="true"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="make a call"
+
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center"
+                    android:textColor="@android:color/black"
+                    android:layout_below="@+id/makecall"/>
+                <TextView
+                    android:id="@+id/customername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vijay"
+                    android:textColor="@color/black"
+
+                    android:layout_marginTop="5dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/customerimage"/>
+
+                <ImageView
+                    android:id="@+id/cancelride"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_icon_cancel"
+                    android:layout_alignParentRight="true"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cancel"
+                    android:layout_marginTop="5dp"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@android:color/black"
+                    android:layout_below="@+id/cancelride"/>
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/txtstart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/callinglayut"
+                android:layout_toRightOf="@+id/imagelayout"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="#FF6600"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Arrived"
+                android:gravity="center"
+                android:textColor="@android:color/white"/>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/paymentcard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        app:cardCornerRadius="5dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+            <TextView
+                android:id="@+id/txtname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="VIJAY"
+                android:textSize="15dp"
+                android:textColor="@android:color/black"/>
+            <View
+                android:id="@+id/view1"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/txtname"
+                android:background="@android:color/darker_gray"/>
+            <TextView
+               android:id="@+id/txtpayment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view1"
+                android:text="Payment By cash"
+                android:textSize="15dp"/>
+
+            <TextView
+                android:id="@+id/txtcollectcash"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtpayment"
+                android:padding="10dp"
+                android:textSize="20dp"
+                android:onClick="onclickCollect"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@android:color/white"
+                android:background="@android:color/holo_green_dark"
+                android:text="Collect Cash"/>
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/txtcollectcash"
+                android:background="@android:color/darker_gray"/>
+            <TextView
+                android:id="@+id/txtcomplete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view2"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:text="Complete Ride"
+                android:background="@android:color/darker_gray" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/laoutaddtoll"
+        android:layout_above="@+id/stoptrips"
+        android:visibility="gone"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:padding="20dp">
+        <TextView
+            android:id="@+id/txtaddtoll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="+ Add Toll"
+            android:textStyle="bold"
+            android:layout_alignParentLeft="true"
+            android:textColor="@android:color/holo_red_light"/>
+        <TextView
+            android:id="@+id/txtaddstopfee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+
+            android:textStyle="bold"
+            android:text="+ Add Stop Fee"
+            android:layout_alignParentRight="true"
+            android:textColor="@android:color/holo_red_light"/>
+        <TextView
+            android:id="@+id/stoptrips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Stop"
+            android:textAlignment="center"
+            android:textSize="15dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@android:color/white"
+            android:textColor="@android:color/holo_red_dark"
+            android:layout_below="@+id/txtaddtoll" />
+    </RelativeLayout>
+
+</RelativeLayout>

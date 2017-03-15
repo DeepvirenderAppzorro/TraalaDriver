@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignTop="@+id/map"
+        android:textAlignment="center"
+        android:background="#FECC18"
+        app:popupTheme="@style/AppTheme.PopupOverlay" />
+    <LinearLayout
+        android:id="@+id/rlOne"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:orientation="vertical">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/customerPics"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_icon_user" />
+        <TextView
+            android:id="@+id/editname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/customerPics"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="Customer Name" />
+        <TextView
+            android:id="@+id/edtrideprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/customerPics"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="$ 27.00"
+            android:textSize="20dp"
+            android:textColor="@android:color/holo_red_dark"/>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rltwo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@+id/rlOne"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TRIP REQUEST DATE" />
+
+        <TextView
+            android:id="@+id/requestdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="05th Sept at 06:39 pm "
+            android:textStyle="bold"
+
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PICK UP LOCATION"
+            android:layout_marginTop="30dp"/>
+
+        <TextView
+            android:id="@+id/pickuplocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="67 Fraklin St. New York, NY 10013,USA "
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DROP LOCATION"
+            android:layout_marginTop="5dp"/>
+        <TextView
+            android:id="@+id/droplocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="505 Lagaurdia Place, New York, NY,USA"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <RatingBar
+        android:id="@+id/rbCustomer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rltwo"
+        style="@style/Base.Widget.AppCompat.RatingBar.Indicator"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:numStars="5"
+        android:stepSize=".5" />
+
+    <!-- <TextView
+         android:id="@+id/tvSubmit"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:text="Submit"
+         android:gravity="center"
+         style="@style/Base.Widget.AppCompat.Button.Borderless"
+         android:textAllCaps="false"
+         android:textColor="@color/black"
+         android:layout_alignParentBottom="true"
+         android:background="@color/colorYellow" />-->
+
+
+</RelativeLayout>

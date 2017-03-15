@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/headerlayout"
+        android:layout_width="match_parent"
+        android:background="#FECC18"
+        android:layout_height="50dp">
+        <TextView
+            android:id="@+id/titlebar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add  Stop Fee"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textSize="20dp"
+            android:textColor="@android:color/black" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+        <TextView
+            android:id="@+id/txttotalamount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Amount"
+            android:layout_marginTop="10dp"
+            style="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="@android:color/black"/>
+        <EditText
+            android:id="@+id/edtstopamount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/txttotalamount"
+            android:layout_marginLeft="15dp"
+            android:padding="5dp"
+            android:inputType="number"
+            android:background="@drawable/border_edittext"/>
+
+
+        <TextView
+            android:id="@+id/txtcancel"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="cancel"
+            android:textAlignment="center"
+            android:layout_alignParentLeft="true"
+            android:padding="10dp"
+            android:textColor="@android:color/black"
+            android:layout_below="@id/edtstopamount"
+            android:layout_marginTop="30dp"
+            android:background="@color/colorYellow"/>
+        <TextView
+            android:id="@+id/txtadd"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="Add"
+            android:layout_alignParentRight="true"
+            android:padding="10dp"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:layout_below="@id/edtstopamount"
+            android:layout_marginTop="30dp"
+            android:background="@color/colorYellow"/>
+
+
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/layout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:orientation="horizontal">
+            <TextView
+                    android:id="@+id/txtcomapnyname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:layout_alignParentLeft="true"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:text="Uber"/>
+                <ImageView
+                    android:id="@+id/updownimage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/doubledown"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="end" />
+
+            </RelativeLayout>
+       <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/layout1"
+        android:background="@color/colorYellow"/>
+
+            <RelativeLayout
+                android:id="@+id/baselayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view1"
+                android:visibility="gone"
+                android:layout_marginLeft="10dp"
+                android:padding="10dp">
+                <TextView
+                    android:id="@+id/txtbasepricevalue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$35"
+                    android:layout_alignParentLeft="true"
+                    android:textColor="@android:color/black"/>
+                <TextView
+                    android:id="@+id/txtbasefare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Base fare"
+                    android:layout_marginTop="20dp"
+                    android:layout_alignParentLeft="true" />
+
+                <TextView
+                    android:id="@+id/txttimepricevalue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$15"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@android:color/black"/>
+                <TextView
+                    android:id="@+id/txttimeprice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Time(1 min)"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp" />
+
+                <TextView
+                    android:id="@+id/txtkmvalue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$5"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@android:color/black"/>
+                <TextView
+                    android:id="@+id/txtkm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="per miles"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="20dp" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+
+
+</RelativeLayout>

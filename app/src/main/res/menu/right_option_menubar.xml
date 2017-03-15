@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+    android:id="@+id/callMessage"
+        android:title="Call/Message"/>
+    <item
+        android:id="@+id/cancelTrip"
+        android:title="Cancel Trip"/>
+    <item
+        android:id="@+id/viewPassenger"
+        android:title="View passenger details"/>
+</menu>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FECC18"
+        android:id="@+id/layout1"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add tolls"
+            android:textSize="15dp"
+            android:textColor="@android:color/white"
+            android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+       android:padding="5dp">
+    <TextView
+        android:id="@+id/txttotalamount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total Amount"
+        android:layout_marginTop="10dp"
+        style="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="@android:color/black"/>
+    <EditText
+        android:id="@+id/edttotalamount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/txttotalamount"
+        android:layout_marginLeft="15dp"
+        android:padding="5dp"
+        android:inputType="number"
+        android:background="@drawable/border_edittext"/>
+
+
+    <TextView
+        android:id="@+id/txtdescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:layout_below="@+id/txttotalamount"
+        android:layout_marginTop="50dp"
+        style="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="@android:color/black"/>
+    <EditText
+        android:id="@+id/edtdescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/txttotalamount"
+        android:layout_marginLeft="15dp"
+        android:padding="5dp"
+        android:maxLines="3"
+        android:inputType="text"
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/edttotalamount"
+        android:background="@drawable/border_edittext"/>
+        <TextView
+            android:id="@+id/txtcancel"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="CANCEL"
+            android:textSize="10dp"
+
+            android:background="#FECC18"
+            android:textAlignment="center"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@android:color/black"
+            android:layout_below="@+id/edtdescription" />
+        <TextView
+            android:id="@+id/txtadd"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Add"
+            android:textSize="10dp"
+            android:background="#FECC18"
+            android:layout_marginRight="10dp"
+            android:textAlignment="center"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="40dp"
+            android:textColor="@android:color/black"
+            android:layout_below="@+id/edtdescription" />
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>

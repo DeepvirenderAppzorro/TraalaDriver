@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="260dp"
+    android:layout_marginTop="20dp">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/custProfilepic"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/icon_driver" />
+    <TextView
+        android:id="@+id/tvProfilename"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Driver Name"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/custProfilepic"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorBlack"
+        android:textSize="14dp"/>
+
+    <RatingBar
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tvProfilename"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="43dp"
+        android:layout_marginTop="14dp"
+        android:stepSize="0.1"
+        android:numStars="5"
+        android:id="@+id/ratingBar"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="43dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        android:layout_below="@+id/ratingBar">
+        <Button
+            android:id="@+id/btCall"
+            android:text="Accept"
+            android:textAllCaps="false"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/round_button_yellow"/>
+        <Button
+            android:id="@+id/btMessage"
+            android:text="Accept"
+            android:textAllCaps="false"
+            android:layout_width="150dp"
+            android:layout_marginLeft="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+           android:layout_toRightOf="@+id/btCall"
+            android:background="@drawable/round_button_yellow"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="fitXY"
+        android:background="@drawable/circle"
+        android:layout_above="@+id/tvProfilename"
+        android:layout_alignEnd="@+id/custProfilepic"
+        android:layout_alignRight="@+id/custProfilepic">
+    </ImageView>
+
+
+</RelativeLayout>

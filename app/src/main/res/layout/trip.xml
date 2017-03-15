@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F1F1F1"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/titleTrip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FECC18"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/ivbtBackConfirm"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/left_angle_bracket" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="TRIP"
+            android:textColor="@color/colorBlack"
+            android:textSize="22dp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvDateTrip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleTrip"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="#F1F1F1"
+        android:gravity="center"
+        android:text="Monday 25,July"
+        android:textColor="@color/colorBlack"
+        android:textSize="16dp" />
+
+    <view
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/tvDateTrip"
+        android:layout_marginTop="10dp"
+        android:background="#b2b2b2" />
+    <TextView
+        android:id="@+id/tvTotalCost"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tvDateTrip"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="#F1F1F1"
+        android:gravity="center"
+        android:text="$150.9"
+        android:textColor="#2B2D2E"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/rlTripcomplete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTotalCost"
+        android:layout_marginTop="20dp"
+        android:background="#F1F1F1"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:id="@+id/tvDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="#F1F1F1"
+            android:text="Details"
+            android:textColor="@color/colorBlack"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tvavgRt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tvDetails"
+            android:layout_marginStart="19dp"
+            android:layout_marginTop="40dp"
+            android:text="Avg. Rating"
+            android:textColor="@color/colorBlack" />
+
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/ratingBarStyleSmall"
+            android:numStars="5"
+            android:rating="3.5"
+            android:stepSize=".5"
+            android:layout_marginStart="10dp"
+            android:layout_below="@+id/tvavgRt" />
+
+        <TextView
+            android:id="@+id/tvTrip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvavgRt"
+            android:layout_alignParentRight="true"
+            android:layout_toEndOf="@+id/tvDetails"
+            android:background="#F1F1F1"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:text="14"
+            android:layout_below="@id/tvDetails"
+            android:textColor="@color/colorBlack" />
+
+        <TextView
+            android:id="@+id/tvCompletedtrip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTrip"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="10dp"
+            android:layout_toEndOf="@+id/tvDetails"
+            android:background="#F1F1F1"
+            android:gravity="center"
+            android:text="Completed Trips"
+            android:textColor="@color/colorBlack"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="390dp"
+        android:layout_below="@id/rlTripcomplete"
+        android:background="@color/colorWhite"
+        android:padding="20dp"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/tvTm1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10:46 PM"
+            android:textColor="@color/colorBlack" />
+
+        <TextView
+            android:id="@+id/tvFare1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="$10.65"
+            android:textColor="@color/colorBlack" />
+
+        <view
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/tvFare1"
+            android:layout_marginTop="10dp"
+            android:background="#666666" />
+
+        <TextView
+            android:id="@+id/tvTime2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTm1"
+            android:layout_marginTop="20dp"
+            android:text="10:46 PM"
+            android:textColor="@color/colorBlack" />
+
+        <TextView
+            android:id="@+id/tvFare2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tvFare1"
+            android:layout_marginTop="20dp"
+            android:text="$110.65"
+            android:textColor="@color/colorBlack" />
+
+        <view
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/tvFare2"
+            android:layout_marginTop="10dp"
+            android:background="#666666" />
+
+        <TextView
+            android:id="@+id/tvtime3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTime2"
+            android:layout_marginTop="20dp"
+            android:text="0835 PM"
+            android:textColor="@color/colorBlack" />
+
+        <TextView
+            android:id="@+id/tvFare3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tvFare2"
+            android:layout_marginTop="20dp"
+            android:text="$05.35"
+            android:textColor="@color/colorBlack" />
+
+        <view
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/tvFare2"
+            android:layout_marginTop="10dp"
+            android:background="#666666" />
+
+        <TextView
+            android:id="@+id/tvtime4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvtime3"
+            android:layout_marginTop="20dp"
+            android:text="0835 PM"
+            android:textColor="@color/colorBlack" />
+
+        <TextView
+            android:id="@+id/tvFare4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tvFare3"
+            android:layout_marginTop="20dp"
+            android:text="$05.35"
+            android:textColor="@color/colorBlack" />
+
+        <view
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/tvFare3"
+            android:layout_marginTop="10dp"
+            android:background="#666666" />
+
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_icon_bg">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:orientation="horizontal"
+       android:layout_above="@+id/progresbaar">
+        <TextView
+            android:id="@+id/txtcab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CAB"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SCOUT"
+            android:textSize="30dp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            style="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/progresbaar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        app:indicatorName="BallPulseRiseIndicator"
+        app:indicatorColor="@android:color/holo_red_light"
+        android:layout_gravity="center" />
+</RelativeLayout>
