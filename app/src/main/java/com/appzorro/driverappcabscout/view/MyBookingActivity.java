@@ -41,16 +41,21 @@ public class MyBookingActivity extends AppCompatActivity {
         initView();
     }
     public void initView(){
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Upcoming Rides");
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
+
         if (getSupportActionBar() != null) {
+
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
         bookinglist = (RecyclerView)findViewById(R.id.bookinglist);
         bookinglist.setLayoutManager(new LinearLayoutManager(context));
         sehedule=(TextView)findViewById(R.id.txtsehedule);
+
 
     }
     @Override
@@ -67,26 +72,28 @@ public class MyBookingActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
 
+        EventBus.getDefault().register(this);
 
     }
     @Override
     protected void onStop() {
         super.onStop();
+
         EventBus.getDefault().unregister(this);
 
     }
     @Subscribe
     public void onEvent(Event event) {
         switch (event.getKey()) {
+
             case Constant.LATERBOOKING:
+
                 dialog.dismiss();
                 sehedule.setVisibility(View.GONE);
 
                 LaterBookingAdapter laterBookingAdapter = new LaterBookingAdapter(context,LaterBookingManager.bookinglis);
                 bookinglist.setAdapter(laterBookingAdapter);
-
                 break;
             case Constant.SERVER_ERROR:
                 dialog.dismiss();
@@ -99,6 +106,7 @@ public class MyBookingActivity extends AppCompatActivity {
                 dialog.dismiss();
                 sehedule.setVisibility(View.VISIBLE);
                 bookinglist.setVisibility(View.GONE);
+                break;
 
         }
     }

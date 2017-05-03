@@ -8,6 +8,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.appzorro.driverappcabscout.R;
 import com.appzorro.driverappcabscout.controller.ModelManager;
@@ -32,6 +35,7 @@ public class ReviewActivity extends AppCompatActivity{
     android.app.AlertDialog dialog;
     RecyclerView recyclerView;
     Context context;
+    TextView noReview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +54,8 @@ public class ReviewActivity extends AppCompatActivity{
         }
         recyclerView = (RecyclerView)findViewById(R.id.listreviws);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        noReview =(TextView)findViewById(R.id.textview);
+
 
     }
     @Override
@@ -80,6 +86,14 @@ public class ReviewActivity extends AppCompatActivity{
                 dialog.dismiss();
                 ReviewAdapter reviewAdapter = new ReviewAdapter(context, ReviewManager.reviewliast);
                 recyclerView.setAdapter(reviewAdapter);
+                break;
+            case Constant.NOREVIEW:
+                dialog.dismiss();
+                recyclerView.setVisibility(View.GONE);
+                noReview.setVisibility(View.VISIBLE);
+                break;
+            case Constant.SERVER_ERROR:
+                Toast.makeText(context, "Network Error", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

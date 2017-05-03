@@ -45,15 +45,21 @@ public class CollectCashmanager {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            if (s!=null){
             try {
                 JSONObject jsonObject = new JSONObject(s);
                 JSONObject jsonObject1 = jsonObject.getJSONObject("response");
                 String id = jsonObject1.getString("id");
                 String message = jsonObject1.getString("message");
                 EventBus.getDefault().post(new Event(Constant.COLLECTCASH,message));
-            } catch (JSONException e) {
+            }catch (JSONException e) {
 
                 e.printStackTrace();
+            }
+        }
+            else {
+
+                EventBus.getDefault().post(new Event(Constant.SERVER_ERROR,""));
             }
         }
     }

@@ -77,9 +77,10 @@ public class Profile_Activity  extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         context =this;
-        passwordchange=(TextView)findViewById(R.id.txtpassworddd);
+
+
         initview();
-  // click on edit option of the image and set the image of yor choice
+
         edtimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,6 +99,7 @@ public class Profile_Activity  extends AppCompatActivity{
                 final EditText editcurrentpassword = (EditText)passworddialog.findViewById(R.id.edtcurrentpassword);
                 final EditText newpassword = (EditText)passworddialog.findViewById(R.id.edtnewpassword);
                 TextView cancel=(TextView)passworddialog.findViewById(R.id.txtcancel1);
+
                 TextView reset=(TextView)passworddialog.findViewById(R.id.txtreset);
                 final EditText confirmpassword = (EditText)passworddialog.findViewById(R.id.edtconfirmpassword);
 
@@ -204,13 +206,10 @@ public class Profile_Activity  extends AppCompatActivity{
             case Constant.CHANGEPASSWORD:
                 dialog.dismiss();
                 String response = event.getValue();
-                String[] messagespli = response.split(",");
-                int id = Integer.parseInt(messagespli[messagespli.length - 2]);
-                String message = messagespli[messagespli.length - 1];
-                if (id > 0) {
+
                     new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
                             .setTitleText("Success")
-                            .setContentText(message)
+                            .setContentText(response)
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -219,21 +218,15 @@ public class Profile_Activity  extends AppCompatActivity{
                                 }
                             })
                             .show();
-                } else {
 
-                    new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText("Error")
-                            .setContentText(message)
-                            .show();
-                }
+                break;
+            case Constant.PASSWORDERROR:
+                Config.event_message =event.getValue();
+                dialog.dismiss();
+                Toast.makeText(context, ""+Config.event_message, Toast.LENGTH_SHORT).show();
+                passworddialog.dismiss();
                 break;
             case Constant.UPDATEPROFILE:
-
-                dialog.dismiss();
-                String message1 = event.getValue();
-                String[] messagesplit = message1.split(",");
-                int updateid = Integer.parseInt(messagesplit[messagesplit.length - 2]);
-                String status = messagesplit[messagesplit.length - 1];
                 firstname.setClickable(false);
                 shareditem.setVisible(false);
                 firstname.setEnabled(false);
@@ -242,19 +235,11 @@ public class Profile_Activity  extends AppCompatActivity{
                 phonenumber.setClickable(false);
                 phonenumber.setEnabled(false);
 
-                new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText("Success")
-                        .setContentText(status)
-                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                dialog= new SpotsDialog(context);
-                                dialog.show();
-                                ModelManager.getInstance().getUserDetailManager().UserDetailManager(context,Operations.getUserDetail(context,CSPreferences.readString(context,"customer_id")));
-                                sweetAlertDialog.dismiss();
-                            }
-                        })
-                        .show();
+                ModelManager.getInstance().getUserDetailManager().UserDetailManager(context,
+                        Operations.getUserDetail(context,CSPreferences.readString(context,"customer_id")));
+
+
+
                 break;
             case Constant.USERDETAILSTAUS:
                 dialog.dismiss();
@@ -276,14 +261,11 @@ public class Profile_Activity  extends AppCompatActivity{
 
             case Constant.COMPANYCHANGE:
                 dialog.dismiss();
-                String repose = event.getValue();
-                String split[] = repose.split(",");
-                int statusid = Integer.parseInt(split[split.length-2]);
-                String sttaus= split[split.length-1];
-                if (statusid>0){
-                    new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                Config.event_message = event.getValue();
+
+                        new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
                             .setTitleText("Done")
-                            .setContentText(sttaus)
+                            .setContentText(Config.event_message)
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -292,22 +274,14 @@ public class Profile_Activity  extends AppCompatActivity{
                                 }
                             })
                             .show();
-                }
-                else {
-                    new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText("Error")
-                            .setContentText(sttaus)
-                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sweetAlertDialog) {
-
-                                    sweetAlertDialog.dismiss();
-                                }
-                            })
-                            .show();
 
 
-                }
+                break;
+            case Constant.COMPANYCHANGEERROR:
+                dialog.dismiss();
+                Config.event_message = event.getValue();
+                Toast.makeText(context, ""+Config.event_message, Toast.LENGTH_SHORT).show();
+                bottomSheetDialog.dismiss();
                 break;
         }
     }
@@ -317,22 +291,24 @@ public class Profile_Activity  extends AppCompatActivity{
         imageView =(ImageView)findViewById(R.id.driverpic);
         firstname=(EditText)findViewById(edtfirstname);
         emaiid=(EditText)findViewById(R.id.edtemail);
+        passwordchange=(TextView)findViewById(R.id.txtpassworddd);
+
         phonenumber=(EditText)findViewById(R.id.edphonenumber);
         edtimage =(ImageView)findViewById(R.id.imageedit);
         toolbar =(Toolbar)findViewById(R.id.toolbar);
         changecompany =(TextView)findViewById(R.id.txtchangeccompany);
+
         toolbar.setTitle("Setting");
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        // getting the current image into base64
-
-
 
         firstname.setText(""+CSPreferences.readString(context,"user_name"));
         emaiid.setText(""+CSPreferences.readString(context,"user_email"));
         phonenumber.setText(""+CSPreferences.readString(context,"user_mobile"));
+
+
         String profile= CSPreferences.readString(context,"profile_pic");
         Picasso.with(this)
                 .load(CSPreferences.readString(context, "profile_pic"))
@@ -417,16 +393,17 @@ public class Profile_Activity  extends AppCompatActivity{
     }
     private void onSelectFromGalleryResult(Intent data) {
 
-        Bitmap bm = null;
+
         if (data != null) {
             try {
-                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
+                Bitmap  bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 bm.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+
                 byte[] byteArray = bytes.toByteArray();
                 covertedImage = Base64.encodeToString(byteArray, 0);
                 imageView.setImageBitmap(bm);
-                Log.e("From gallery",covertedImage);
+                //Log.e("From gallery",covertedImage);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -516,6 +493,8 @@ public class Profile_Activity  extends AppCompatActivity{
                 break;
             case R.id.edit:
                 shareditem.setVisible(true);
+
+
                 firstname.setEnabled(true);
                 firstname.setClickable(true);
                 emaiid.setEnabled(false);
@@ -523,7 +502,6 @@ public class Profile_Activity  extends AppCompatActivity{
                 phonenumber.setClickable(true);
                 phonenumber.setEnabled(true);
                 break;
-
         }
 
         return super.onOptionsItemSelected(item);

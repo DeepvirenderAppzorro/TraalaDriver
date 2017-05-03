@@ -53,11 +53,11 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -66,18 +66,18 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import dmax.dialog.SpotsDialog;
 
 public class HomeScreenActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-        View.OnClickListener,LocationListener {
+        View.OnClickListener, LocationListener {
     private GoogleMap mMap;
 
     Toolbar toolbar;
     private GoogleApiClient mGoogleApiClient;
-
+   MyTimer timer1;
+    LocationManager locationManager;
     Activity activity = this;
     double currentlat, currentlang;
-    LocationManager locationManager;
     Location mLastLocation;
     TextView timer;
-    Dialog requestdialog;
+    Dialog requestdialog,messagedialog;
     private int STORAGE_PERMISSION_CODE = 23;
     private static final int[] COLORS = new int[]{R.color.pathcolor, R.color.colorPrimaryDark, R.color.colorAccent, R.color.colorAccent, R.color.primary_dark_material_light};
     Switch myswitch;
@@ -98,15 +98,14 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
         toolbar = (Toolbar) findViewById(R.id.toolbar1);
         toolbar.setTitle("CABSCOUT ");
         setSupportActionBar(toolbar);
+        requestdialog = Utils.createDialog(this);
 
-        /*getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);*/
 
         ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION}, STORAGE_PERMISSION_CODE);
 
         initNavigationDrawer();
-        Log.e("tokenn", FirebaseInstanceId.getInstance().getToken());
+       // Log.e("tokenn", FirebaseInstanceId.getInstance().getToken());
 
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -116,6 +115,8 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
                 .build();
         myswitch = (Switch) findViewById(R.id.checkbox);
         txtstatus = (TextView) findViewById(R.id.txtstatus);
+        messagedialog = Utils.createMessageDialog(activity);
+
         // Customize  My Location Button
         myLocation = (FloatingActionButton) findViewById(R.id.fbMyloc);
         myLocation.setOnClickListener(new View.OnClickListener() {
@@ -138,25 +139,7 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
 
             }
         });
-       /* if (myswitch.isChecked()) {
 
-
-            txtstatus.setText("Online");
-
-
-
-            // here we call the service of online and offline status of the driver by getting toggle button
-
-            dialog = new SpotsDialog(activity);
-            dialog.show();
-            Log.e("driver current ","location"+String.valueOf(currentlang));
-            ModelManager.getInstance().getOnlineOfflineManager().OnlineOfflineManager(activity, Operations.sendDriverstatus(
-                    activity, CSPreferences.readString(activity, "customer_id"), "1",String.valueOf(currentlat),String.valueOf(currentlang)
-            ));
-
-        } else {
-            txtstatus.setText("Offline");
-        }*/
         myswitch.setChecked(true);
         myswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -165,17 +148,18 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
                     txtstatus.setText("Online");
                     dialog = new SpotsDialog(activity);
                     dialog.show();
+
                     Log.e("driver current ", "location" + String.valueOf(currentlang));
                     ModelManager.getInstance().getOnlineOfflineManager().OnlineOfflineManager(activity, Operations.sendDriverstatus(
                             activity, CSPreferences.readString(activity, "customer_id"), "1", String.valueOf(currentlat), String.valueOf(currentlang)));
 
-                           } else {
+                } else {
                     // here we send the  the offline status
                     txtstatus.setText("Offline");
                     dialog = new SpotsDialog(activity);
                     dialog.show();
                     ModelManager.getInstance().getOnlineOfflineManager().OnlineOfflineManager(activity, Operations.sendDriverstatus(
-                            activity, CSPreferences.readString(activity, "customer_id"), "0","0.0","0.0"
+                            activity, CSPreferences.readString(activity, "customer_id"), "0", "0.0", "0.0"
                     ));
                 }
             }
@@ -184,6 +168,16 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode){
+
+
+        }
     }
 
     @Override
@@ -199,8 +193,8 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
             return;
-
         }
+
         MapStyleManager styleManager = MapStyleManager.attachToMap(this, googleMap);
         styleManager.addStyle(10, R.raw.map_style_retro);
 
@@ -284,10 +278,10 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
                 Intent intent = new Intent(activity, Profile_Activity.class);
                 startActivity(intent);
                 break;
-            case R.id.myBooking:
+         /*   case R.id.myBooking:
                 Intent intent1 = new Intent(activity, MyBookingActivity.class);
                 startActivity(intent1);
-                break;
+                break;*/
             case R.id.rideHistory:
                 Intent intHistory = new Intent(this, RideHistory.class);
                 startActivity(intHistory);
@@ -314,6 +308,7 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
                 CSPreferences.clearPref(activity);
                 CSPreferences.putString(activity, "login_status", "false");
                 break;
+
         }
         return true;
     }
@@ -337,16 +332,6 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
 
         super.onResume();
 
-        if (Config.notificationkey.equals("customer_request")){
-
-            Log.e("customer request","ss");
-
-            dialog = new SpotsDialog(activity);
-            dialog.show();
-            Config.notificationkey="";
-            ModelManager.getInstance().getCustomerReQuestManager().CustomerReQuestManager(activity, Operations.getCustomerRequest(activity, CSPreferences.readString(activity,"customer_id")));
-
-        }
        /* if (dialog.isShowing()) {
             dialog.dismiss();
         }*/
@@ -379,57 +364,58 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
 
     private void initCamera(Location mLocation) {
 
-        Log.e("init camera", "fuction are called");
+        if (mLocation != null) {
 
-        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        CameraPosition position = CameraPosition
-                .builder().target(new LatLng(mLocation.getLatitude(), mLocation.getLongitude()))
-                .zoom(15f)
-                .bearing(0.0f)
-                .tilt(0.0f)
-                .build();
-        currentlat = mLocation.getLatitude();
-        currentlang = mLocation.getLongitude();
+            Log.e("init camera", "fuction are called");
 
-        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(position));
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            CameraPosition position = CameraPosition
+                    .builder().target(new LatLng(mLocation.getLatitude(), mLocation.getLongitude()))
+                    .zoom(15f)
+                    .bearing(0.0f)
+                    .tilt(0.0f)
+                    .build();
+            currentlat = mLocation.getLatitude();
+            currentlang = mLocation.getLongitude();
 
-        MarkerOptions options = new MarkerOptions();
-        options.position(new LatLng(currentlat, currentlang));
+            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(position));
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Log.e("calling","handler");
-                getLastBestStaleLocation();
-            }
-        }, 1000);
+            MarkerOptions options = new MarkerOptions();
+            options.position(new LatLng(currentlat, currentlang));
 
-// here send the driver status online to the server with cureent latitude and logititude...............................................
 
-       /* if (myswitch.isChecked()) {
+
+        }
+        else {
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    getLastBestStaleLocation();
+                }
+            },1000);
+        }
+        if (myswitch.isChecked()) {
 
             txtstatus.setText("Online");
-            // here we call the service of online and offline status of the driver by getting toggle button
             dialog = new SpotsDialog(activity);
             dialog.show();
-            Log.e("driver current ", "location" + String.valueOf(currentlang));
+
             ModelManager.getInstance().getOnlineOfflineManager().OnlineOfflineManager(activity, Operations.sendDriverstatus(
                     activity, CSPreferences.readString(activity, "customer_id"), "1", String.valueOf(currentlat), String.valueOf(currentlang)
             ));
         }
         else {
+
             txtstatus.setText("Offline");
         }
-*/
 
 
 
-            //options.icon(BitmapDescriptorFactory.fromResource(R.mipmap.car));
-       // mMap.addMarker(options);
-       /* mMap.addMarker(new MarkerOptions().position(new LatLng(currentlat,
-                currentlang)));*/
-    }
+        }
+
 
     @Override
     public void onStart() {
@@ -438,117 +424,112 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
         EventBus.getDefault().register(this);
     }
 
-    @Subscribe
-    public void onEvent(Event event) {
+    @Subscribe (threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(Event event) {
         switch (event.getKey()) {
             case Constant.CUSTOMERREQUEST:
 
-                dialog.dismiss();
                 list = new ArrayList<>();
                 list = CustomerReQuestManager.requestlis;
-                final CustomerRequest customerRequest = list.get(0);
-                requestdialog = Utils.createDialog(activity);
-                requestdialog.show();
 
-                ImageView customerimage = (ImageView) requestdialog.findViewById(R.id.imagevieww);
-                TextView customername = (TextView) requestdialog.findViewById(R.id.txtdrivername);
-                final TextView requestid = (TextView) requestdialog.findViewById(R.id.txtrequestid);
-                TextView distance = (TextView) requestdialog.findViewById(R.id.txtdistance);
-                final TextView accept = (TextView) requestdialog.findViewById(R.id.btnaccept);
-                TextView reject =(TextView)requestdialog.findViewById(R.id.btReject) ;
-                timer = (TextView) requestdialog.findViewById(R.id.txttime);
+                for (int i = 0; list.size()>i;i++) {
 
-                timer.setText("00:00");
-                String profileimage = customerRequest.getProfilepic();
-                Log.e("image ", profileimage);
-                TextView pickuloaction = (TextView) requestdialog.findViewById(R.id.txtpickaddress);
-                requestid.setText("" + customerRequest.getRequestid());
-                customername.setText("" + customerRequest.getName());
-                Picasso.with(this)
-                        .load(profileimage)
-                        .into(customerimage);
+                    final CustomerRequest customerRequest = list.get(i);
+                //    if (customerRequest.getRequestid().equals(Config.rideRequestid)) {
+                        requestdialog.show();
+                        ImageView customerimage = (ImageView) requestdialog.findViewById(R.id.imagevieww);
+                        TextView customername = (TextView) requestdialog.findViewById(R.id.txtdrivername);
+                        final TextView requestid = (TextView) requestdialog.findViewById(R.id.txtrequestid);
+                        TextView distance = (TextView) requestdialog.findViewById(R.id.txtdistance);
+                        final TextView accept = (TextView) requestdialog.findViewById(R.id.btnaccept);
+                        TextView reject = (TextView) requestdialog.findViewById(R.id.btReject);
+                        timer = (TextView) requestdialog.findViewById(R.id.txttime);
 
-                accept.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog = new SpotsDialog(activity);
+                        timer.setText("00:00");
+                        timer1 = new MyTimer(15000, 1000);
+                        timer1.start();
+
+                        String profileimage = customerRequest.getProfilepic();
+                        Log.e("image ", profileimage);
+                        TextView pickuloaction = (TextView) requestdialog.findViewById(R.id.txtpickaddress);
+                        requestid.setText("" + customerRequest.getRequestid());
+                        customername.setText("" + customerRequest.getName());
+                        pickuloaction.setText("" + Utils.getCompleteAddressString(activity, Double.parseDouble(customerRequest.getSourcelat()),
+                                Double.parseDouble(customerRequest.getSourcelng())));
+                        String pickupaddres = Utils.getCompleteAddressString(activity, Double.parseDouble(customerRequest.getSourcelat()),
+                                Double.parseDouble(customerRequest.getSourcelng()));
+
+                        Log.e("address", "" + pickupaddres);
+
+                        Picasso.with(this)
+                                .load(profileimage)
+                                .into(customerimage);
+
                         dialog.dismiss();
-                        ModelManager.getInstance().getAcceptCustomerRequest().AcceptCustomerRequest(activity, Operations.acceptByDriver(activity,
-                                CSPreferences.readString(activity, "customer_id"), customerRequest.getRequestid(),
-                                String.valueOf(currentlat), String.valueOf(currentlang)));
 
-                    }
-                });
-                reject.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
 
-                        requestdialog.dismiss();
-                    }
 
-                });
-               /* destination.setText(""+ Utils.getCompleteAddressString(activity,Double.parseDouble(customerRequest.getDroplat()),
-                        Double.parseDouble(customerRequest.getDroplng())));*/
-                pickuloaction.setText(""+Utils.getCompleteAddressString(activity,Double.parseDouble(customerRequest.getSourcelat()),
-                        Double.parseDouble(customerRequest.getSourcelng())));
+                        accept.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
 
-                final MyTimer timer = new MyTimer(30000, 1000);
-                timer.start();
-                String pickupaddres = Utils.getCompleteAddressString(activity, Double.parseDouble(customerRequest.getSourcelat()),
-                        Double.parseDouble(customerRequest.getSourcelng()));
-                Log.e("address", "" + pickupaddres);
+                                dialog = new SpotsDialog(activity);
+                                dialog.show();
+                                timer1.cancel();
+
+                                ModelManager.getInstance().getAcceptCustomerRequest().AcceptCustomerRequest(activity, Operations.acceptByDriver(activity,
+                                        CSPreferences.readString(activity, "customer_id"), customerRequest.getRequestid(),
+                                        String.valueOf(currentlat), String.valueOf(currentlang)));
+                                requestdialog.dismiss();
+
+                            }
+                        });
+                        reject.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                requestdialog.dismiss();
+                            }
+
+                        });
+                    //}
+
+                }
+
+
 
                 break;
 
 
             case Constant.ACCEPTBYDRIVER:
+
+
                 dialog.dismiss();
-                requestdialog.dismiss();
-               // String message = event.getValue();
+
+                // String message = event.getValue();
                 Intent intent = new Intent(activity, PathMapActivity.class);
-                Config.startpoint = new LatLng(30.729805, 76.769364);
-                Config.endpoint = new LatLng(30.680176, 76.745705);
+
                 startActivity(intent);
 
-               /* new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText(message)
-                        .setContentText("Your request has been successfully sent to the customer")
-                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                Intent intent = new Intent(activity, PathMapActivity.class);
-                                Config.startpoint = new LatLng(30.729805, 76.769364);
-                                Config.endpoint = new LatLng(30.680176, 76.745705);
-                                startActivity(intent);
-                           *//* Intent intent = new Intent(activity,DriverPathActivity.class);
-                                startActivity(intent);*//*
-                                sweetAlertDialog.dismiss();
-                            }
-                        })
-                        .show();*/
+
+
                 break;
             case Constant.DRIVERSTATUS:
+
                 dialog.dismiss();
                 String drivermessage = event.getValue();
+
                 if (drivermessage.equals("online")) {
 
                     txtstatus.setText(drivermessage);
 
                     Toast.makeText(activity, "your status is online", Toast.LENGTH_SHORT).show();
 
-                    /*new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                            .setTitleText(drivermessage)
-                            .setContentText("your status are online please wait the customer request")
-                            .show();*/
                 } else {
 
                     txtstatus.setText(drivermessage);
                     Toast.makeText(activity, "your status is offline", Toast.LENGTH_SHORT).show();
 
-                    /*new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                            .setTitleText(drivermessage)
-                            .setContentText("your status are offline")
-                            .show();*/
                 }
                 break;
             case Constant.SERVER_ERROR:
@@ -558,11 +539,14 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
                         .setContentText("Your Network connection is very slow please try again")
                         .show();
                 break;
+
         }
     }
 
     @Override
     public void onLocationChanged(Location location) {
+
+        initCamera(location);
 
     }
 
@@ -586,6 +570,8 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
 
     public class MyTimer extends CountDownTimer {
 
+
+
         public MyTimer(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
         }
@@ -600,21 +586,34 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
 
         @Override
         public void onFinish() {
+
             timer.setText("00:00");
             requestdialog.dismiss();
 
+
         }
 
-
     }
- // here we are getting the cureent location of the user... this method return you our current locaton after every 10 second
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (requestdialog!=null){
+
+            requestdialog.dismiss();
+            requestdialog=null;
+        }
+    }
+
+    // here we are getting the cureent location of the user... this method return you our current locaton after every 10 second
 
     public Location getLastBestStaleLocation() {
-        Location bestresult = null;
 
-        Log.e("call","getbestlocation");
+        Location bestresult = null;
+        Log.e("call","getbesccctlocation");
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions

@@ -46,15 +46,34 @@ public class ChangepasswordManager {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            if (s!=null) {
 
-            try {
-                JSONObject jsonObject = new JSONObject(s);
-                JSONObject jsonObject1 = jsonObject.getJSONObject("response");
-                String id = jsonObject1.getString("id");
-                String message = jsonObject1.getString("message");
-                EventBus.getDefault().post(new Event(Constant.CHANGEPASSWORD,id+","+message));
-            } catch (JSONException e) {
-                e.printStackTrace();
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    JSONObject jsonObject1 = jsonObject.getJSONObject("response");
+                    int id = Integer.parseInt(jsonObject1.getString("id"));
+                    String message = jsonObject1.getString("message");
+                    if (id>0){
+
+                        EventBus.getDefault().post(new Event(Constant.CHANGEPASSWORD,message));
+
+                    }
+                    else {
+
+                        EventBus.getDefault().post(new Event(Constant.CHANGEPASSWORD,message));
+
+
+                    }
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }else {
+
+                EventBus.getDefault().post(new Event(Constant.SERVER_ERROR,""));
+                
             }
         }
     }

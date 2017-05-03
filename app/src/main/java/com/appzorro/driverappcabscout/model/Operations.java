@@ -263,4 +263,13 @@ public class Operations {
         return parms;
     }
 
+    public static String sendLocationurl(Context context,String lat, String lng,String customer_id,String driver_id){
+
+
+        String parms = Config.locationsendurl+"&latitude="+lat+"&longitude="+lng+"&customer_id="+customer_id+"&driver_id="+driver_id;
+
+        Log.e("sendlocation url",parms);
+        return parms;
+    }
+
 }

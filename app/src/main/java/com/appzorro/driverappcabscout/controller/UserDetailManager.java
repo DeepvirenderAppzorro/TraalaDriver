@@ -36,6 +36,7 @@ public class UserDetailManager {
 
         @Override
         protected String doInBackground(String... strings) {
+
             HttpHandler httpHandler = new HttpHandler();
             String response = httpHandler.makeServiceCall(strings[0]);
 

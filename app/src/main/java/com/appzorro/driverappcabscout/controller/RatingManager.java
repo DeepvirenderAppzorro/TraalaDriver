@@ -45,15 +45,27 @@ public class RatingManager {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            try {
-                JSONObject jsonObject = new JSONObject(s);
-                JSONObject jsonObject1 = jsonObject.getJSONObject("response");
-                String id = jsonObject1.getString("id");
-                String message = jsonObject1.getString("message");
-                EventBus.getDefault().post(new Event(Constant.RATING,id+","+message));
-            } catch (JSONException e) {
 
-                e.printStackTrace();
+            if (s!=null) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    JSONObject jsonObject1 = jsonObject.getJSONObject("response");
+                    int  id = Integer.parseInt(jsonObject1.getString("id"));
+                    if (id>0) {
+
+                        EventBus.getDefault().post(new Event(Constant.RATING, ""));
+                    }
+                    else {
+
+                    }
+                } catch (JSONException e) {
+
+                    e.printStackTrace();
+                }
+            }else {
+
+                EventBus.getDefault().post(new Event(Constant.SERVER_ERROR,""));
+
             }
         }
     }

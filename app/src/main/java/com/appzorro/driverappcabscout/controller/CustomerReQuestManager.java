@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.appzorro.driverappcabscout.model.Beans.CustomerRequest;
+import com.appzorro.driverappcabscout.model.CSPreferences;
 import com.appzorro.driverappcabscout.model.Config;
 import com.appzorro.driverappcabscout.model.Constant;
 import com.appzorro.driverappcabscout.model.Event;
@@ -57,24 +58,35 @@ public class CustomerReQuestManager {
                     for (int i = 0; i < jsonArray.length(); i++) {
 
                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                        String name = jsonObject1.getString("name");
                         String requestid = jsonObject1.getString("ride_request_id");
                         int id = Integer.parseInt(requestid);
                         if (id>0) {
+                            String name = jsonObject1.getString("name");
                             String customer_id = jsonObject1.getString("customer_id");
                             String profilpic = jsonObject1.getString("profile_pic");
                             String pickupadd = jsonObject1.getString("pickup_cordinates");
+
                             String[] picksplit = pickupadd.split(",");
                             String sourcelat = picksplit[picksplit.length - 2];
                             String sourcelng = picksplit[picksplit.length - 1];
+
                             String dropadd = jsonObject1.getString("drop_cordinates");
                             String[] dropsplit = dropadd.split(",");
+
                             String destlat = dropsplit[dropsplit.length - 2];
                             String destlng = dropsplit[dropsplit.length - 1];
+
+                            String payment_method = jsonObject1.getString("payment_type");
+                            CSPreferences.putString(mContext,"payment_method",payment_method);
+
                             String mobilenumber = jsonObject1.getString("mobile");
-                            CustomerRequest customerRequest = new CustomerRequest(name, requestid, customer_id, Config.baserurl_image+profilpic, sourcelat, sourcelng,
-                                    destlat, destlng, mobilenumber);
+
+                            CustomerRequest customerRequest = new CustomerRequest(name, requestid, customer_id,
+                                    Config.baserurl_image+profilpic, sourcelat, sourcelng,
+                                    destlat, destlng, mobilenumber,payment_method);
+
                             requestlis.add(customerRequest);
+
                             EventBus.getDefault().post(new Event(Constant.CUSTOMERREQUEST, ""));
                         }
                         else{
@@ -83,10 +95,6 @@ public class CustomerReQuestManager {
 
                         }
                     }
-
-
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.e("exception request",e.toString());

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/titleRating"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FECC18"
-        android:padding="10dp">
-
+        android:background="@color/colorYellow"
+        style="@style/Base.TextAppearance.AppCompat.Medium"
+        android:padding="5dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -17,17 +18,20 @@
             android:layout_centerVertical="true"
             android:text="RATING"
             android:textColor="@android:color/white"
-            android:textSize="22dp" />
+            style="@style/Base.TextAppearance.AppCompat.Medium"/>
     </RelativeLayout>
-
-
+    <android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="2dp">
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_below="@id/titleRating"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
+        android:orientation="vertical"
+       android:padding="10dp">
+       <!-- <TextView
             android:id="@+id/tvHwride"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,29 +44,63 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            style="@style/Base.Widget.AppCompat.RatingBar.Small"
             android:layout_marginTop="10dp" />
         <EditText
             android:id="@+id/etComment"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="#EFEFEF"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:gravity="top"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/border_edittext"
             android:hint="Enter your Comment"
             android:textSize="12dp" />
-        <Button
-            android:id="@+id/btSubmit"
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/round_button_yellow"
-            android:text="Submit"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:textSize="18dp" />
+            android:padding="5dp">
+            <TextView
+                android:id="@+id/btSubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_button_yellow"
+                android:text="Submit"
+                android:padding="8dp"
+                android:textColor="@android:color/white"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="20dp"
+                android:textSize="18dp" />
+        </RelativeLayout>-->
+
+        <RatingBar
+            android:id="@+id/rbUserrating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp">
+            <TextView
+                android:id="@+id/btSubmit"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_button_yellow"
+                android:text="Submit"
+                android:padding="10dp"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:textSize="18dp" />
+        </RelativeLayout>-->
     </LinearLayout>
+</android.support.v7.widget.CardView>
 
 
-</RelativeLayout>
+</LinearLayout>

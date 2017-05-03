@@ -58,17 +58,22 @@ public class ReviewManager {
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     JSONArray jsonArray = jsonObject.getJSONArray("response");
-                    for (int i=0;i<jsonArray.length();i++){
+                    if (jsonArray.length()>0) {
+                        for (int i = 0; i < jsonArray.length(); i++) {
 
-                        JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                        String name  = jsonObject1.getString("name");
-                        String profilepic = Config.baserurl_image+jsonObject1.getString("profile_pic");
-                        String feedbacktime = jsonObject1.getString("feedback_time");
-                        String rating = jsonObject1.getString("rating");
-                        String feedback = jsonObject1.getString("feedback");
-                        ReviewBeans reviewBeans = new ReviewBeans(name,feedbacktime,rating,feedback);
-                        reviewliast.add(reviewBeans);
-                        EventBus.getDefault().post(new Event(Constant.REVIEW,""));
+                            JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                            String name = jsonObject1.getString("name");
+                            String profilepic = Config.baserurl_image + jsonObject1.getString("profile_pic");
+                            String feedbacktime = jsonObject1.getString("feedback_time");
+                            String rating = jsonObject1.getString("rating");
+                            String feedback = jsonObject1.getString("feedback");
+                            ReviewBeans reviewBeans = new ReviewBeans(name, feedbacktime, rating, feedback);
+                            reviewliast.add(reviewBeans);
+                            EventBus.getDefault().post(new Event(Constant.REVIEW, ""));
+                        }
+                    }else{
+
+                        EventBus.getDefault().post(new Event(Constant.NOREVIEW, ""));
                     }
 
 

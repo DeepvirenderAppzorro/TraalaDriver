@@ -32,7 +32,7 @@ import dmax.dialog.SpotsDialog;
 /**
  * Created by pankaj on 23/1/17.
  */
-public class CabCompanyActivity extends AppCompatActivity implements View.OnClickListener  {
+public class CabCompanyActivity extends AppCompatActivity implements View.OnClickListener {
     private final String TAG = CabCompanyActivity.class.getSimpleName();
     Activity activity = this;
     Toolbar toolbar;

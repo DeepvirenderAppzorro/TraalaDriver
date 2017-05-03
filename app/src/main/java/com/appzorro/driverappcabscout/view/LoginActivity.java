@@ -6,11 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appzorro.driverappcabscout.R;
@@ -39,10 +37,10 @@ import dmax.dialog.SpotsDialog;
  */
 
 public class LoginActivity extends AppCompatActivity  {
-    EditText logIn, passWord;
-    TextView facebooklogin;
+    EditText edit_email, edit_password;
+
     Button loginbt;
-    String mob;
+    String emailid;
     String password;
     Activity context;
     CallbackManager callbackManager;
@@ -64,45 +62,52 @@ public class LoginActivity extends AppCompatActivity  {
 
     }
     public void init() {
+
         callbackManager = CallbackManager.Factory.create();
-        logIn = (EditText) findViewById(R.id.etLoginid);
-        passWord = (EditText) findViewById(R.id.etPassword);
-        facebooklogin=(TextView)findViewById(R.id.fbLogin);
-        progressView = (CircularProgressView) findViewById(R.id.progressView);
-        progressView.setVisibility(View.GONE);
+        edit_email = (EditText) findViewById(R.id.etLoginid);
+        edit_password = (EditText) findViewById(R.id.etPassword);
         relativeLayout =(RelativeLayout)findViewById(R.id.activitylogin);
         ButterKnife.bind(this);
         devicetoken = FirebaseInstanceId.getInstance().getToken();
-        Log.e("login token",devicetoken);
+
+        Log.e("device tokenn","j "+ devicetoken);
+
 
     }
 
    @OnClick(R.id.btLogin)
     public void loginDriver() {
-        mob = logIn.getText().toString();
-        password = passWord.getText().toString();
-        if (mob.isEmpty() || password.isEmpty()) {
-            Toast.makeText(LoginActivity.this, "Plaese enter login no and passwrod", Toast.LENGTH_SHORT).show();
-        }
-        else if (!Utils.emailValidator(mob)){
 
-            logIn.setError("Required");
-        }
-        else if (passWord.getText().toString().isEmpty()){
+        emailid = edit_email.getText().toString().trim();
+        password = edit_password.getText().toString().trim();
 
-            passWord.setError("Required");
+        if (emailid.isEmpty() && password.isEmpty()) {
+
+            Toast.makeText(LoginActivity.this, "Plaese enter email and passwrod", Toast.LENGTH_SHORT).show();
+        }
+        else if (!Utils.emailValidator(emailid)&& !emailid.isEmpty()){
+
+            Toast.makeText(context, "please fill valid email id", Toast.LENGTH_SHORT).show();
+        }
+        else if (edit_password.getText().toString().isEmpty()){
+
+            edit_password.setError("Required");
+        }
+        else if (emailid.isEmpty()){
+
+            edit_email.setError("Required");
         }
 
         else {
-            Utils.hideSoftKeyboard(context);
 
+
+            Utils.hideSoftKeyboard(context);
 
             dialog = new SpotsDialog(context);
             dialog.show();
 
-           // progressView.setVisibility(View.VISIBLE);
             ModelManager.getInstance().getLoginManager().doLogin(LoginActivity.this, Operations.loginTask(LoginActivity.this,
-                    mob, password,devicetoken));
+                    emailid, password,devicetoken));
 
         }
     }
@@ -113,14 +118,7 @@ public class LoginActivity extends AppCompatActivity  {
         Intent signupIntent = new Intent(LoginActivity.this, SignUp.class);
         startActivity(signupIntent);
     }
-      public void faceBookLogin(View view){
-         dialog = new SpotsDialog(context);
-          dialog.show();
 
-          ModelManager.getInstance().getFacebookLoginManager().doFacebookLogin(context,callbackManager);
-          return;
-
-    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -147,29 +145,31 @@ public class LoginActivity extends AppCompatActivity  {
     }
     @Subscribe
     public void onEvent(Event event) {
-        progressView.setVisibility(View.GONE);
+
         switch (event.getKey()) {
             case Constant.LOGIN_STATUS:
                 dialog.dismiss();
 
-                String response = event.getValue();
-                String[] messagespli = response.split(",");
-                int id = Integer.parseInt(messagespli[messagespli.length - 2]);
-                String message = messagespli[messagespli.length - 1];
-                if (id > 0) {
-                    CSPreferences.putString(context,"customer_id",String.valueOf(id));
-                    dialog = new SpotsDialog(context);
+
+                dialog = new SpotsDialog(context);
                     dialog.show();
-                    ModelManager.getInstance().getUserDetailManager().UserDetailManager(context, Operations.getUserDetail(context, String.valueOf(id)));
+                    ModelManager.getInstance().getUserDetailManager().UserDetailManager(context, Operations.getUserDetail(context,
+                            CSPreferences.readString(context,"customer_id")));
 
-                } else {
 
-                    new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText("Error")
-                            .setContentText(message)
-                            .show();
-                }
+
                 break;
+
+              case Constant.LOGINERROR:
+                  dialog.dismiss();
+                  new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                          .setTitleText("Error")
+                          .setContentText(event.getValue())
+                          .show();
+
+                  break;
+
+
             case Constant.USERDETAILSTAUS:
                 dialog.dismiss();
                 Intent i = new Intent(LoginActivity.this, HomeScreenActivity.class);
@@ -177,19 +177,8 @@ public class LoginActivity extends AppCompatActivity  {
                 startActivity(i);
                 finish();
                 break;
-            case Constant.FACEBOOK_LOGIN_EMPTY:
-                dialog.dismiss();
-               /* Intent intent = new Intent(context, LoginFacebookActivity.class);
-                startActivity(intent);*/
-                break;
-            case Constant.FACEBOOK_LOGIN_SUCCESS:
-                dialog.dismiss();
-                Log.e("event bus", "facebooklogin success");
-                Intent intent1 = new Intent(context, HomeScreenActivity.class);
-                CSPreferences.putString(context, "login_status", "true");
-                startActivity(intent1);
-                finish();
-                break;
+
+
             case Constant.SERVER_ERROR:
                 dialog.dismiss();
                 String message1 = event.getValue();

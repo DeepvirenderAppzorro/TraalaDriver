@@ -58,12 +58,13 @@ public class SignUp extends AppCompatActivity {
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     ImageView driverPic;
     Activity activity = this;
-    EditText etDrivername,  etDriEmail, etDrivNo, etDrivPasswrd, etReDrivPassword, etDrivLicence, etDrivCity, etDrivZip;
-    String drivername, driEmail, drivNo, drivPasswrd, redrivPasswrd, drivLicence, drivCity, drivZip,devicetoken, cabid;
+    EditText etDrivername, etDriEmail, etDrivNo, etDrivPasswrd, etReDrivPassword, etDrivLicence, etDrivCity, etDrivZip;
+    String drivername, driEmail, drivNo, drivPasswrd, redrivPasswrd, drivLicence, drivCity, drivZip, devicetoken, cabid;
     CheckBox termsCheckBox, policyCheckBox;
     String covertedImage;
     CallbackManager callbackManager;
     Dialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +79,7 @@ public class SignUp extends AppCompatActivity {
         });
 
     }
+
     public void initViews() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("CREATE ACCOUNT");
@@ -96,7 +98,7 @@ public class SignUp extends AppCompatActivity {
 
         etDrivername = (EditText) findViewById(R.id.edtname);
         etDriEmail = (EditText) findViewById(R.id.edtemail);
-        etDrivNo =   (EditText) findViewById(R.id.edtphone);
+        etDrivNo = (EditText) findViewById(R.id.edtphone);
         etDrivPasswrd = (EditText) findViewById(R.id.edtpassword);
         etReDrivPassword = (EditText) findViewById(R.id.edtconfirmpassword);
         etDrivLicence = (EditText) findViewById(R.id.edtdriverlicence);
@@ -127,43 +129,43 @@ public class SignUp extends AppCompatActivity {
         drivCity = etDrivCity.getText().toString().trim();
         drivZip = etDrivZip.getText().toString().trim();
 
-       if (etDrivername.getText().toString().isEmpty()){
+        if (etDrivername.getText().toString().isEmpty()) {
 
-           etDrivername.setError("Required");
+            etDrivername.setError("Required");
 
-        }
-       else if (!drivPasswrd.equals(redrivPasswrd)) {
+        } else if (!drivPasswrd.equals(redrivPasswrd)) {
 
             Toast.makeText(this, "Password didn't match", Toast.LENGTH_SHORT).show();
 
         } else if (!Utils.emailValidator(driEmail)) {
 
-                etDriEmail.setError("Required vaild Email id");
+            etDriEmail.setError("Required vaild Email id");
 
         } else if (!termsCheckBox.isChecked() || !policyCheckBox.isChecked()) {
 
             Toast.makeText(this, "You must be agree to all terms and conditions", Toast.LENGTH_SHORT).show();
-        }
-        else if (drivNo.isEmpty()){
+        } else if (drivNo.isEmpty()) {
 
-           etDrivNo.setError("Required");
-        }
-        else {
-           //progressView.setVisibility(View.VISIBLE);
-           Utils.hideSoftKeyboard(activity);
-           dialog = new SpotsDialog(context);
-           dialog.show();
+            etDrivNo.setError("Required");
+        } else {
+            //progressView.setVisibility(View.VISIBLE);
+            Utils.hideSoftKeyboard(activity);
+            dialog = new SpotsDialog(context);
+            dialog.show();
 
-           Log.e("sending detail",cabid+"\n"+driEmail+"\n"+drivPasswrd+"\n"+drivCity+"\n"+drivZip);
+            Log.e("sending detail", cabid + "\n" + driEmail + "\n" + drivPasswrd + "\n" + drivCity + "\n" + drivZip);
          /*  ModelManager.getInstance().getRegistrationManager().registerUser(activity,
                    Operations.registrationTask(getApplicationContext(), driEmail, cabid, drivername, redrivPasswrd, "dhxddhfd", drivNo, drivLicence, drivCity,drivZip,covertedImage));*/
-           ModelManager.getInstance().getRegistrationManager().registerUser(context, Config.simplesignupurl,Operations.simpleuserRegister(context,
-                   cabid,driEmail,drivPasswrd,drivername,"A",devicetoken,etDrivNo.getText().toString(),covertedImage,drivCity,drivZip,drivLicence));
+            ModelManager.getInstance().getRegistrationManager().registerUser(context, Config.simplesignupurl, Operations.simpleuserRegister(context,
+                    cabid, driEmail, drivPasswrd, drivername, "A", devicetoken, etDrivNo.getText().toString(), covertedImage, drivCity, drivZip, drivLicence));
 
-       }
+        }
 
 
     }
+
+
+
     private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_CAMERA);
@@ -261,20 +263,15 @@ public class SignUp extends AppCompatActivity {
     public void onEvent(Event event) {
         switch (event.getKey()) {
             case Constant.SIGNUPRESPONSE:
+                dialog.dismiss();
 
-              dialog.dismiss();
-                String responsemessage = event.getValue();
-                String[] messagesplit= responsemessage.split(",");
-                int id = Integer.parseInt(messagesplit[messagesplit.length-2]);
-                String message = messagesplit[messagesplit.length-1];
-                Log.e("id of regisetr user",String.valueOf(id));
-                if (id>0){
-                    new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
                             .setTitleText("Success")
-                            .setContentText(message)
+                            .setContentText(event.getValue())
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
+
                                     Intent i = new Intent(context,LoginActivity.class);
                                     startActivity(i);
                                     finish();
@@ -282,22 +279,31 @@ public class SignUp extends AppCompatActivity {
                                 }
                             })
                             .show();
-                }
-                else {
-                    new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText("Error")
-                            .setContentText(message)
-                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                    Intent i = new Intent(context,SignUp.class);
-                                    startActivity(i);
 
-                                }
-                            })
-                            .show();
-                }
+
+
                 break;
+            case Constant.ERROR:
+                new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("Error")
+                        .setContentText(event.getValue())
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                Intent i = new Intent(context,SignUp.class);
+                                startActivity(i);
+                                sweetAlertDialog.dismiss();
+                                finish();
+
+
+
+                            }
+                        })
+                        .show();
+
+                break;
+
+
             case Constant.SERVER_ERROR:
                 dialog.dismiss();
                 new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)

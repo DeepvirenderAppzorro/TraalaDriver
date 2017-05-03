@@ -23,6 +23,7 @@ public class ModelManager {
     private RatingManager ratingManager;
     private Tripsmanager tripsmanager;
     private FareDetailManager fareManager;
+    private  LocationSendManager locationSendManager;
 
 
 
@@ -48,6 +49,7 @@ public class ModelManager {
         ratingManager = new RatingManager();
         tripsmanager = new Tripsmanager();
         fareManager = new FareDetailManager();
+        locationSendManager = new LocationSendManager();
 
 
     }
@@ -62,6 +64,10 @@ public class ModelManager {
     public StopRideManager getStopRideManager() {
 
         return stopRideManager;
+    }
+
+    public LocationSendManager getLocationSendManager() {
+        return locationSendManager;
     }
 
     public Tripsmanager getTripsmanager() {

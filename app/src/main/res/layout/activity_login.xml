@@ -59,17 +59,16 @@
             android:layout_marginTop="41dp"
             android:background="@drawable/round_edit_shape"
             android:drawableLeft="@drawable/ic_icon_email"
-            android:inputType="textPersonName"
+            android:inputType="textEmailAddress"
             android:padding="15dp"
             android:drawablePadding="10dp"
-            android:hint="Email/Mob No"
-             />
+            android:hint="Email id" />
 
         <EditText
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-         android:drawableLeft="@drawable/ic_icon_lock"
+            android:drawableLeft="@drawable/ic_icon_lock"
             android:layout_marginTop="20dp"
             android:background="@drawable/round_edit_shape"
             android:hint="Password"
@@ -87,22 +86,7 @@
             android:layout_marginTop="20dp"
             android:textAllCaps="false"
             android:textColor="@color/colorWhite" />
-        <TextView
-            android:id="@+id/fbLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Facebook Login"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textAlignment="center"
-            android:onClick="faceBookLogin"
-            android:textAllCaps="false"
-            android:textColor="#ffffff"
-            style="?android:attr/borderlessButtonStyle"
-            android:drawableLeft="@drawable/ic_icon_facebook"
-            android:drawableStart="@drawable/ic_icon_facebook"
-            android:background="@drawable/round_shape_blue"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -128,13 +112,5 @@
         </LinearLayout>
     </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
-    <com.github.rahatarmanahmed.cpv.CircularProgressView
-        android:id="@+id/progressView"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:visibility="gone"
-        app:cpv_color="#ff0000"
-        app:cpv_animAutostart="true"
-        app:cpv_indeterminate="true"
-        android:layout_centerInParent="true"/>
+
 </RelativeLayout>

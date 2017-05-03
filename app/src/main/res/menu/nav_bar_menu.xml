@@ -6,9 +6,9 @@
     <item android:id="@+id/rideHistory"
         android:title=" Ride_history"
        android:icon="@drawable/ic_icon_history" />
-    <item android:id="@+id/myBooking"
+   <!-- <item android:id="@+id/myBooking"
         android:title="My_booking"
-        android:icon="@drawable/ic_icon_payment" />
+        android:icon="@drawable/ic_icon_payment" />-->
     <item android:id="@+id/settings"
         android:title=" Setting"
         android:icon="@drawable/ic_icon_setting"/>

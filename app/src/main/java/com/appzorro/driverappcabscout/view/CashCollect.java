@@ -2,17 +2,20 @@ package com.appzorro.driverappcabscout.view;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.appzorro.driverappcabscout.R;
 import com.appzorro.driverappcabscout.controller.CustomerReQuestManager;
@@ -22,14 +25,12 @@ import com.appzorro.driverappcabscout.model.CSPreferences;
 import com.appzorro.driverappcabscout.model.Constant;
 import com.appzorro.driverappcabscout.model.Event;
 import com.appzorro.driverappcabscout.model.Operations;
-import com.appzorro.driverappcabscout.model.Utils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
 import dmax.dialog.SpotsDialog;
 
 public class CashCollect extends AppCompatActivity {
@@ -41,6 +42,7 @@ public class CashCollect extends AppCompatActivity {
     double totalamount=0;
     CustomerRequest customerRequest;
     android.app.AlertDialog dialog;
+    BottomSheetDialog bottomSheetDialog;
 
     ArrayList<CustomerRequest>list;
     @Override
@@ -78,10 +80,13 @@ public class CashCollect extends AppCompatActivity {
         tollfee =(TextView)findViewById(R.id.txttollamount);
         stopfee=(TextView)findViewById(R.id.txtstopfee);
 
+        Toast.makeText(context, "distance "+CSPreferences.readString(context,"distance"), Toast.LENGTH_SHORT).show();
+
         tollfee.setText(CSPreferences.readString(context,"TOLLFEE"));
         stopfee.setText(CSPreferences.readString(context,"STOPFEE"));
         totalamount =(totalamount+(10*dbtimefare)+(1000*dbdistancefare)+Double.parseDouble(CSPreferences.readString(context,"TOLLFEE"))
         +Double.parseDouble(CSPreferences.readString(context,"STOPFEE"))+dbbasefare);
+
         Log.e("total ammount",String.valueOf(totalamount));
 
         basefare.setText(String.valueOf(dbbasefare));
@@ -127,50 +132,69 @@ public class CashCollect extends AppCompatActivity {
 
             case Constant.COLLECTCASH:
                 dialog.dismiss();
-                new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText("DONE")
-                        .setContentText(event.getValue())
-                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                sweetAlertDialog.dismiss();
-                                 ratingdialog = Utils.craeteRatingDilaog(context);
-                                 ratingdialog.show();
-                                final RatingBar ratingBar =(RatingBar)ratingdialog.findViewById(R.id.rbUserrating);
-                                final EditText comment =(EditText)ratingdialog.findViewById(R.id.etComment);
-                                Button submit =(Button) ratingdialog.findViewById(R.id.btSubmit);
+              /*  ratingdialog = Utils.craeteRatingDilaog(context);
+                ratingdialog.show();
+                final RatingBar ratingBar =(RatingBar)ratingdialog.findViewById(R.id.rbUserrating);
+               // final EditText comment =(EditText)ratingdialog.findViewById(R.id.etComment);
+                TextView submit =(TextView) ratingdialog.findViewById(R.id.btSubmit);
 
-                                 submit.setOnClickListener(new View.OnClickListener() {
-                                     @Override
-                                        public void onClick(View view) {
-                                       // here we call the webservice of submit ration to customer
-                                         String rating = String.valueOf(ratingBar.getRating());
-                                         String feedback  = comment.getText().toString();
-                                         dialog= new SpotsDialog(context);
-                                         dialog.show();
-                                         ModelManager.getInstance().getRatingManager().RatingManager(context,Operations.sendRatingtoCustomer(context,
-                                                 CSPreferences.readString(context,"customer_id"),customerRequest.getCutomerid(),rating,feedback));
-                                     }
-                                      });
+              *//*  submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 
-                            }
-                        })
-                        .show();
+                        String rating = String.valueOf(ratingBar.getRating());
+                      //  String feedback  = comment.getText().toString();
+                        dialog= new SpotsDialog(context);
+                        dialog.show();
+                        ModelManager.getInstance().getRatingManager().RatingManager(context,Operations.sendRatingtoCustomer(context,
+                                CSPreferences.readString(context,"customer_id"),customerRequest.getCutomerid(),rating,feedback));
+                    }
+                });
+*/
+                bottomSheetDialog = new BottomSheetDialog(context);
+                bottomSheetDialog.setContentView(R.layout.activity_rating);
+                bottomSheetDialog.show();
+                bottomSheetDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialogInterface){
+
+                        BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) dialogInterface;
+                        FrameLayout bottomSheet = (FrameLayout) bottomSheetDialog.findViewById(android.support.design.R.id.design_bottom_sheet);
+                        assert bottomSheet != null;
+                        BottomSheetBehavior.from(bottomSheet).setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    }
+                });
+
+                TextView submit = (TextView)bottomSheetDialog.findViewById(R.id.btSubmit);
+                final RatingBar ratingBar =(RatingBar)bottomSheetDialog.findViewById(R.id.rbUserrating);
+
+                submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        String rating = String.valueOf(ratingBar.getRating());
+
+                        ModelManager.getInstance().getRatingManager().RatingManager(context,Operations.sendRatingtoCustomer(context,
+                                CSPreferences.readString(context,"customer_id"),customerRequest.getCutomerid(),rating,"feedback"));
+
+
+                    }
+                });
                 break;
+
             case Constant.RATING:
                 dialog.dismiss();
-                new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText("Success")
-                        .setContentText(event.getValue())
-                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                Intent intent = new Intent(context,HomeScreenActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                        })
-                        .show();
+                Intent intent = new Intent(context,HomeScreenActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+
+            case Constant.SERVER_ERROR:
+
+                Toast.makeText(context, "Network connection is very slow please check your connection", Toast.LENGTH_SHORT).show();
+
+                break;
+
         }
     }
 

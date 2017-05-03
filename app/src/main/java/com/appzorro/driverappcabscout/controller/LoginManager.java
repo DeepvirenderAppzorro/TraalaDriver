@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.appzorro.driverappcabscout.model.CSPreferences;
 import com.appzorro.driverappcabscout.model.Constant;
 import com.appzorro.driverappcabscout.model.Event;
 import com.appzorro.driverappcabscout.model.HttpHandler;
@@ -34,6 +35,7 @@ public class LoginManager {
 
         @Override
         protected String doInBackground(String... strings) {
+
             HttpHandler httpHandler = new HttpHandler();
             String response = httpHandler.makeServiceCall(strings[0]);
 
@@ -44,18 +46,31 @@ public class LoginManager {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            if (s!=null) {
 
-            try {
-                JSONObject jsonObject = new JSONObject(s);
-                JSONObject response = jsonObject.getJSONObject("response");
-                int id = Integer.parseInt(response.getString("id"));
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    JSONObject response = jsonObject.getJSONObject("response");
+                    int id = Integer.parseInt(response.getString("id"));
 
-                String message = response.getString("message");
+                    String message = response.getString("message");
+                    if (id>0) {
 
-                EventBus.getDefault().post(new Event(Constant.LOGIN_STATUS,String.valueOf(id)+","+message));
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+                        CSPreferences.putString(mContext, "customer_id",String.valueOf(id) );
+                        EventBus.getDefault().post(new Event(Constant.LOGIN_STATUS, ""));
+                    }
+                    else{
+
+                        EventBus.getDefault().post(new Event(Constant.LOGINERROR, message));
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }else {
+
+                EventBus.getDefault().post(new Event(Constant.SERVER_ERROR,""));
             }
         }
     }

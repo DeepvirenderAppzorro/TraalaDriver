@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/laoutaddtoll"
+    android:visibility="visible"
+    android:layout_alignParentBottom="true">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:padding="5dp">
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/layout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/txtaddtoll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="+ Add Toll"
+                android:textStyle="bold"
+                android:layout_alignParentLeft="true"
+                android:textColor="@android:color/holo_red_light"/>
+            <TextView
+                android:id="@+id/txtaddstopfee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:text="+ Add Stop Fee"
+                android:layout_alignParentRight="true"
+                android:textColor="@android:color/holo_red_light"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:padding="5dp">
+                <TextView
+                    android:id="@+id/stoptrips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="Stop"
+                    android:textAlignment="center"
+                    android:textSize="15dp"
+                    android:background="@color/colorYellow"
+                    android:textColor="@android:color/black"
+                    android:layout_below="@+id/txtaddtoll" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+
+
+    </android.support.v7.widget.CardView>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -42,15 +42,31 @@ public class RegistrationManager {
                     JSONObject jsonObject = new JSONObject(s);
                     JSONObject response = jsonObject.getJSONObject("response");
                     int id = response.getInt("id");
+
                     String message = response.getString("message");
 
-                    EventBus.getDefault().post(new Event(Constant.SIGNUPRESPONSE, String.valueOf(id) + "," + message));
+                    if (id>0){
+
+
+                        EventBus.getDefault().post(new Event(Constant.SIGNUPRESPONSE,message));
+
+                    }
+                    else {
+
+
+                        EventBus.getDefault().post(new Event(Constant.ERROR,message));
+
+                    }
+
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
             else {
+
+
                 EventBus.getDefault().post(new Event(Constant.SERVER_ERROR,""));
 
             }

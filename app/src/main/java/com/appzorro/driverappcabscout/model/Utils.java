@@ -15,14 +15,17 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.appzorro.driverappcabscout.R;
@@ -34,6 +37,7 @@ import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -69,7 +73,7 @@ public class Utils {
                     strReturnedAddress.append(returnedAddress.getSubLocality());
 
                 strAdd = strReturnedAddress.toString();
-                Log.e(TAG, "Current address-- "+strReturnedAddress.toString());
+                Log.e(TAG, "Current address-- " + strReturnedAddress.toString());
             } else {
                 Log.e(TAG, "No address returned");
             }
@@ -79,52 +83,53 @@ public class Utils {
         return strAdd;
     }
 
-    public static String getDirectionsUrl(LatLng origin, LatLng dest){
+    public static String getDirectionsUrl(LatLng origin, LatLng dest) {
 
         // Origin of route
-        String str_origin = "origin="+origin.latitude+","+origin.longitude;
+        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
 
         // Destination of route
-        String str_dest = "destination="+dest.latitude+","+dest.longitude;
+        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
 
         // Sensor enabled
-        String key = "key="+API_KEY;
+        String key = "key=" + API_KEY;
 
         // Building the parameters to the web service
-        String parameters = str_origin+"&"+str_dest+"&"+key;
+        String parameters = str_origin + "&" + str_dest + "&" + key;
 
         // Output format
         String output = "json";
 
         // Building the url to the web service
-        String url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
-
+        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
 
 
         return url;
     }
 
-    public static void makeSnackBar(Context context, View view, String message)
-    {
-        Snackbar snackbar;snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
+    public static void makeSnackBar(Context context, View view, String message) {
+        Snackbar snackbar;
+        snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
         View snackBarView = snackbar.getView();
         snackBarView.setBackgroundColor(Color.RED);
-        TextView textView = (TextView)snackBarView.findViewById(android.support.design.R.id.snackbar_text);
-        textView.setTextColor(Color.WHITE);snackbar.show();
+        TextView textView = (TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.WHITE);
+        snackbar.show();
     }
-    public static String getPostDataString(JSONObject params) throws Exception
-    {
+
+    public static String getPostDataString(JSONObject params) throws Exception {
+
         StringBuilder result = new StringBuilder();
         boolean first = true;
-        Iterator <String>itr = params.keys();
-        while(itr.hasNext())
-        {
-            String key=  itr.next();
+        Iterator<String> itr = params.keys();
+        while (itr.hasNext()) {
+            String key = itr.next();
             Object value = params.get(key);
             if (first)
                 first = false;
             else
-                result.append("&");result.append(URLEncoder.encode(key, "UTF-8"));
+                result.append("&");
+            result.append(URLEncoder.encode(key, "UTF-8"));
             result.append("=");
             result.append(URLEncoder.encode(value.toString(), "UTF-8"));
         }
@@ -135,11 +140,9 @@ public class Utils {
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public static boolean checkPermission(final Context context)
-    {
+    public static boolean checkPermission(final Context context) {
         int currentAPIVersion = Build.VERSION.SDK_INT;
-        if(currentAPIVersion>= Build.VERSION_CODES.M)
-        {
+        if (currentAPIVersion >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                     AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
@@ -166,6 +169,7 @@ public class Utils {
             return true;
         }
     }
+
     public static Dialog createDialog(Context context) {
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -192,14 +196,19 @@ public class Utils {
         //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         return dialog;
     }
+
     public static Dialog craeteRatingDilaog(Context context) {
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        Window window = dialog.getWindow();
+        window.setGravity(Gravity.TOP);
         dialog.setContentView(R.layout.activity_rating);
         dialog.setCancelable(false);
+        dialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         return dialog;
     }
+
     public static Dialog createaddtollDialog(Context context) {
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -208,6 +217,15 @@ public class Utils {
         //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         return dialog;
     }
+    public static Dialog createMessageDialog(Context context) {
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.custome_dialogmessage);
+        dialog.setCancelable(false);
+        //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        return dialog;
+    }
+
 
 
     public static void hideSoftKeyboard(Activity activity) {
@@ -220,7 +238,7 @@ public class Utils {
         }
     }
 
-    public static Dialog createStopfeeDialog(Context context){
+    public static Dialog createStopfeeDialog(Context context) {
 
 
         Dialog dialog = new Dialog(context);
@@ -230,11 +248,11 @@ public class Utils {
         return dialog;
     }
 
-    public  static Location getLastBestStaleLocation(Context context) {
+    public static Location getLastBestStaleLocation(Context context) {
         Location bestresult = null;
 
-      LocationManager  locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        if(ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -246,37 +264,102 @@ public class Utils {
             return null;
         }
         Location gpslocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        Location networklocation= locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        if (gpslocation != null && networklocation != null)
-        {
-            if (gpslocation.getTime() > networklocation.getTime())
-            {
+        Location networklocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        if (gpslocation != null && networklocation != null) {
+            if (gpslocation.getTime() > networklocation.getTime()) {
                 bestresult = gpslocation;
-                Log.e("result", "both location are found---- "+ bestresult.getLatitude());
+                Log.e("result", "both location are found---- " + bestresult.getLatitude());
                 Config.currentLAT = bestresult;
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, (LocationListener) context);
-            }
-            else {
+            } else {
                 bestresult = networklocation;
-                Log.e("result", "network location ---- "+ bestresult.getLatitude());
+                Log.e("result", "network location ---- " + bestresult.getLatitude());
                 Config.currentLAT = bestresult;
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 0, (LocationListener) context);
             }
-        }
-        else if (gpslocation != null)
-        {
+        } else if (gpslocation != null) {
             bestresult = gpslocation;
-            Log.e("result", "gps location only found---- "+ bestresult.getLatitude());
+            Log.e("result", "gps location only found---- " + bestresult.getLatitude());
             Config.currentLAT = bestresult;
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, (LocationListener) context);
-        } else if (networklocation != null)
-        {
+        } else if (networklocation != null) {
             bestresult = networklocation;
-            Log.e("result", "network location only found--- "+ bestresult.getLatitude());
+            Log.e("result", "network location only found--- " + bestresult.getLatitude());
             Config.currentLAT = bestresult;
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 0, (LocationListener) context);
         }
         return bestresult;
     }
 
+    public static double bearingBetweenLocations(LatLng latLng1, LatLng latLng2) {
+
+        double PI = 3.14159;
+        double lat1 = latLng1.latitude * PI / 180;
+        double long1 = latLng1.longitude * PI / 180;
+        double lat2 = latLng2.latitude * PI / 180;
+        double long2 = latLng2.longitude * PI / 180;
+        double dLon = (long2 - long1);
+
+        double y = Math.sin(dLon) * Math.cos(lat2);
+        double x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1)
+                * Math.cos(lat2) * Math.cos(dLon);
+
+        double brng = Math.atan2(y, x);
+
+        brng = Math.toDegrees(brng);
+        brng = (brng + 360) % 360;
+
+        return brng;
+    }
+
+    public static String midPoint(double lat1,double lon1,double lat2,double lon2){
+        LatLng latLng;
+        double dLon = Math.toRadians(lon2 - lon1);
+
+        //convert to radians
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+        lon1 = Math.toRadians(lon1);
+
+        double Bx = Math.cos(lat2) * Math.cos(dLon);
+        double By = Math.cos(lat2) * Math.sin(dLon);
+        double lat3 = Math.atan2(Math.sin(lat1) + Math.sin(lat2), Math.sqrt((Math.cos(lat1) + Bx) * (Math.cos(lat1) + Bx) + By * By));
+        double lon3 = lon1 + Math.atan2(By, Math.cos(lat1) + Bx);
+
+       double lat = Math.toDegrees(lat3);
+
+        double lng =  Math.toDegrees(lon3);
+        double latlng = Math.toDegrees(lat3);
+        String latt = String.valueOf(lng)+","+String.valueOf(latlng);
+
+
+        return latt;
+
+    }
+
+
+
+    public static class MyTimer extends CountDownTimer {
+
+
+        public MyTimer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long l) {
+            long millis = l;
+            String hms = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)), TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+
+
+        }
+
+        @Override
+        public void onFinish() {
+
+
+        }
+
+
+    }
 }

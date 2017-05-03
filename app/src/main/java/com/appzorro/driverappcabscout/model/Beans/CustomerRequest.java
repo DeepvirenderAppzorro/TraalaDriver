@@ -5,10 +5,10 @@ package com.appzorro.driverappcabscout.model.Beans;
  */
 
 public class CustomerRequest {
-    String name,requestid,cutomerid,profilepic,sourcelat,sourcelng,droplat,droplng,mobile;
+    String name,requestid,cutomerid,profilepic,sourcelat,sourcelng,droplat,droplng,mobile,payment_method;
 
     public CustomerRequest(String name, String requestid, String cutomerid, String profilepic,String sourcelat,String sourcelng,
-                          String droplat,String droplng, String mobile) {
+                          String droplat,String droplng, String mobile,String payment_method) {
         this.name = name;
         this.requestid = requestid;
         this.cutomerid = cutomerid;
@@ -18,7 +18,7 @@ public class CustomerRequest {
         this.droplat=droplat;
         this.droplng=droplng;
         this.mobile = mobile;
-
+        this.payment_method = payment_method;
     }
 
     public String getName() {
@@ -51,6 +51,10 @@ public class CustomerRequest {
 
     public String getDroplng() {
         return droplng;
+    }
+
+    public String getPayment_method() {
+        return payment_method;
     }
 
     public String getMobile() {

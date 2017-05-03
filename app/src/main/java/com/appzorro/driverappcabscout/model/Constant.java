@@ -9,7 +9,7 @@ public class Constant {
     public static final int ACCOUNT_NOT_REGISTERED = 1006;
     public static final int FACEBOOK_LOGIN_EMPTY=1007;
     public static final int FACEBOOK_LOGIN_SUCCESS=1008;
-    public static final int  ALREADY_REGISTERED=1009 ;
+    public static final int NOREVIEW=1009;
     public static final int SIMPLESIGNUP=1010;
     public static final int USERDETAILSTAUS=1011;
     public static final int CUSTOMERREQUEST=1012;
@@ -31,6 +31,15 @@ public class Constant {
     public static final int COLLECTCASH=1028;
     public static final int TRIPSHOSTORY=1029;
     public static final int BLANKLIST=1030;
+    public static final int CANCEL_RIDEFCM=1031;
+    public static final int LOGINERROR=1032;
+    public static final int PASSWORDERROR=1033;
+    public static final int COMPANYCHANGEERROR=1034;
+    public static final int ERROR =1035;
+    public static final int LOCATIONSEND=1036;
+    public static final int LOCATIONNOTSEND=1037;
+
+
 
 }
 
