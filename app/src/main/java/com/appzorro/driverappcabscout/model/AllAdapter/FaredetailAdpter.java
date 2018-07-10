@@ -32,10 +32,6 @@ public class FaredetailAdpter extends RecyclerView.Adapter<FaredetailAdpter.View
 
     }
 
-
-
-
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 

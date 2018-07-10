@@ -15,6 +15,7 @@ import android.view.WindowManager;
 
 import com.appzorro.driverappcabscout.R;
 import com.appzorro.driverappcabscout.model.CSPreferences;
+import com.appzorro.driverappcabscout.model.Constant;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -48,7 +49,7 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
         setContentView(R.layout.activity_splash);
         avi = (AVLoadingIndicatorView)findViewById(R.id.progresbaar);
         String token = FirebaseInstanceId.getInstance().getToken();
-
+//        CSPreferences.putString(this, Constant.DRIVER_STATUS,"5");
 
         final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -132,9 +133,9 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
     protected void onResume() {
         super.onResume();
 
-       // ModelManager.getInstance().getCabCompaniesManager().getCabCompanies(activity, Operations.getCabCompaniesTask(activity));
+        // ModelManager.getInstance().getCabCompaniesManager().getCabCompanies(activity, Operations.getCabCompaniesTask(activity));
 
-       //  ModelManager.getInstance().getCabCompaniesManager().getCabCompanies(activity, Operations.getCabCompaniesTask(activity));
+        //  ModelManager.getInstance().getCabCompaniesManager().getCabCompanies(activity, Operations.getCabCompaniesTask(activity));
     }
 
     @Override
@@ -146,8 +147,8 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
                         finish();
                         break;
                     case Activity.RESULT_OK:
-                         handleSleep();
-                         break;
+                        handleSleep();
+                        break;
                     default:
                         break;
                 }

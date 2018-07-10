@@ -37,8 +37,7 @@ public class FacebookLoginManager {
     public void doFacebookLogin(final Activity context, CallbackManager callbackManager) {
 
         com.facebook.login.LoginManager.getInstance().logInWithReadPermissions(context,
-                Arrays.asList("email", "user_friends", "public_profile")
-        );
+                Arrays.asList("email", "user_friends", "public_profile"));
 
         com.facebook.login.LoginManager.getInstance().registerCallback(
                 callbackManager,

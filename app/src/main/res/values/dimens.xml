@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="design_navigation_separator_vertical_padding">0dp</dimen>
     <dimen name="create_acount">50sp</dimen>
     <dimen name="margin_button">160dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->

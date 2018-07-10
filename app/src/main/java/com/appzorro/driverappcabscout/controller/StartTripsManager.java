@@ -36,7 +36,7 @@ public class StartTripsManager {
         protected String doInBackground(String... strings) {
             HttpHandler httpHandler = new HttpHandler();
             String response = httpHandler.makeServiceCall(strings[0]);
-            Log.e(TAG, "start trips response--" +response);
+            Log.e(TAG, "start_trips_response--" +response);
             return response;
         }
         @Override

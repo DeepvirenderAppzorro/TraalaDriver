@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorYellow"
+        android:background="#0083db"
         android:padding="5dp">
         <TextView
             android:id="@+id/txttitle"
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:text="OK"
                 android:textAlignment="center"
-                android:background="@color/colorYellow"
+                android:background="#0083db"
                 android:padding="8dp"
                 android:textColor="@color/white"
                 android:layout_below="@+id/txtmessage"

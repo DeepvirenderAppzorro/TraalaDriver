@@ -39,7 +39,7 @@ public class LoginManager {
             HttpHandler httpHandler = new HttpHandler();
             String response = httpHandler.makeServiceCall(strings[0]);
 
-            Log.e(TAG, "login time response--" +response);
+            Log.e(TAG, "logintimeresponse--" +response);
 
             return response;
         }
@@ -57,7 +57,7 @@ public class LoginManager {
                     if (id>0) {
 
 
-                        CSPreferences.putString(mContext, "customer_id",String.valueOf(id) );
+                        CSPreferences.putString(mContext, "customer_id",String.valueOf(id));
                         EventBus.getDefault().post(new Event(Constant.LOGIN_STATUS, ""));
                     }
                     else{

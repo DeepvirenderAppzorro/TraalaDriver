@@ -1,5 +1,5 @@
-<resources>
-    <string name="app_name">Cabscout-Driver</string>
+<resources xmlns:android="http://schemas.android.com/tools">
+    <string name="app_name">Traala-Driver</string>
     <string name="title_activity_maps">CabScout-Driver</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
@@ -9,15 +9,42 @@
     <string name="pickup_address">PICKUP ADDRESS</string>
     <string name="delivery_address">DELIVERY ADDRESS</string>
     <string name="map">Map</string>
+    <string name="login">Login</string>
+    <string name="confirmation_accept">Accept</string>
+    <string name="confirmation_cancel">Cancel</string>
     <string name="ride_history">Ride History</string>
     <string name="my_booking">My Bookings</string>
     <string name="setting">Setting</string>
+    <string name="description_create">fhjhjfdh</string>
+    <string name="descriptionn">Cabscout, LLC. is a technology company that \n provides a dispatching to cab/car service \n
+        companies. To access you must specify your\n
+        prefered cab/car service company.
+    </string>
+
+    //Twitter -----
+
+    <string name="com.twitter.sdk.android.CONSUMER_KEY">1EewsDHADPZl3KV0mPk0mwkxK</string>
+    <string name="com.twitter.sdk.android.CONSUMER_SECRET">ROsJZjZBVrMTqDcOFO7EngcmuaubL9AZ1qKXdd5RTSaN9klxCa</string>
+
+    //End ------
+    <string name="facebook_app_id">180910315903466</string>
+    <string name="fb_login_protocol_scheme">fb180910315903466</string>
+
+
     <string name="contact">Contact</string>
     <string name="logout">Logout</string>
     <string name="next">Next</string>
     <string name="submit">Submit</string>
+    <string name="privacy">I have read,understand and agree to the Privacy Policy </string>
+    <string name="trip_start">Slide to Begin Trip</string>
+    <string name="complete_trip">Slide to Complete Trip</string>
+    <string name="trip_new">350 5th Ave \n New York,NY018 USA \n Empire State Building</string>
     <string name="settings">Setting</string>
-
+    <string name="reg2_lbl_desc">I have read,understand and agree to the terms of service </string>
     <!--  <string name="creat_account_title">CREATE ACCOUNT</string>-->
     <string name="create_account">Cabscout,LLC is a technology company that provides a dispatching to cab/car service compa-nies. To Access you must specify your preferred cab/car service cmpany</string>
+    <string name="name">Name</string>
+    <string name="google_android_map_api_key_v2">AIzaSyDAb-AqqKJfPQQIBICreigvRZO9mfxIM4o</string>
+    <string name="google_android_map_api_key_server">AIzaSyD29Wwqna7uhKeTovB2FQl9SfZ2rMGqVro</string>
+    <string name="google_android_map_api_key_none">AIzaSyDIyHNW33sg-dhV3tzVP_XFNkUIstsRuRM</string>
 </resources>

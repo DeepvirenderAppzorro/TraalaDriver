@@ -1,0 +1,26 @@
+[
+    {
+        "outputFile": "/Users/appzorro/Downloads/DriverAppCabscout (3)/googleDirectionLibrary/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ky/values-ky.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 105,
+                    "endColumn": 220,
+                    "endOffset": 321
+                },
+                "from": {
+                    "file": "/Users/appzorro/.android/build-cache/b7ea76908b78a55d02675c6374bbb1d34b73ddec/output/res/values-ky/values.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 0,
+                        "startOffset": 285,
+                        "endColumn": 220,
+                        "endOffset": 505
+                    }
+                }
+            }
+        ]
+    }
+]

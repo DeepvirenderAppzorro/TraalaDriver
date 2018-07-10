@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.appzorro.driverappcabscout.view.Main4Activity">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+</RelativeLayout>
+
+    <ng.max.slideview.SlideView
+        android:id="@+id/slideView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        app:sv_slideTextSize="16sp"
+        android:textAlignment="center"
+        app:sv_slideText="slide_text"
+        app:sv_buttonBackgroundColor="@android:color/transparent"
+        app:sv_reverseSlide="true"
+        app:sv_slideBackgroundColor="@android:color/holo_blue_light"
+        app:sv_slideTextColor="@color/white"
+        app:sv_strokeColor="@android:color/holo_blue_light" />
+</RelativeLayout>

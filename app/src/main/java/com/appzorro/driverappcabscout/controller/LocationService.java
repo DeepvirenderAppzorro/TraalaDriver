@@ -18,6 +18,7 @@ import static android.content.Context.LOCATION_SERVICE;
 
 public class LocationService implements LocationListener {
 
+
     private static final String TAG = LocationService.class.getSimpleName();
 
     public static Location location; // location

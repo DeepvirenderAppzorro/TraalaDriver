@@ -3,6 +3,8 @@ package com.appzorro.driverappcabscout.model;
 import android.content.Context;
 import android.util.Log;
 
+import com.appzorro.driverappcabscout.R;
+
 import org.json.JSONObject;
 
 /**
@@ -10,11 +12,13 @@ import org.json.JSONObject;
  */
 
 public class Operations {
+
     private static final String TAG = Operations.class.getSimpleName();
 
     public static String getCabCompaniesTask(Context context, String cabalias) {
-        String params = Config.companyaliasurl + cabalias;
-        //  Log.e(TAG, "cab_companies list--"+params);
+
+        String params = Config.companyaliasurl+"&company_id="+cabalias;
+          Log.e(TAG, "cabcompanieslist"+params);
         return params;
     }
 
@@ -47,7 +51,7 @@ public class Operations {
     public static String loginTask(Context context, String email, String password, String deviceToken) {
         String params = Config.login_url + "&email=" + email + "&password=" + password + "&device_token=" + deviceToken;
 
-        Log.e(TAG, "login parameters--" + params);
+        Log.e(TAG, "loginparameters--" + params);
         return params;
     }
 
@@ -111,9 +115,11 @@ public class Operations {
             postDataParams.put("facebook_id", "");
             postDataParams.put("zip", zip);
             postDataParams.put("driver_license", driverlicence);
+            Log.e("reg",postDataParams.toString());
             String params = null;
             try {
                 params = Utils.getPostDataString(postDataParams);
+                Log.e("register",params);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -127,24 +133,44 @@ public class Operations {
         return null;
     }
 
+    public static String nearestRoadlatlng(Context context, String latlng) {
+
+        String parms = Config.nearestroadurl + latlng + "&key=" + context.getResources().getString(R.string.google_android_map_api_key_none);
+        return parms;
+    }
+
+
+    public static String nearestDistancelatlng(Context context, double lat,double lng, double destination_lat,double dest_long) {
+
+      String parms=  "https://maps.googleapis.com/maps/api/directions/json?" +
+                "mode=driving&"
+                + "transit_routing_preference=less_driving&"
+                + "origin=" + String.valueOf(lat) + "," + String.valueOf(lng) + "&"
+                + "destination=" + String.valueOf(destination_lat) + "," + String.valueOf(dest_long) + "&"
+                + "key=" + context.getResources().getString(R.string.google_android_map_api_key_none);
+
+       // String parms = Config.nearestroadurl + latlng + "&key=" + "AIzaSyD0f9QMvoH2EBf0qEyHO-afhPX3yluriu4";
+        return parms;
+    }
+
 
     public static String getUserDetail(Context context, String driverid) {
         String parms = Config.userdetail_url + driverid;
-        Log.e("usedetail url url", parms);
+        Log.e("usedetailurlurl", parms);
         return parms;
     }
 
     public static String getCustomerRequest(Context context, String driverid) {
 
         String parms = Config.customerrequesturl + driverid;
-        Log.e("customerrequest url", parms);
+        Log.e("customerrequesturl", parms);
         return parms;
     }
 
     public static String acceptByDriver(Context context, String driverid, String requestid, String driverlat, String driverlng) {
 
         String parms = Config.acceptrequestbydriver + driverid + "&ride_request_id=" + requestid + "&latitude=" + driverlat + "&longitude=" + driverlng;
-        Log.e("driver accept url", parms);
+        Log.e("driver_accept_url", parms);
         return parms;
     }
 
@@ -159,7 +185,7 @@ public class Operations {
 
         String parms = Config.changepasswordurl + driverid + "&oldpassword=" + oldpassword + "&newpassword=" + newpassword;
 
-        Log.e("change password url", parms);
+        Log.e("changepasswordurl", parms);
         return parms;
     }
 
@@ -189,6 +215,7 @@ public class Operations {
 
         } catch (Exception e) {
             e.printStackTrace();
+
         }
         //     Log.e(TAG, "fb_login params-- "+params);return params;} catch (JSONException e) {e.printStackTrace();}return null;}
         return null;
@@ -216,7 +243,7 @@ public class Operations {
     public static String sendDriverstatus(Context context, String driverid, String status,String latitude,String longititude) {
 
         String parms = Config.driveravilablityurl + driverid + "&status=" + status+"&latitude="+latitude+"&longitude="+longititude;
-        Log.e("onl offline url",parms);
+        Log.e("onlofflineurl",parms);
         return parms;
 
     }
@@ -224,7 +251,7 @@ public class Operations {
     public static String arrivedDriver(Context context, String driverid, String requestid) {
 
         String parms = Config.arrivedurl + driverid + "&ride_request_id=" + requestid;
-        Log.e("arrived driver url", parms);
+        Log.e("arriveddriverurl", parms);
         return parms;
     }
 
@@ -247,28 +274,38 @@ public class Operations {
 
         String parms = Config.stopurl + driverid + "&ride_request_id=" + riderequestid + "&time=" + time + "&date=" + date+
         "&drop_cordinates=" + dropcordinate;
-        Log.e("stop ride url ", parms);
+        Log.e("stoprideurl ", parms);
         return parms;
     }
-    public  static String collectCash(Context context,String driverid,String requestid,String cash){
+    public  static String collectCash(Context context,String driverid,String requestid,String customerid,String cash){
 
-        String parms = Config.collectcashurl+driverid+"&ride_request_id="+requestid+"&cash="+cash;
-        Log.e("collect cash url",parms);
+        String parms = Config.collectcashurl+driverid+"&ride_request_id="+requestid+"&customer_id="+customerid+"&cash="+cash;
+        Log.e("collect_cash_url",parms);
+
         return parms;
     }
-    public static String tripsCompleted(Context context,String driverid,String date){
-
-        String parms = Config.triphistoryurl+driverid+"&date="+date;
-        Log.e("trip history url", parms);
+    public static String tripsCompleted(Context context,String driverid,String date,String pageNo) {
+        String parms = Config.triphistoryurl+driverid+"&date="+date+"&pageNo="+pageNo;
+        Log.e("trip_history_url",parms);
         return parms;
     }
-
     public static String sendLocationurl(Context context,String lat, String lng,String customer_id,String driver_id){
 
 
         String parms = Config.locationsendurl+"&latitude="+lat+"&longitude="+lng+"&customer_id="+customer_id+"&driver_id="+driver_id;
 
         Log.e("sendlocation url",parms);
+        return parms;
+    }
+
+    // user this service when customer select the payment method as a creditcard
+
+    public static String sendCashAmount(Context context,String driverid,String requestid,String cash)
+    {
+
+        String parms = Config.sendAmountCard+driverid+"&ride_request_id+"+requestid+"&cash="+cash;
+
+        Log.e("creditcard payment","url "+parms);
         return parms;
     }
 

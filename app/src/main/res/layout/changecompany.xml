@@ -5,7 +5,7 @@
     <RelativeLayout
         android:id="@+id/headerlayout"
         android:layout_width="match_parent"
-        android:background="#FECC18"
+        android:background="#0083db"
         android:layout_height="50dp">
         <TextView
             android:id="@+id/titlebar"
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:text="Cancel"
             android:layout_marginLeft="20dp"
-            android:background="#FF6600"
+            android:background="#0083db"
             android:gravity="center"
             android:textColor="@android:color/white"
             android:padding="10dp"
@@ -58,7 +58,7 @@
             android:gravity="center"
             android:textColor="@android:color/white"
             android:layout_marginRight="20dp"
-            android:background="#FF6600"
+            android:background="#0083db"
             android:padding="10dp"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>

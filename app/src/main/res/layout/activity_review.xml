@@ -9,7 +9,7 @@
         android:layout_height="?attr/actionBarSize"
         android:layout_alignTop="@+id/map"
         android:textAlignment="center"
-        android:background="#FECC18"
+        android:background="@color/black"
         app:popupTheme="@style/AppTheme.PopupOverlay" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/listreviws"

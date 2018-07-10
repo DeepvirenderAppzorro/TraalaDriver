@@ -21,6 +21,7 @@ public class CustomerRequest {
         this.payment_method = payment_method;
     }
 
+
     public String getName() {
         return name;
     }

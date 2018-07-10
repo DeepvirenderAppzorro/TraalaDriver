@@ -37,7 +37,7 @@ public class ArrivedManager {
             HttpHandler httpHandler = new HttpHandler();
             String response = httpHandler.makeServiceCall(strings[0]);
 
-            Log.e(TAG, "Arrived status--" +response);
+            Log.e(TAG, "Arrivedstatus--" +response);
 
             return response;
         }

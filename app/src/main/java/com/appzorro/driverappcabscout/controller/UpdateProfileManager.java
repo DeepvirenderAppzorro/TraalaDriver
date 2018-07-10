@@ -36,7 +36,7 @@ public class UpdateProfileManager {
             HttpHandler httpHandler = new HttpHandler();
             String response = httpHandler.getResponse(strings[0],strings[1]);
 
-            Log.e(TAG, "update profile response--" +response);
+            Log.e(TAG, "updateprofileresponse--" +response);
 
             return response;
         }
@@ -44,6 +44,7 @@ public class UpdateProfileManager {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if (s!=null) {
+           //     EventBus.getDefault().post(new Event(Constant.UPDATEPROFILE,"profile updated"));
 
                 try {
                     JSONObject jsonObject = new JSONObject(s);

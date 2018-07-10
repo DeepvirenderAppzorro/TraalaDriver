@@ -2,32 +2,36 @@ package com.appzorro.driverappcabscout.view;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.appzorro.driverappcabscout.R;
 import com.appzorro.driverappcabscout.controller.ModelManager;
-import com.appzorro.driverappcabscout.model.Constant;
-import com.appzorro.driverappcabscout.model.Event;
-import com.appzorro.driverappcabscout.model.Operations;
+import com.appzorro.driverappcabscout.model.*;
+import com.appzorro.driverappcabscout.model.Beans.CabCompanyBean;
+
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import dmax.dialog.SpotsDialog;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by pankaj on 23/1/17.
@@ -37,98 +41,39 @@ public class CabCompanyActivity extends AppCompatActivity implements View.OnClic
     Activity activity = this;
     Toolbar toolbar;
     TextView next_register, alreadyAccount;
-    EditText selectCab;
     BottomSheetDialog bottomSheetDialog;
-    ArrayList<String> cabCompaniesList;
-    ArrayList<Integer> cabIdList;
-    ArrayAdapter<String> arrayAdapter;
-    ListView listView;
-    String selected_cab = "";
     int cab_id;
     android.app.AlertDialog dialog;
+    Spinner spinner;
+    ArrayList<String> list;
+    String id="";
 
+    List<CabCompanyBean.CompanyList> cmpnyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.select_company);
+        setContentView(R.layout.select_company_new);
         initViews();
+        getList();
+
+        spinner = (Spinner) findViewById(R.id.selectCab);
+
 
     }
+
+
     public void initViews() {
-
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle("CREATE ACCOUNT");
-        toolbar.setTitleTextColor(Color.BLACK);
-        setSupportActionBar(toolbar);
-
-
-//        PackageInfo info;
-//        try {
-//            info = getPackageManager().getPackageInfo("app.cabscout.driver", PackageManager.GET_SIGNATURES);
-//            for (android.content.pm.Signature signature : info.signatures) {
-//                MessageDigest md;
-//                md = MessageDigest.getInstance("SHA");
-//                md.update(signature.toByteArray());
-//                String something = new String(Base64.encode(md.digest(), 0));
-//                //String something = new String(Base64.encodeBytes(md.digest()));
-//                Log.e("hashxxxx key", something);
-//            }
-//        } catch (PackageManager.NameNotFoundException e1) {
-//            Log.e("name not found", e1.toString());
-//        } catch (NoSuchAlgorithmException e) {
-//            Log.e("no such an algorithm", e.toString());
-//        } catch (Exception e) {
-//            Log.e("exception", e.toString());
-//        }
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
-        }
-        next_register = (TextView)findViewById(R.id.btRegister);
-        selectCab = (EditText) findViewById(R.id.selectCab);
-        alreadyAccount = (TextView)findViewById(R.id.alreadyAccount);
+        cmpnyList = new ArrayList<>();
+        list = new ArrayList<String>();
+        next_register = (TextView) findViewById(R.id.btRegister);
+        alreadyAccount = (TextView) findViewById(R.id.alreadyAccount);
 
         alreadyAccount.setOnClickListener(this);
         next_register.setOnClickListener(this);
-       // selectCab.setOnClickListener(this);
 
-     /*   bottomSheetDialog = new BottomSheetDialog(this);
-        bottomSheetDialog.setContentView(R.layout.bottom_sheet);
-        bottomSheetDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialogInterface) {
-
-                BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) dialogInterface;
-                FrameLayout bottomSheet = (FrameLayout) bottomSheetDialog.findViewById(android.support.design.R.id.design_bottom_sheet);
-                assert bottomSheet != null;
-                BottomSheetBehavior.from(bottomSheet).setState(BottomSheetBehavior.STATE_COLLAPSED);
-
-
-            }
-        });*/
-      /*  listView = (ListView)bottomSheetDialog.findViewById(R.id.listView);
-        cabCompaniesList = new ArrayList<>();
-        cabIdList = new ArrayList<>();
-        for (Map.Entry<Integer,String> entry : CabCompaniesManager.cabCompaniesList.entrySet()) {
-            Log.e(TAG, "cab id--"+ entry.getKey());
-            cabCompaniesList.add(entry.getValue());
-            cabIdList.add(entry.getKey());
-        }
-*/
-  // set the campany list in array adapter
-        /*arrayAdapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, cabCompaniesList);
-        listView.setAdapter(arrayAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                selectCab.setText(cabCompaniesList.get(position));
-                selected_cab = cabCompaniesList.get(position);
-                cab_id = cabIdList.get(position);
-                bottomSheetDialog.dismiss();
-            }
-        });*/
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -137,14 +82,15 @@ public class CabCompanyActivity extends AppCompatActivity implements View.OnClic
                 startActivity(intent);
                 break;
             case R.id.btRegister:
+                if (spinner.getSelectedItem().equals("")) {
+                    Utils.makeSnackBar(activity, alreadyAccount, "Please Select your cab company");
 
-                if (selectCab.getText().toString().isEmpty())
-                    Toast.makeText(activity, "Please enter your cab company", Toast.LENGTH_SHORT).show();
-                else {
+                } else {
                     dialog = new SpotsDialog(activity);
                     dialog.show();
-                    ModelManager.getInstance().getCabCompaniesManager().getCabCompanies(activity, Operations.getCabCompaniesTask(activity,selectCab.getText().toString()));
-                   // ModelManager.getInstance().getCabCompaniesManager().getCabCompanies(activity,selectCab.getText().toString());
+                    String selecttem=spinner.getSelectedItem().toString();
+                   // ModelManager.getInstance().getCabCompaniesManager().getCabCompanies(activity, id, Operations.getCabCompaniesTask(activity, id));
+                     ModelManager.getInstance().getCabCompaniesManager().getCabCompanies(activity,Operations.getCabCompaniesTask(activity, id));
 
                 }
                 break;
@@ -153,16 +99,20 @@ public class CabCompanyActivity extends AppCompatActivity implements View.OnClic
                 break;
         }
     }
+
     @Override
     protected void onStart() {
+
         super.onStart();
         EventBus.getDefault().register(this);
     }
+
     @Override
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
+
     @Subscribe
     public void onEvent(Event event) {
         switch (event.getKey()) {
@@ -194,10 +144,69 @@ public class CabCompanyActivity extends AppCompatActivity implements View.OnClic
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void getList() {
+      /*  String myConcatedString = cursor.getString(numcol).concat('-').
+                concat(cursor.getString(cursor.getColumnIndexOrThrow(db.KEY_DESTINATIE)));
+*/
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<CabCompanyBean> call = apiService.GetCompanyList();
+        call.enqueue(new Callback<CabCompanyBean>() {
+
+            @Override
+            public void onResponse(Call<CabCompanyBean> call, Response<CabCompanyBean> response) {
+                boolean res = response.isSuccessful();
+                String msg = response.body().getResponse().getMessage();
+                cmpnyList = response.body().getResponse().getCompanyList();
+                cmpnyList.get(0).getCompanyName();
+                for (int i = 0; i < cmpnyList.size(); i++) {
+                    if(cmpnyList.get(i).getCompanyName().equalsIgnoreCase(""))
+                    {
+
+                    }
+                    else {
+                        list.add(i, cmpnyList.get(i).getCompanyName());
+
+                    }
+                }
+
+
+                ArrayAdapter<String> adp = new ArrayAdapter<String>(CabCompanyActivity.this, R.layout.spinner_item, list);
+                adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(adp);
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        id =cmpnyList.get(i).getComapnyId();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+                Log.e("msg_trip", cmpnyList.size() + "");
+            }
+
+            @Override
+            public void onFailure(Call<CabCompanyBean> call, Throwable t) {
+
+            }
+
+        });
+    }
+    //End
 }

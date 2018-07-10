@@ -1,52 +1,59 @@
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <fragment
                 android:id="@+id/map"
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar1"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorYellow"
-                app:theme="@style/AppTheme.PopupOverlay"
-                app:popupTheme="@style/AppTheme.PopupOverlay">
+                android:background="@color/colorBlack"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:theme="@style/AppTheme.PopupOverlay">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center|end"
-                    android:layout_gravity="end"
                     android:layout_centerInParent="true"
-                    android:layout_marginRight="15dp">
+                    android:layout_gravity="end"
+                    android:layout_marginRight="15dp"
+                    android:gravity="center|end"
+                    android:orientation="vertical">
+
                     <Switch
-                        android:id="@+id/checkbox"
+                        android:id="@+id/checkbox1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
+                        android:thumbTint="@color/white"
+                        android:trackTint="@color/white"
                         android:longClickable="false"
-                        android:textOff="OFF"
+                        android:showText="false"
                         android:textColor="@android:color/white"
-                        android:showText="false"/>
+                        android:textOff="OFF" />
+
                     <TextView
                         android:id="@+id/txtstatus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Online"
-                        android:textColor="@android:color/holo_red_dark" />
+                        android:textColor="@android:color/white" />
                 </LinearLayout>
             </android.support.v7.widget.Toolbar>
 
@@ -54,29 +61,42 @@
                 android:id="@+id/fbMyloc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                app:rippleColor="#eeeeee"
-                app:backgroundTint="@color/white"
-                android:src="@drawable/ic_icon_current_location"
-                android:layout_marginBottom="20dp"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginEnd="17dp"
                 android:layout_marginRight="17dp"
-                android:layout_marginEnd="17dp" />
+                android:gravity="center_horizontal"
+                android:src="@drawable/ic_icon_current_location"
+                android:visibility="gone"
+                app:backgroundTint="@color/white"
+                app:rippleColor="#eeeeee" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:visibility="gone"
+            app:behavior_hideable="true"
+            app:behavior_peekHeight="300dp"
+            app:layout_behavior="com.appzorro.driverappcabscout.model.ExpandedBottomSheetBehavior">
+
+            <include layout="@layout/driveraccept_new" />
         </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>
+
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#FECC18"
+        android:background="@color/colorWhite"
         android:textAlignment="center"
         app:headerLayout="@layout/nav_header_layout"
-        app:itemIconTint="#ffffff"
-        app:itemTextColor="@android:color/white"
-        app:menu="@menu/nav_bar_menu">
+        app:menu="@menu/nav_bar_menu_new">
 
     </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>

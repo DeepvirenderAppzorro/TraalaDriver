@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.appzorro.driverappcabscout.model.CSPreferences;
 import com.appzorro.driverappcabscout.model.Constant;
 import com.appzorro.driverappcabscout.model.Event;
 import com.appzorro.driverappcabscout.model.HttpHandler;
@@ -37,7 +38,7 @@ public class StopRideManager {
         protected String doInBackground(String... strings) {
             HttpHandler httpHandler = new HttpHandler();
             String response = httpHandler.makeServiceCall(strings[0]);
-            Log.e(TAG, "start trips response--" +response);
+            Log.e(TAG, "stoptripsresponse--" +response);
             return response;
         }
         @Override
@@ -49,7 +50,16 @@ public class StopRideManager {
                     JSONObject response = jsonObject.getJSONObject("response");
                     int id = Integer.parseInt(response.getString("id"));
                     String message = response.getString("message");
-                    EventBus.getDefault().post(new Event(Constant.STOPRIDE,message));
+                    String driver_status = response.getString("driver_status");
+                    CSPreferences.putString(mContext,Constant.DRIVER_STATUS,driver_status);
+                    if (id>0) {
+
+                        EventBus.getDefault().post(new Event(Constant.STOPRIDE,message));
+                    }
+                    else {
+
+                        EventBus.getDefault().post(new Event(Constant.STOPRIDEFAIL, message));
+                    }
 
                 }catch (JSONException e) {
                     e.printStackTrace();

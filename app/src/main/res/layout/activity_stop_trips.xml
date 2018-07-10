@@ -7,7 +7,6 @@
 
     <include layout="@layout/navigate_layout"
         android:id="@+id/toolbar1" />
-
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -46,42 +45,23 @@
                 android:layout_below="@+id/view1"
                 android:text="Payment By cash"
                 android:textColor="@android:color/black"
-                android:textSize="15dp"/>
+                style="@style/Base.TextAppearance.AppCompat.Large"/>
             <TextView
                 android:id="@+id/txtcollectcash"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtpayment"
                 android:padding="10dp"
-                android:textSize="20dp"
+                style="@style/Base.TextAppearance.AppCompat.Large"
                 android:onClick="onclickCollect"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:layout_marginTop="10dp"
                 android:textColor="@android:color/white"
                 android:background="@android:color/holo_green_dark"
-                android:text="Collect Cash"/>
-            <View
-                android:id="@+id/view2"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/txtcollectcash"
-                android:background="@android:color/darker_gray"/>
-            <TextView
-                android:id="@+id/txtcomplete"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/view2"
-                android:padding="10dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:textColor="@android:color/white"
-                android:text="Complete Ride"
-                android:background="@android:color/darker_gray" />
+                android:text="complete Trips"/>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
-
     <include layout="@layout/practise"/>
 
 </RelativeLayout>

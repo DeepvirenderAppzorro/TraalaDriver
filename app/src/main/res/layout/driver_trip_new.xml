@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_path_map"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <include layout="@layout/trip_navigate_layout"
+        android:id="@+id/toolbar1" />
+    <android.support.v7.widget.CardView
+        android:id="@+id/card1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:cardCornerRadius="2dp"
+        android:background="@android:color/white"
+        android:padding="20dp"
+        android:layout_alignParentBottom="true">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/imagelayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_icon_profile_pic"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/customerimage" />
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@android:color/darker_gray"
+                    android:layout_toRightOf="@+id/customerimage"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/callinglayut"
+                android:layout_width="match_parent"
+                android:layout_toRightOf="@+id/imagelayout"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="5dp">
+                <ImageView
+                    android:id="@+id/makecall"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_icon_call_driver"
+                    android:layout_alignParentLeft="true"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="make a call"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center"
+                    android:textColor="@android:color/black"
+                    android:layout_below="@+id/makecall"/>
+                <TextView
+                    android:id="@+id/customername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vijay"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/customerimage"/>
+
+                <ImageView
+                    android:id="@+id/cancelride"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_icon_cancel"
+                    android:layout_alignParentRight="true"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cancel"
+                    android:layout_marginTop="5dp"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@android:color/black"
+                    android:layout_below="@+id/cancelride"/>
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/txtstart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/callinglayut"
+                android:layout_toRightOf="@+id/imagelayout"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="#FF6600"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Arrived"
+                android:gravity="center"
+                android:textColor="@android:color/white"/>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <include layout="@layout/trip_bottom"
+      />
+    <include layout="@layout/practise"
+        android:visibility="gone"/>
+
+</RelativeLayout>

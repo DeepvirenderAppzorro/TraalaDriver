@@ -36,7 +36,7 @@ public class OnlineOfflineManager {
             HttpHandler httpHandler = new HttpHandler();
             String response = httpHandler.makeServiceCall(strings[0]);
 
-            Log.e(TAG, "online offline response--" +response);
+            Log.e(TAG, "onlineofflineresponse--" +response);
 
             return response;
         }

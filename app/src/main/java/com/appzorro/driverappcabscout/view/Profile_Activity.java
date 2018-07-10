@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -19,7 +18,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -60,22 +58,23 @@ import static com.appzorro.driverappcabscout.R.id.edtfirstname;
 public class Profile_Activity  extends AppCompatActivity{
     String userChoosenTask;
     Context context;
+    int state=0;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     String covertedImage;
     CallbackManager callbackManager;
-    ImageView imageView,edtimage;
+    ImageView imageView,edtimage,editFields,back_img;
     Dialog passworddialog;
     MenuItem shareditem;
     android.app.AlertDialog dialog;
     EditText firstname , emaiid,phonenumber;
-    TextView passwordchange,changecompany,update;
+    TextView update,passwordchange,changecompany;
     BottomSheetDialog bottomSheetDialog;
 
     Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.my_profile);
         context =this;
 
 
@@ -87,7 +86,16 @@ public class Profile_Activity  extends AppCompatActivity{
                 selectImage();
             }
         });
+        //Added by deep
 
+        back_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        //End
         passwordchange.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -124,14 +132,52 @@ public class Profile_Activity  extends AppCompatActivity{
 
                        }
                         else {
-
-                           Toast.makeText(context, "Please confirm your new Password", Toast.LENGTH_SHORT).show();
+                              Toast.makeText(context, "Please confirm your new Password", Toast.LENGTH_SHORT).show();
 
                        }
                     }
                 });
             }
         });
+
+        //edit fields added by deep
+
+        editFields.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (state == 1) {
+                    dialog = new SpotsDialog(context);
+                    dialog.show();
+                    ModelManager.getInstance().getUpdateProfileManager().UpdateProfileManager(context, Config.updateprofileurl, Operations.updateProfile(
+                            context, CSPreferences.readString(context, "customer_id"), covertedImage, firstname.getText().toString(), phonenumber.getText().toString()
+                    ));
+                    firstname.setEnabled(false);
+                    firstname.setClickable(false);
+                    emaiid.setEnabled(false);
+                    emaiid.setClickable(false);
+                    phonenumber.setClickable(false);
+                    phonenumber.setEnabled(false);
+                    editFields.setImageResource(R.mipmap.edit);
+                    state=0;
+
+
+
+                } else {
+                    editFields.setImageResource(R.mipmap.tick);
+                    firstname.setEnabled(true);
+                    firstname.setClickable(true);
+                    emaiid.setEnabled(false);
+                    emaiid.setClickable(false);
+                    phonenumber.setClickable(true);
+                    phonenumber.setEnabled(true);
+                    state = 1;
+                }
+
+            }
+        });
+
+
+        //
 
         changecompany.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -227,8 +273,9 @@ public class Profile_Activity  extends AppCompatActivity{
                 passworddialog.dismiss();
                 break;
             case Constant.UPDATEPROFILE:
+                dialog.dismiss();
                 firstname.setClickable(false);
-                shareditem.setVisible(false);
+             //   shareditem.setVisible(false);
                 firstname.setEnabled(false);
                 emaiid.setClickable(false);
                 emaiid.setEnabled(false);
@@ -289,20 +336,22 @@ public class Profile_Activity  extends AppCompatActivity{
 
         callbackManager = CallbackManager.Factory.create();
         imageView =(ImageView)findViewById(R.id.driverpic);
+        editFields=(ImageView)findViewById(R.id.edit_profile);
         firstname=(EditText)findViewById(edtfirstname);
         emaiid=(EditText)findViewById(R.id.edtemail);
-        passwordchange=(TextView)findViewById(R.id.txtpassworddd);
-
+        passwordchange=(TextView) findViewById(R.id.txtpassworddd);
+        changecompany=(TextView)findViewById(R.id.txtchangeccompany);
         phonenumber=(EditText)findViewById(R.id.edphonenumber);
         edtimage =(ImageView)findViewById(R.id.imageedit);
-        toolbar =(Toolbar)findViewById(R.id.toolbar);
-        changecompany =(TextView)findViewById(R.id.txtchangeccompany);
+        back_img=(ImageView)findViewById(R.id.back);
+//        toolbar =(Toolbar)findViewById(R.id.toolbar);
+     changecompany =(TextView) findViewById(R.id.txtchangeccompany);
 
-        toolbar.setTitle("Setting");
-        toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+//        toolbar.setTitle("Setting");
+//        toolbar.setTitleTextColor(Color.WHITE);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setHomeButtonEnabled(true);
 
         firstname.setText(""+CSPreferences.readString(context,"user_name"));
         emaiid.setText(""+CSPreferences.readString(context,"user_email"));
@@ -311,7 +360,7 @@ public class Profile_Activity  extends AppCompatActivity{
 
         String profile= CSPreferences.readString(context,"profile_pic");
         Picasso.with(this)
-                .load(CSPreferences.readString(context, "profile_pic"))
+                .load(CSPreferences.readString(context, "profile_pic")).placeholder(R.drawable.ic_icon_pic)
                 .into(imageView);
 
         imageView.buildDrawingCache();
@@ -328,7 +377,7 @@ public class Profile_Activity  extends AppCompatActivity{
         }
         else {
             Picasso.with(this)
-                    .load(CSPreferences.readString(context, "profile_pic"))
+                    .load(CSPreferences.readString(context, "profile_pic")).placeholder(R.drawable.ic_icon_pic)
                     .into(imageView);
 
             ByteArrayOutputStream strams = new ByteArrayOutputStream();
@@ -469,43 +518,5 @@ public class Profile_Activity  extends AppCompatActivity{
         callbackManager.onActivityResult(requestCode, resultCode, data);
 
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_bar, menu);
-        shareditem = menu.findItem(R.id.tick);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-            case R.id.tick:
-                shareditem.setVisible(false);
-                dialog = new SpotsDialog(context);
-                dialog.show();
-                ModelManager.getInstance().getUpdateProfileManager().UpdateProfileManager(context, Config.updateprofileurl,Operations.updateProfile(
-                        context,CSPreferences.readString(context,"customer_id"),covertedImage,firstname.getText().toString(),phonenumber.getText().toString()
-                ));
-                break;
-            case R.id.edit:
-                shareditem.setVisible(true);
-
-
-                firstname.setEnabled(true);
-                firstname.setClickable(true);
-                emaiid.setEnabled(false);
-                emaiid.setClickable(false);
-                phonenumber.setClickable(true);
-                phonenumber.setEnabled(true);
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
 
 }

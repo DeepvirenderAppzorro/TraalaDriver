@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.appzorro.driverappcabscout.R;
 import com.appzorro.driverappcabscout.controller.ModelManager;
@@ -20,6 +19,7 @@ import com.appzorro.driverappcabscout.model.CSPreferences;
 import com.appzorro.driverappcabscout.model.Constant;
 import com.appzorro.driverappcabscout.model.Event;
 import com.appzorro.driverappcabscout.model.Operations;
+import com.appzorro.driverappcabscout.model.Utils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -93,7 +93,9 @@ public class ReviewActivity extends AppCompatActivity{
                 noReview.setVisibility(View.VISIBLE);
                 break;
             case Constant.SERVER_ERROR:
-                Toast.makeText(context, "Network Error", Toast.LENGTH_SHORT).show();
+                Utils.makeSnackBar(context,recyclerView,"Network Error");
+
+               // Toast.makeText(context, "Network Error", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

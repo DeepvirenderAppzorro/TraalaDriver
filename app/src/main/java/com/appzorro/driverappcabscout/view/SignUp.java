@@ -8,12 +8,20 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
@@ -21,7 +29,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.appzorro.driverappcabscout.R;
 import com.appzorro.driverappcabscout.controller.ModelManager;
@@ -52,11 +60,10 @@ import dmax.dialog.SpotsDialog;
  */
 public class SignUp extends AppCompatActivity {
     Toolbar toolbar;
-
     Context context;
     String userChoosenTask;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
-    ImageView driverPic;
+    ImageView back, driverPic;
     Activity activity = this;
     EditText etDrivername, etDriEmail, etDrivNo, etDrivPasswrd, etReDrivPassword, etDrivLicence, etDrivCity, etDrivZip;
     String drivername, driEmail, drivNo, drivPasswrd, redrivPasswrd, drivLicence, drivCity, drivZip, devicetoken, cabid;
@@ -64,12 +71,14 @@ public class SignUp extends AppCompatActivity {
     String covertedImage;
     CallbackManager callbackManager;
     Dialog dialog;
+    TextView lbl_submit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.driversignup);
+        setContentView(R.layout.sign_up_driver);
         initViews();
+        setSpanText();
         //Top toolbar
         driverPic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,21 +87,30 @@ public class SignUp extends AppCompatActivity {
             }
         });
 
+        //Added by deep
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
     }
 
     public void initViews() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+     /*   toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("CREATE ACCOUNT");
-        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);*/
         ButterKnife.bind(this);
         context = this;
 
         callbackManager = CallbackManager.Factory.create();
         convertImageToBase64();
 
-        if (getSupportActionBar() != null) {
+     /*   if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        }*/
         devicetoken = FirebaseInstanceId.getInstance().getToken();
         cabid = getIntent().getStringExtra("cab_id");
 
@@ -104,9 +122,11 @@ public class SignUp extends AppCompatActivity {
         etDrivLicence = (EditText) findViewById(R.id.edtdriverlicence);
         etDrivCity = (EditText) findViewById(R.id.edtcity);
         etDrivZip = (EditText) findViewById(R.id.edtzipcode);
-        driverPic = (ImageView) findViewById(R.id.driverimage);
+        back = (ImageView) findViewById(R.id.back);
         termsCheckBox = (CheckBox) findViewById(R.id.termsCheckbox);
         policyCheckBox = (CheckBox) findViewById(R.id.privacyCheckbox);
+        lbl_submit = (TextView) findViewById(R.id.txSubmit);
+        driverPic = (ImageView) findViewById(R.id.driverimage);
     }
 
     @OnClick(R.id.tvAlreadyacc)
@@ -116,7 +136,7 @@ public class SignUp extends AppCompatActivity {
     }
 
 
-    @OnClick(R.id.btSubmit)
+    @OnClick(R.id.txSubmit)
     public void signup() {
         // get String
         Utils.hideSoftKeyboard(activity);
@@ -134,16 +154,18 @@ public class SignUp extends AppCompatActivity {
             etDrivername.setError("Required");
 
         } else if (!drivPasswrd.equals(redrivPasswrd)) {
+            Utils.makeSnackBar(context, etDriEmail, "Password didn't match");
 
-            Toast.makeText(this, "Password didn't match", Toast.LENGTH_SHORT).show();
+            //  Toast.makeText(this, "Password didn't match", Toast.LENGTH_SHORT).show();
 
         } else if (!Utils.emailValidator(driEmail)) {
 
             etDriEmail.setError("Required vaild Email id");
 
         } else if (!termsCheckBox.isChecked() || !policyCheckBox.isChecked()) {
+            Utils.makeSnackBar(context, etDriEmail, "You must be agree to all terms and conditions");
 
-            Toast.makeText(this, "You must be agree to all terms and conditions", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(this, "You must be agree to all terms and conditions", Toast.LENGTH_SHORT).show();
         } else if (drivNo.isEmpty()) {
 
             etDrivNo.setError("Required");
@@ -165,12 +187,12 @@ public class SignUp extends AppCompatActivity {
     }
 
 
-
     private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_CAMERA);
     }
-    public  void convertImageToBase64() {
+
+    public void convertImageToBase64() {
         Bitmap bit = BitmapFactory.decodeResource(getResources(),
                 R.drawable.ic_icon_profile_pic);
         ByteArrayOutputStream bao = new ByteArrayOutputStream();
@@ -179,6 +201,7 @@ public class SignUp extends AppCompatActivity {
         covertedImage = Base64.encodeToString(ba, 0);
         Log.e("converted Image", "" + covertedImage);
     }
+
     private void galleryIntent() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -196,6 +219,7 @@ public class SignUp extends AppCompatActivity {
         builder.setTitle("Add Photo!");
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
+
             public void onClick(DialogInterface dialog, int item) {
                 boolean result = Utils.checkPermission(context);
 
@@ -216,6 +240,7 @@ public class SignUp extends AppCompatActivity {
         });
         builder.show();
     }
+
     private void onSelectFromGalleryResult(Intent data) {
 
         Bitmap bm = null;
@@ -227,12 +252,13 @@ public class SignUp extends AppCompatActivity {
                 byte[] byteArray = bytes.toByteArray();
                 covertedImage = Base64.encodeToString(byteArray, 0);
                 driverPic.setImageBitmap(bm);
-                Log.e("From gallery",covertedImage);
+                Log.e("From gallery", covertedImage);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -255,7 +281,56 @@ public class SignUp extends AppCompatActivity {
         driverPic.setImageBitmap(thumbnail);
         byte[] byteArray = bytes.toByteArray();
         covertedImage = Base64.encodeToString(byteArray, 0);
-        Log.e("camera images",covertedImage);
+        Log.e("camera images", covertedImage);
+
+
+    }
+
+    private void setSpanText() {
+        String terms_str = "<font color=#000>&nbsp I have read,understand and agree to the</font> <font color=#009de0> terms of service</font>";
+        String privacy_str = "<font color=#000>&nbsp I have read,understand and agree to the</font> <font color=#009de0> Privacy Policy</font>";
+        termsCheckBox.setText(Html.fromHtml(terms_str));
+        policyCheckBox.setText(Html.fromHtml(privacy_str));
+
+        SpannableString ss = new SpannableString("I have read,understand and agree to the terms of service");
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View textView) {
+                Intent videoclk= new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://www.youtube.com/watch?v=jvO6CqtiRmo"));
+                startActivity(videoclk);
+            }
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                int color = ContextCompat.getColor(activity, R.color.blue);
+                ds.setColor(color);
+                ds.setUnderlineText(false);
+            }
+        };
+        ss.setSpan(clickableSpan, 40, 56, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        termsCheckBox.setText(ss);
+        termsCheckBox.setMovementMethod(LinkMovementMethod.getInstance());
+
+        SpannableString ss1 = new SpannableString("I have read,understand and agree to the Privacy Policy");
+        ClickableSpan clickableSpan1 = new ClickableSpan() {
+            @Override
+            public void onClick(View textView) {
+                Intent videoclk= new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://www.youtube.com/watch?v=jvO6CqtiRmo"));
+                startActivity(videoclk);
+            }
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                int color = ContextCompat.getColor(activity, R.color.blue);
+                ds.setColor(color);
+                ds.setUnderlineText(false);
+            }
+        };
+        ss1.setSpan(clickableSpan1, 40, 54, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        policyCheckBox.setText(ss1);
+        policyCheckBox.setMovementMethod(LinkMovementMethod.getInstance());
 
     }
 
@@ -266,20 +341,19 @@ public class SignUp extends AppCompatActivity {
                 dialog.dismiss();
 
                 new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                            .setTitleText("Success")
-                            .setContentText(event.getValue())
-                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        .setTitleText("Success")
+                        .setContentText(event.getValue())
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
 
-                                    Intent i = new Intent(context,LoginActivity.class);
-                                    startActivity(i);
-                                    finish();
+                                Intent i = new Intent(context, LoginActivity.class);
+                                startActivity(i);
+                                finish();
 
-                                }
-                            })
-                            .show();
-
+                            }
+                        })
+                        .show();
 
 
                 break;
@@ -290,11 +364,10 @@ public class SignUp extends AppCompatActivity {
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                Intent i = new Intent(context,SignUp.class);
+                                Intent i = new Intent(context, SignUp.class);
                                 startActivity(i);
                                 sweetAlertDialog.dismiss();
                                 finish();
-
 
 
                             }
@@ -312,7 +385,8 @@ public class SignUp extends AppCompatActivity {
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                Intent i = new Intent(context,SignUp.class);
+                                finish();
+                                Intent i = new Intent(context, SignUp.class);
                                 startActivity(i);
 
                             }
@@ -320,6 +394,7 @@ public class SignUp extends AppCompatActivity {
                         .show();
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
@@ -333,11 +408,12 @@ public class SignUp extends AppCompatActivity {
                 break;
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             if (requestCode == SELECT_FILE)
                 onSelectFromGalleryResult(data);
 

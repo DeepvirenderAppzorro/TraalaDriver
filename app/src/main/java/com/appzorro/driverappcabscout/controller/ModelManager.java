@@ -24,6 +24,7 @@ public class ModelManager {
     private Tripsmanager tripsmanager;
     private FareDetailManager fareManager;
     private  LocationSendManager locationSendManager;
+    private  NearestRoadManager nearestRoadManager;
 
 
 
@@ -50,6 +51,7 @@ public class ModelManager {
         tripsmanager = new Tripsmanager();
         fareManager = new FareDetailManager();
         locationSendManager = new LocationSendManager();
+        nearestRoadManager = new NearestRoadManager();
 
 
     }
@@ -65,6 +67,12 @@ public class ModelManager {
 
         return stopRideManager;
     }
+
+    public NearestRoadManager getNearestRoadManager() {
+
+        return nearestRoadManager;
+    }
+
 
     public LocationSendManager getLocationSendManager() {
         return locationSendManager;

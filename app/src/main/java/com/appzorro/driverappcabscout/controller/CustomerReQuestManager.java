@@ -1,6 +1,7 @@
 package com.appzorro.driverappcabscout.controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -10,6 +11,8 @@ import com.appzorro.driverappcabscout.model.Config;
 import com.appzorro.driverappcabscout.model.Constant;
 import com.appzorro.driverappcabscout.model.Event;
 import com.appzorro.driverappcabscout.model.HttpHandler;
+import com.appzorro.driverappcabscout.view.NotificatonDialog;
+import com.google.gson.JsonObject;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
@@ -43,64 +46,96 @@ public class CustomerReQuestManager {
         protected String doInBackground(String... strings) {
             HttpHandler httpHandler = new HttpHandler();
             String response = httpHandler.makeServiceCall(strings[0]);
-            Log.e(TAG, "customer request get--" +response);
+            Log.e(TAG, "customer_request_get--" + response);
             return response;
         }
+
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             requestlis = new ArrayList<>();
-            if (s!=null) {
+            String payment_method = "";
+            String customer_id = "";
+            String  name = "";
+            String profilpic="";
+            String pickupadd="";
+            String sourcelat="";
+            String sourcelng="";
+            String destlat="";
+            String destlng="";
+            String requestid="";
+            String mobilenumber="";
+
+            if (s != null) {
 
                 try {
                     JSONObject jsonObject = new JSONObject(s);
-                    JSONArray jsonArray = jsonObject.getJSONArray("response");
+                    JSONObject response = jsonObject.getJSONObject("response");
+                    JSONArray jsonArray = response.getJSONArray("data");
                     for (int i = 0; i < jsonArray.length(); i++) {
 
                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                        String requestid = jsonObject1.getString("ride_request_id");
+                        requestid = jsonObject1.getString("ride_request_id");
+
+                        CSPreferences.putString(mContext, "request_id", requestid);
+                        Log.e("request_id", requestid);
+
+
                         int id = Integer.parseInt(requestid);
-                        if (id>0) {
-                            String name = jsonObject1.getString("name");
-                            String customer_id = jsonObject1.getString("customer_id");
-                            String profilpic = jsonObject1.getString("profile_pic");
-                            String pickupadd = jsonObject1.getString("pickup_cordinates");
+                        if (id > 0) {
+
+                            name = jsonObject1.getString("name");
+
+                            customer_id = jsonObject1.getString("customer_id");
+                            Log.e("exception request", customer_id);
+                            profilpic = jsonObject1.getString("profile_pic");
+                            pickupadd = jsonObject1.getString("pickup_cordinates");
 
                             String[] picksplit = pickupadd.split(",");
-                            String sourcelat = picksplit[picksplit.length - 2];
-                            String sourcelng = picksplit[picksplit.length - 1];
+                            sourcelat = picksplit[picksplit.length - 2];
+                            sourcelng = picksplit[picksplit.length - 1];
 
                             String dropadd = jsonObject1.getString("drop_cordinates");
                             String[] dropsplit = dropadd.split(",");
 
-                            String destlat = dropsplit[dropsplit.length - 2];
-                            String destlng = dropsplit[dropsplit.length - 1];
+                             destlat = dropsplit[dropsplit.length - 2];
+                             destlng = dropsplit[dropsplit.length - 1];
 
-                            String payment_method = jsonObject1.getString("payment_type");
-                            CSPreferences.putString(mContext,"payment_method",payment_method);
+                            if (jsonObject1.has("payment_type")) {
+                                payment_method = jsonObject1.getString("payment_type");
+                                CSPreferences.putString(mContext, Constant.PAYEMENT_METHOD, payment_method);
+                            }
+                            mobilenumber = jsonObject1.getString("mobile");
 
-                            String mobilenumber = jsonObject1.getString("mobile");
+                           /* CustomerRequest customerRequest = new CustomerRequest(name, requestid, customer_id,
+                                    Config.baserurl_image + profilpic, sourcelat, sourcelng,
+                                    destlat, destlng, mobilenumber, payment_method);
 
-                            CustomerRequest customerRequest = new CustomerRequest(name, requestid, customer_id,
-                                    Config.baserurl_image+profilpic, sourcelat, sourcelng,
-                                    destlat, destlng, mobilenumber,payment_method);
+                            requestlis.add(customerRequest);*/
 
-                            requestlis.add(customerRequest);
 
-                            EventBus.getDefault().post(new Event(Constant.CUSTOMERREQUEST, ""));
-                        }
-                        else{
+                        } else {
 
                             String message = jsonObject1.getString("message");
 
                         }
                     }
+
+                    CustomerRequest customerRequest = new CustomerRequest(name, requestid, customer_id,
+                            Config.baserurl_image + profilpic, sourcelat, sourcelng,
+                            destlat, destlng, mobilenumber, payment_method);
+
+                    requestlis.add(customerRequest);
+                    CSPreferences.putString(mContext,Constant.CUSTOMER_ID,customer_id);
+                    CSPreferences.putString(mContext,Constant.RIDER_NAME,name);
+                   mContext.startActivity(new Intent(mContext, NotificatonDialog.class).addFlags((Intent.FLAG_ACTIVITY_NEW_TASK)));
+                    EventBus.getDefault().post(new Event(Constant.CUSTOMERREQUEST, ""));
+
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.e("exception request",e.toString());
+                    Log.e("exception request", e.toString());
                 }
-            }
-            else {
+            } else {
 
                 EventBus.getDefault().post(new Event(Constant.SERVER_ERROR, ""));
             }

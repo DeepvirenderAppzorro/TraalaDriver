@@ -57,25 +57,23 @@ public class CompletedtrpsAdapter extends BaseAdapter {
         // TODO Auto-generated method stub
         final Holder holder=new Holder();
 
+
+
         final CompletedRideBean users = list.get(position);
         convertView = inflater.inflate(R.layout.ridehistoryadapter, null);
-
 
         holder.txtprice=(TextView) convertView.findViewById(R.id.txtprice);
         holder.txtdate=(TextView) convertView.findViewById(R.id.texttime);
         holder.txtprice.setText(""+users.getTotalamount());
         holder.txtdate.setText(""+users.getEdndtime());
-
-
-
         return convertView;
     }
 
 
     private  class Holder
     {
-        TextView txtdate,txtprice;
 
+        TextView txtdate,txtprice;
 
     }
 

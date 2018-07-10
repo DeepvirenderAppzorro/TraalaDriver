@@ -2,10 +2,13 @@ package com.appzorro.driverappcabscout.view;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -18,22 +21,24 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appzorro.driverappcabscout.R;
-import com.appzorro.driverappcabscout.controller.CustomerReQuestManager;
 import com.appzorro.driverappcabscout.controller.ModelManager;
 import com.appzorro.driverappcabscout.model.Beans.CustomerRequest;
 import com.appzorro.driverappcabscout.model.CSPreferences;
@@ -41,6 +46,7 @@ import com.appzorro.driverappcabscout.model.Config;
 import com.appzorro.driverappcabscout.model.Constant;
 import com.appzorro.driverappcabscout.model.Event;
 import com.appzorro.driverappcabscout.model.Operations;
+import com.appzorro.driverappcabscout.model.SignalRService;
 import com.appzorro.driverappcabscout.model.Utils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -57,55 +63,66 @@ import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import dmax.dialog.SpotsDialog;
+import microsoft.aspnet.signalr.client.ErrorCallback;
+import microsoft.aspnet.signalr.client.LogLevel;
+import microsoft.aspnet.signalr.client.Platform;
+import microsoft.aspnet.signalr.client.SignalRFuture;
+import microsoft.aspnet.signalr.client.http.android.AndroidPlatformComponent;
 
 public class HomeScreenActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener, LocationListener {
-    private GoogleMap mMap;
-
+    // private int STORAGE_PERMISSION_CODE = 23;
+    private static final int STORAGE_PERMISSION_CODE = 23;
+    private static final int[] COLORS = new int[]{R.color.pathcolor, R.color.colorPrimaryDark, R.color.colorAccent, R.color.colorAccent, R.color.primary_dark_material_light};
     Toolbar toolbar;
-    private GoogleApiClient mGoogleApiClient;
-   MyTimer timer1;
+    MyTimer timer1;
     LocationManager locationManager;
     Activity activity = this;
     double currentlat, currentlang;
     Location mLastLocation;
     TextView timer;
-    Dialog requestdialog,messagedialog;
-    private int STORAGE_PERMISSION_CODE = 23;
-    private static final int[] COLORS = new int[]{R.color.pathcolor, R.color.colorPrimaryDark, R.color.colorAccent, R.color.colorAccent, R.color.primary_dark_material_light};
+    ImageView profileimage;
+    Dialog requestdialog, messagedialog;
     Switch myswitch;
-    TextView txtstatus;
+    TextView txtstatus, name, phonenumber;
     FloatingActionButton myLocation;
     ArrayList<CustomerRequest> list;
     AlertDialog dialog;
+    Dialog requestdialog1;
+    RelativeLayout open_dialog;
+    private GoogleMap mMap;
+    private GoogleApiClient mGoogleApiClient;
+    Context mContext;
+    String message = "";
+    private static SignalRService mService;
+    private boolean mBound = false;
+    Intent serviceIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
         initViews();
+        //serviceMethods();
+        Utils.getInstance().serviceMethods(this);
     }
 
     public void initViews() {
-
+        mContext = this;
         toolbar = (Toolbar) findViewById(R.id.toolbar1);
-        toolbar.setTitle("CABSCOUT ");
+        toolbar.setTitle("Traala");
+        open_dialog = (RelativeLayout) findViewById(R.id.bottom_sheet);
         setSupportActionBar(toolbar);
-        requestdialog = Utils.createDialog(this);
 
-
-        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION}, STORAGE_PERMISSION_CODE);
-
+        checkPermissions();
         initNavigationDrawer();
-       // Log.e("tokenn", FirebaseInstanceId.getInstance().getToken());
+        // Log.e("tokenn", FirebaseInstanceId.getInstance().getToken());
 
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -113,25 +130,16 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-        myswitch = (Switch) findViewById(R.id.checkbox);
+        myswitch = (Switch) findViewById(R.id.checkbox1);
         txtstatus = (TextView) findViewById(R.id.txtstatus);
         messagedialog = Utils.createMessageDialog(activity);
+        requestdialog1 = new Dialog(this);
 
         // Customize  My Location Button
         myLocation = (FloatingActionButton) findViewById(R.id.fbMyloc);
         myLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ActivityCompat.checkSelfPermission(HomeScreenActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(HomeScreenActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return;
-                }
                 mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
                 Log.e("on connected", "");
                 initCamera(mLastLocation);
@@ -170,13 +178,26 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
         mapFragment.getMapAsync(this);
     }
 
+    public void checkPermissions() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION}, STORAGE_PERMISSION_CODE);
+
+        }
+
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        switch (requestCode){
-
-
+        if (requestCode == STORAGE_PERMISSION_CODE) {
+            Log.d("hello", "hello");
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            Log.e("on connected", "");
+            initCamera(mLastLocation);
         }
     }
 
@@ -230,20 +251,23 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         View header = navigationView.getHeaderView(0);
-        TextView name = (TextView) header.findViewById(R.id.driverName);
-        ImageView profileimage = (ImageView) header.findViewById(R.id.nav_image);
-        TextView phonenumber = (TextView) header.findViewById(R.id.driverContact);
+        name = (TextView) header.findViewById(R.id.driverName);
+        profileimage = (ImageView) header.findViewById(R.id.nav_image);
+        phonenumber = (TextView) header.findViewById(R.id.driverContact);
         Log.e("imagedetail", CSPreferences.readString(activity, "user_name") + "\n" + CSPreferences.readString(activity, "profile_pic"));
         name.setText("" + CSPreferences.readString(activity, "user_name"));
         phonenumber.setText("" + CSPreferences.readString(activity, "user_mobile"));
         Picasso.with(this)
-                .load(CSPreferences.readString(activity, "profile_pic"))
+                .load(CSPreferences.readString(activity, "profile_pic")).placeholder(R.drawable.ic_icon_profile_pic)
                 .into(profileimage);
 
 
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
+                ModelManager.getInstance().getUserDetailManager().UserDetailManager(activity,
+                        Operations.getUserDetail(activity, CSPreferences.readString(activity, "customer_id")));
+
                 super.onDrawerSlide(drawerView, slideOffset);
             }
 
@@ -263,6 +287,8 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
         actionBarDrawerToggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setItemIconTintList(null);
+
     }
 
     @Override
@@ -278,10 +304,10 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
                 Intent intent = new Intent(activity, Profile_Activity.class);
                 startActivity(intent);
                 break;
-         /*   case R.id.myBooking:
-                Intent intent1 = new Intent(activity, MyBookingActivity.class);
-                startActivity(intent1);
-                break;*/
+//            case R.id.my_bookings:
+//                Intent intent1 = new Intent(activity, MyBookingActivity.class);
+//                startActivity(intent1);
+//                break;
             case R.id.rideHistory:
                 Intent intHistory = new Intent(this, RideHistory.class);
                 startActivity(intHistory);
@@ -367,7 +393,7 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
         if (mLocation != null) {
 
             Log.e("init camera", "fuction are called");
-
+            mMap.setMyLocationEnabled(true);
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             CameraPosition position = CameraPosition
                     .builder().target(new LatLng(mLocation.getLatitude(), mLocation.getLongitude()))
@@ -384,18 +410,15 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
             options.position(new LatLng(currentlat, currentlang));
 
 
-
-        }
-        else {
+        } else {
 
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-
                     getLastBestStaleLocation();
                 }
-            },1000);
+            }, 1000);
         }
         if (myswitch.isChecked()) {
 
@@ -406,15 +429,13 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
             ModelManager.getInstance().getOnlineOfflineManager().OnlineOfflineManager(activity, Operations.sendDriverstatus(
                     activity, CSPreferences.readString(activity, "customer_id"), "1", String.valueOf(currentlat), String.valueOf(currentlang)
             ));
-        }
-        else {
+        } else {
 
             txtstatus.setText("Offline");
         }
 
 
-
-        }
+    }
 
 
     @Override
@@ -424,83 +445,9 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
         EventBus.getDefault().register(this);
     }
 
-    @Subscribe (threadMode = ThreadMode.MAIN)
-    public void onEventMainThread(Event event) {
+    @Subscribe
+    public void onEvent(Event event) {
         switch (event.getKey()) {
-            case Constant.CUSTOMERREQUEST:
-
-                list = new ArrayList<>();
-                list = CustomerReQuestManager.requestlis;
-
-                for (int i = 0; list.size()>i;i++) {
-
-                    final CustomerRequest customerRequest = list.get(i);
-                //    if (customerRequest.getRequestid().equals(Config.rideRequestid)) {
-                        requestdialog.show();
-                        ImageView customerimage = (ImageView) requestdialog.findViewById(R.id.imagevieww);
-                        TextView customername = (TextView) requestdialog.findViewById(R.id.txtdrivername);
-                        final TextView requestid = (TextView) requestdialog.findViewById(R.id.txtrequestid);
-                        TextView distance = (TextView) requestdialog.findViewById(R.id.txtdistance);
-                        final TextView accept = (TextView) requestdialog.findViewById(R.id.btnaccept);
-                        TextView reject = (TextView) requestdialog.findViewById(R.id.btReject);
-                        timer = (TextView) requestdialog.findViewById(R.id.txttime);
-
-                        timer.setText("00:00");
-                        timer1 = new MyTimer(15000, 1000);
-                        timer1.start();
-
-                        String profileimage = customerRequest.getProfilepic();
-                        Log.e("image ", profileimage);
-                        TextView pickuloaction = (TextView) requestdialog.findViewById(R.id.txtpickaddress);
-                        requestid.setText("" + customerRequest.getRequestid());
-                        customername.setText("" + customerRequest.getName());
-                        pickuloaction.setText("" + Utils.getCompleteAddressString(activity, Double.parseDouble(customerRequest.getSourcelat()),
-                                Double.parseDouble(customerRequest.getSourcelng())));
-                        String pickupaddres = Utils.getCompleteAddressString(activity, Double.parseDouble(customerRequest.getSourcelat()),
-                                Double.parseDouble(customerRequest.getSourcelng()));
-
-                        Log.e("address", "" + pickupaddres);
-
-                        Picasso.with(this)
-                                .load(profileimage)
-                                .into(customerimage);
-
-                        dialog.dismiss();
-
-
-
-                        accept.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-
-                                dialog = new SpotsDialog(activity);
-                                dialog.show();
-                                timer1.cancel();
-
-                                ModelManager.getInstance().getAcceptCustomerRequest().AcceptCustomerRequest(activity, Operations.acceptByDriver(activity,
-                                        CSPreferences.readString(activity, "customer_id"), customerRequest.getRequestid(),
-                                        String.valueOf(currentlat), String.valueOf(currentlang)));
-                                requestdialog.dismiss();
-
-                            }
-                        });
-                        reject.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-
-                                requestdialog.dismiss();
-                            }
-
-                        });
-                    //}
-
-                }
-
-
-
-                break;
-
-
             case Constant.ACCEPTBYDRIVER:
 
 
@@ -510,7 +457,6 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
                 Intent intent = new Intent(activity, PathMapActivity.class);
 
                 startActivity(intent);
-
 
 
                 break;
@@ -523,12 +469,13 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
 
                     txtstatus.setText(drivermessage);
 
-                    Toast.makeText(activity, "your status is online", Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(activity, "your status is online", Toast.LENGTH_SHORT).show();
+                    Utils.makeSnackBar(mContext, txtstatus, "Your status is online");
 
                 } else {
 
                     txtstatus.setText(drivermessage);
-                    Toast.makeText(activity, "your status is offline", Toast.LENGTH_SHORT).show();
+                    Utils.makeSnackBar(mContext, txtstatus, "Your status is offline");
 
                 }
                 break;
@@ -539,8 +486,37 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
                         .setContentText("Your Network connection is very slow please try again")
                         .show();
                 break;
+            case Constant.USERDETAILSTAUS:
+                dialog.dismiss();
+                name.setText("" + CSPreferences.readString(activity, "user_name"));
+                phonenumber.setText("" + CSPreferences.readString(activity, "user_mobile"));
+                String profile = CSPreferences.readString(activity, "profile_pic");
+//                Picasso.with(this)
+//                        .load(CSPreferences.readString(activity, "profile_pic"))
+//                        .into(profileimage);
+                break;
 
+            case Constant.CANCEL_RIDEFCM:
+
+                messagedialog.show();
+
+                TextView titletext = (TextView) messagedialog.findViewById(R.id.txttitle);
+                TextView messagetext = (TextView) messagedialog.findViewById(R.id.txtmessage);
+
+                TextView ok = (TextView) messagedialog.findViewById(R.id.txtok);
+
+                ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        CSPreferences.putString(HomeScreenActivity.this, Constant.REQUEST_ID, "");
+                        finish();
+                        startActivity(getIntent());
+                    }
+                });
+                break;
         }
+
     }
 
     @Override
@@ -568,8 +544,58 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
     the reposne of cusomer request if timer is finish then customer
     request send to other driver */
 
-    public class MyTimer extends CountDownTimer {
 
+    public Location getLastBestStaleLocation() {
+
+        Location bestresult = null;
+        Log.e("call", "getbesccctlocation");
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+
+            return null;
+
+        }
+        Location gpslocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location networklocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        if (gpslocation != null && networklocation != null) {
+            if (gpslocation.getTime() > networklocation.getTime()) {
+                bestresult = gpslocation;
+                Log.e("result", "both location are found---- " + bestresult.getLatitude());
+                Config.currentLAT = bestresult;
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, this);
+            } else {
+                bestresult = networklocation;
+                Log.e("result", "network location ---- " + bestresult.getLatitude());
+                Config.currentLAT = bestresult;
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 0, this);
+            }
+        } else if (gpslocation != null) {
+            bestresult = gpslocation;
+            Log.e("result", "gps location only found---- " + bestresult.getLatitude());
+            Config.currentLAT = bestresult;
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, this);
+        } else if (networklocation != null) {
+            bestresult = networklocation;
+            Log.e("result", "network location only found--- " + bestresult.getLatitude());
+            Config.currentLAT = bestresult;
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 0, this);
+            Log.e("", bestresult.toString());
+        }
+        return bestresult;
+    }
+
+    // here we are getting the cureent location of the user... this method return you our current locaton after every 10 second
+
+    public class MyTimer extends CountDownTimer {
 
 
         public MyTimer(long millisInFuture, long countDownInterval) {
@@ -588,76 +614,108 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
         public void onFinish() {
 
             timer.setText("00:00");
-            requestdialog.dismiss();
+            //  requestdialog.dismiss();
+            if (requestdialog != null) {
 
+                requestdialog.dismiss();
+                requestdialog = null;
+            }
 
         }
 
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        if (requestdialog!=null){
-
+     //   if (!isMyServiceRunning(mService.getClass()))
+      //      stopService(serviceIntent);
+        if (requestdialog != null) {
             requestdialog.dismiss();
-            requestdialog=null;
+            requestdialog = null;
+        }
+
+    }
+
+   /* private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String get_message = intent.getStringExtra("message");
+            if (get_message != null && !get_message.isEmpty() && get_message.equals("restartService")) {
+                serviceMethods();
+                Log.d("SignalIR", "Service Restarted");
+            }
+
+            //          message += "\n" + get_message;
+
+            //incoming_msg.setText(message);
+        }
+    };
+
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                Log.i("isMyServiceRunning?", true + "");
+                return true;
+            }
+        }
+        Log.i("isMyServiceRunning?", false + "");
+        return false;
+    }
+
+    public void startServices() {
+        if (!isMyServiceRunning(mService.getClass())) {
+            serviceIntent = new Intent(this, mService.getClass());
+            startService(serviceIntent);
+            SignalRFuture<Void> connect = SignalRService.connect(Constant.SOCKET_URL);
+            configConnectFuture(connect);
+            registerReceiver(broadcastReceiver, new IntentFilter(SignalRService.BROADCAST_ACTION));
         }
     }
 
-    // here we are getting the cureent location of the user... this method return you our current locaton after every 10 second
 
-    public Location getLastBestStaleLocation() {
+    private void configConnectFuture(SignalRFuture<Void> connect) {
+        connect.onError(new ErrorCallback() {
+            @Override
+            public void onError(final Throwable error) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // serviceMethods();
+                        Toast.makeText(HomeScreenActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
-        Location bestresult = null;
-        Log.e("call","getbesccctlocation");
-
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-
-            return null;
-        }
-        Location gpslocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        Location networklocation= locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        if (gpslocation != null && networklocation != null)
-        {
-            if (gpslocation.getTime() > networklocation.getTime())
-            {
-                bestresult = gpslocation;
-                Log.e("result", "both location are found---- "+ bestresult.getLatitude());
-                Config.currentLAT = bestresult;
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, this);
             }
-            else {
-                bestresult = networklocation;
-                Log.e("result", "network location ---- "+ bestresult.getLatitude());
-                Config.currentLAT = bestresult;
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 0, this);
-            }
-        }
-        else if (gpslocation != null)
-        {
-            bestresult = gpslocation;
-            Log.e("result", "gps location only found---- "+ bestresult.getLatitude());
-            Config.currentLAT = bestresult;
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, this);
-        } else if (networklocation != null)
-        {
-            bestresult = networklocation;
-            Log.e("result", "network location only found--- "+ bestresult.getLatitude());
-            Config.currentLAT = bestresult;
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 0, this);
-            Log.e("",bestresult.toString());
-        }
-        return bestresult;
+        });
+
     }
+
+    private void serviceMethods() {
+        mService = new SignalRService(this);
+        startServices();
+
+        // Create a new console logger
+        microsoft.aspnet.signalr.client.Logger logger = new microsoft.aspnet.signalr.client.Logger() {
+            @Override
+            public void log(String message, LogLevel level) {
+                Log.d("SignalR", message);
+                //serviceMethods();
+            }
+        };
+        Platform.loadPlatformComponent(new AndroidPlatformComponent());
+
+    }*/
 
 }

@@ -142,8 +142,8 @@
         android:layout_marginTop="20dp">
 
         <TextView
-            android:id="@+id/tvTm1"
             android:layout_width="wrap_content"
+            android:id="@+id/tvTm1"
             android:layout_height="wrap_content"
             android:text="10:46 PM"
             android:textColor="@color/colorBlack" />

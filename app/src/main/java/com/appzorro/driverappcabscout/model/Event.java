@@ -9,6 +9,7 @@ public class Event {
         this.value = value;
     }
 
+
     public Event(int key, String company_id, String cab_alias) {
         this.key = key;
         this.company_id = company_id;

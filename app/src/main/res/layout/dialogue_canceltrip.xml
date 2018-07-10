@@ -8,9 +8,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="10dp"
-        android:background="#FECC18"
+        android:background="#0083db"
         android:text="Cancel Ride"
-        android:textColor="@color/black" />
+        android:textColor="@color/white" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -68,8 +68,8 @@
             android:layout_weight="1"
             android:text="DON'T CANCEL"
             style="@style/Base.Widget.AppCompat.Button.Borderless"
-            android:textColor="@color/colorYellow"
-            android:background="@color/black"
+            android:textColor="@color/colorWhite"
+            android:background="#0083db"
             android:gravity="center"/>
 
         <TextView
@@ -78,10 +78,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             style="@style/Base.Widget.AppCompat.Button.Borderless"
-            android:textColor="@color/colorYellow"
+            android:textColor="@color/colorWhite"
             android:text="CANCEL RIDE"
             android:layout_marginLeft="2dp"
-            android:background="@color/black"
+            android:background="#0083db"
             android:gravity="center"/>
 
     </LinearLayout>

@@ -10,17 +10,22 @@
         app:cardCornerRadius="10dp">
     <RelativeLayout
         android:layout_width="match_parent"
+        android:background="@drawable/btn_design"
         android:layout_height="wrap_content"
         android:padding="10dp">
-       <!-- <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/customerImage"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@drawable/ic_icon_profile_pic"/>-->
+
+       <de.hdodenhof.circleimageview.CircleImageView
+             android:id="@+id/customerImage"
+             android:layout_alignParentLeft="true"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:src="@drawable/ic_icon_profile_pic"/>
         <TextView
             android:id="@+id/customerName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/customerImage"
             android:layout_marginLeft="10dp"
             android:text="Vijay Kumar"
             style="@style/Base.TextAppearance.AppCompat.Medium"
@@ -32,6 +37,7 @@
             android:layout_below="@+id/customerName"
             android:layout_marginLeft="20dp"
             android:text="2 Weaks ago"
+            android:layout_toRightOf="@+id/customerImage"
             android:textSize="12sp"
             android:layout_marginTop="5dp"/>
         <RatingBar
@@ -41,7 +47,7 @@
             android:numStars="5"
             android:layout_alignParentRight="true"
             style="?android:attr/ratingBarStyleSmall"
-            android:layout_marginTop="15dp"/>
+            android:layout_marginTop="8dp"/>
         <TextView
             android:id="@+id/txtrating"
             android:layout_width="wrap_content"
@@ -55,12 +61,10 @@
             android:id="@+id/txtcomment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:layout_below="@+id/time"
+            android:layout_below="@+id/customerImage"
             android:text="The best morning ride to work ever .Thanks "/>
-
     </RelativeLayout>
     </android.support.v7.widget.CardView>
 

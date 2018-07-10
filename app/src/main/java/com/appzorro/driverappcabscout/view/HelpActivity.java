@@ -1,68 +1,65 @@
 package com.appzorro.driverappcabscout.view;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.appzorro.driverappcabscout.R;
 
 public class HelpActivity extends AppCompatActivity {
 
+
     Toolbar toolbar;
-    CardView callcvard,emailcard;
-    TextView call , email;
+    EditText email, message;
+    LinearLayout submit;
+    ImageView iv_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_help);
+        setContentView(R.layout.help_xml);
 
         initViews();
 
-        emailcard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent variableName = new Intent(Intent.ACTION_SENDTO);
-                variableName.setType("text/html");
-                variableName.setData(Uri.parse("mailto:"));
-                variableName.putExtra(Intent.EXTRA_SUBJECT, "");
-                variableName.putExtra(Intent.EXTRA_TEXT, "");
 
-                startActivity(variableName);
-            }
-        });
-
-        callcvard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", call.getText().toString(), null));
-                startActivity(intent);
-            }
-        });
     }
 
     public void initViews() {
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Help");
         setSupportActionBar(toolbar);
-        toolbar.setTitleTextColor(Color.WHITE);
 
-        if(getSupportActionBar() != null) {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        emailcard =(CardView)findViewById(R.id.emailcard);
-        callcvard =(CardView)findViewById(R.id.callcard);
-        call =(TextView)findViewById(R.id.txtcall);
-        email =(TextView)findViewById(R.id.txtemail);
 
+        email = (EditText) findViewById(R.id.email);
+        iv_back = (ImageView) findViewById(R.id.back);
+        message = (EditText) findViewById(R.id.message);
+        submit = (LinearLayout) findViewById(R.id.submit_ll);
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+
+            }
+        });
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+
+            }
+        });
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

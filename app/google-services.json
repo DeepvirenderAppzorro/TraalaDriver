@@ -1,27 +1,35 @@
 {
   "project_info": {
-    "project_number": "317720684970",
-    "firebase_url": "https://driverapp-cabscout.firebaseio.com",
-    "project_id": "driverapp-cabscout",
-    "storage_bucket": "driverapp-cabscout.appspot.com"
+    "project_number": "745937523754",
+    "firebase_url": "https://cabscout-driver-4dd23.firebaseio.com",
+    "project_id": "cabscout-driver-4dd23",
+    "storage_bucket": "cabscout-driver-4dd23.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:317720684970:android:4deb2006486e7f9a",
+        "mobilesdk_app_id": "1:745937523754:android:4deb2006486e7f9a",
         "android_client_info": {
           "package_name": "com.appzorro.driverappcabscout"
         }
       },
       "oauth_client": [
         {
-          "client_id": "317720684970-i7nt7hgnt0gp230g6b25pml54aht79qm.apps.googleusercontent.com",
+          "client_id": "745937523754-kbfm9ous0mfdjg53astj937163hh825n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.appzorro.driverappcabscout",
+            "certificate_hash": "b58e9ef52f58c2d43d32e020d0bd9ba1e46f39d1"
+          }
+        },
+        {
+          "client_id": "745937523754-9qp8l0g714ngrof1dccbq4i6lk1mr0e7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAv9hYHuIhpYFg4ACLoGrMyaWBwEmuvFOo"
+          "current_key": "AIzaSyA070VWsn6DVPhD7k6v-8NWR6sUIL8Dlng"
         }
       ],
       "services": {
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "745937523754-9qp8l0g714ngrof1dccbq4i6lk1mr0e7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

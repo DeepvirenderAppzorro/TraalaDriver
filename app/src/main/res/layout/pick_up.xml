@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/map_xml"></include>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/linear1_"
+        android:layout_weight="0.1"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <include layout="@layout/pick_up_toolbar"
+            android:id="@+id/toolbar"/>
+    </LinearLayout>
+<RelativeLayout
+    android:layout_width="180dp"
+    android:padding="10dp"
+    android:layout_below="@+id/linear1_"
+    android:layout_alignParentRight="true"
+    android:background="@color/white"
+    android:layout_height="110dp">
+    <TextView
+        android:id="@+id/login_btn"
+        android:padding="5dp"
+        android:text="Call/Messages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@android:color/black" />
+    <TextView
+        android:id="@+id/cancel_trip"
+        android:layout_below="@+id/login_btn"
+        android:text="Cancel trip"
+        android:padding="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@android:color/black" />
+    <TextView
+        android:id="@+id/view_passenger_detail"
+        android:layout_below="@+id/cancel_trip"
+        android:text="View passanger detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textColor="@android:color/black" />
+
+
+</RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/lbl_pick_up_arrived"
+        android:text="Arrived"
+        android:layout_margin="8dp"
+        android:padding="5dp"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:background="@drawable/button_design"
+        android:layout_height="45dp" />
+</RelativeLayout>
+</LinearLayout>

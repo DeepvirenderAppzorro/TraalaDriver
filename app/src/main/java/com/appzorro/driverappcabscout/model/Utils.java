@@ -1,14 +1,20 @@
 package com.appzorro.driverappcabscout.model;
 
 import android.Manifest;
+import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Dialog;
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -24,27 +30,65 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.appzorro.driverappcabscout.R;
+import com.appzorro.driverappcabscout.controller.ModelManager;
+import com.appzorro.driverappcabscout.view.HomeScreenActivity;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import microsoft.aspnet.signalr.client.Action;
+import microsoft.aspnet.signalr.client.ErrorCallback;
+import microsoft.aspnet.signalr.client.LogLevel;
+import microsoft.aspnet.signalr.client.Platform;
+import microsoft.aspnet.signalr.client.SignalRFuture;
+import microsoft.aspnet.signalr.client.http.android.AndroidPlatformComponent;
+import microsoft.aspnet.signalr.client.hubs.HubProxy;
+
+import static com.appzorro.driverappcabscout.model.SignalRService.connect;
 
 public class Utils {
 
     private static final String TAG = Utils.class.getSimpleName();
     private static String API_KEY = "AIzaSyDW4hwt4oKL-B64uDuwZ3LwEsoBLEcHwgw";
+    private static SignalRService mService;
+    private static Utils modelManager;
+    Intent serviceIntent;
+    private LatLng startPosition;
+    private double lat, lng;
+    private float v;
+    private static final long ANIMATION_TIME_PER_ROUTE = 2000;
+
+    public static Utils getInstance() {
+        if (modelManager == null)
+            return modelManager = new Utils();
+        else
+            return modelManager;
+    }
 
     public static boolean emailValidator(String email) {
         Pattern pattern;
@@ -111,9 +155,10 @@ public class Utils {
         Snackbar snackbar;
         snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
         View snackBarView = snackbar.getView();
-        snackBarView.setBackgroundColor(Color.RED);
         TextView textView = (TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(Color.WHITE);
+        snackBarView.setBackgroundColor(ContextCompat.getColor(context, R.color.blue));
+
         snackbar.show();
     }
 
@@ -175,10 +220,23 @@ public class Utils {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.driveracceptlayout);
         dialog.setCancelable(false);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+     //   dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         return dialog;
     }
 
+
+    /*public static void showSnack(Context context, View view, String message) {
+
+        int color, color2;
+        color = Color.WHITE;
+        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
+
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(color);
+        sbView.setBackgroundColor(ContextCompat.getColor(context, R.color.blue));
+        snackbar.show();
+    }*/
     public static Dialog createpasswordDialog(Context context) {
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -246,6 +304,14 @@ public class Utils {
         dialog.setContentView(R.layout.stopfee);
         dialog.setCancelable(false);
         return dialog;
+    }
+
+    public static String getCurrentDate(){
+        Date c = Calendar.getInstance().getTime();
+        System.out.println("Current time => " + c);
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        String formattedDate = df.format(c);
+        return formattedDate;
     }
 
     public static Location getLastBestStaleLocation(Context context) {
@@ -338,28 +404,159 @@ public class Utils {
     }
 
 
-
-    public static class MyTimer extends CountDownTimer {
-
-
-        public MyTimer(long millisInFuture, long countDownInterval) {
-            super(millisInFuture, countDownInterval);
-        }
-
-        @Override
-        public void onTick(long l) {
-            long millis = l;
-            String hms = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)), TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
-
-
-        }
-
-        @Override
-        public void onFinish() {
-
-
-        }
-
+    public static void clearNotifications(Context context){
+        NotificationManager notificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
 
     }
+
+    public static void sendMessage(final Activity context , JSONObject jsonObject) {
+        Log.d("SocketRequest",jsonObject.toString()+" ");
+        //{"ride_request_id":"330","message":"New ride request from Sumit Don","noti_type":"customer_request"}
+        Random rnd = new Random();
+        int request_id = 1 + rnd.nextInt(999);
+
+        final HubProxy chat = SignalRService.getChatHub();
+
+
+        String parametersToCall = jsonObject.toString();
+        chat.invoke("send", parametersToCall, request_id).done(new Action<Void>() {
+            @Override
+            public void run(Void obj) throws Exception {
+                context.runOnUiThread(new Runnable() {
+                    @SuppressLint("InlinedApi")
+                    public void run() {
+                       // Toast.makeText(context, "Sent", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+
+
+    private boolean isMyServiceRunning(Context context,Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                Log.i("isMyServiceRunning?", true + "");
+                return true;
+            }
+        }
+        Log.i("isMyServiceRunning?", false + "");
+        return false;
+    }
+
+    public void startServices(Context context) {
+        if (!isMyServiceRunning(context,mService.getClass())) {
+            serviceIntent = new Intent(context, mService.getClass());
+            context.startService(serviceIntent);
+            SignalRFuture<Void> connect = connect(Constant.SOCKET_URL);
+            configConnectFuture(connect);
+            context.registerReceiver(broadcastReceiver, new IntentFilter(SignalRService.BROADCAST_ACTION));
+        }
+    }
+
+
+    private void configConnectFuture(SignalRFuture<Void> connect) {
+        connect.onError(new ErrorCallback() {
+            @Override
+            public void onError(final Throwable error) {
+                Log.d("ErrorIr",error.getMessage());
+            }
+        });
+
+    }
+
+    public void serviceMethods(Context context) {
+        mService = new SignalRService(context);
+        startServices(context);
+
+        // Create a new console logger
+        microsoft.aspnet.signalr.client.Logger logger = new microsoft.aspnet.signalr.client.Logger() {
+            @Override
+            public void log(String message, LogLevel level) {
+                Log.d("SignalR", message);
+                //serviceMethods();
+            }
+        };
+        Platform.loadPlatformComponent(new AndroidPlatformComponent());
+
+    }
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String get_message = intent.getStringExtra("message");
+            if (get_message != null && !get_message.isEmpty() && get_message.equals("restartService")) {
+                //serviceMethods();
+                Log.d("SignalIR", "Service Restarted");
+             //   context.stopService(serviceIntent);
+
+                //SignalRFuture<Void> connect = connect(Constant.SOCKET_URL);
+               // configConnectFuture(connect);
+              //  getMessages();
+               // EventBus.getDefault().post(new Event(Constant.RESTART_SERVICE, ""));
+            }
+
+            //          message += "\n" + get_message;
+
+            //incoming_msg.setText(message);
+        }
+    };
+
+    public void startBikeAnimation(final GoogleMap googleMap,final Marker carMarker, final LatLng start, final LatLng end) {
+
+        Log.i(TAG, "startBikeAnimation called...");
+
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 1);
+        valueAnimator.setDuration(ANIMATION_TIME_PER_ROUTE);
+        valueAnimator.setInterpolator(new LinearInterpolator());
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+
+                //LogMe.i(TAG, "Car Animation Started...");
+                v = valueAnimator.getAnimatedFraction();
+                lng = v * end.longitude + (1 - v)
+                        * start.longitude;
+                lat = v * end.latitude + (1 - v)
+                        * start.latitude;
+
+                LatLng newPos = new LatLng(lat, lng);
+                carMarker.setPosition(newPos);
+                carMarker.setAnchor(0.5f, 0.5f);
+                carMarker.setRotation(getBearing(start, end));
+
+                // todo : Shihab > i can delay here
+//                googleMap.moveCamera(CameraUpdateFactory
+//                        .newCameraPosition
+//                                (new CameraPosition.Builder()
+//                                        .target(newPos)
+//                                        .zoom(15.5f)
+//                                        .build()));
+
+                startPosition = carMarker.getPosition();
+
+            }
+
+        });
+        valueAnimator.start();
+    }
+    private float getBearing(LatLng begin, LatLng end) {
+        double lat = Math.abs(begin.latitude - end.latitude);
+        double lng = Math.abs(begin.longitude - end.longitude);
+
+        if (begin.latitude < end.latitude && begin.longitude < end.longitude)
+            return (float) (Math.toDegrees(Math.atan(lng / lat)));
+        else if (begin.latitude >= end.latitude && begin.longitude < end.longitude)
+            return (float) ((90 - Math.toDegrees(Math.atan(lng / lat))) + 90);
+        else if (begin.latitude >= end.latitude && begin.longitude >= end.longitude)
+            return (float) (Math.toDegrees(Math.atan(lng / lat)) + 180);
+        else if (begin.latitude < end.latitude && begin.longitude >= end.longitude)
+            return (float) ((90 - Math.toDegrees(Math.atan(lng / lat))) + 270);
+        return -1;
+    }
+
 }

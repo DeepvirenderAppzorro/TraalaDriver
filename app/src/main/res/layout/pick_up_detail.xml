@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/relative_dialog"
+        android:padding="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content">
+         <ImageView
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_icon_pic"
+                android:layout_height="wrap_content"
+                android:id="@+id/img_pick_up"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="Mac Andrew"
+            android:layout_below="@+id/img_pick_up"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/lbl_pick_up_name"/>
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ratingBar"
+            android:layout_below="@+id/lbl_pick_up_name"
+            android:rating="3.5"
+            android:layout_marginTop="5dp"
+            style="@style/MyRatingBar"
+            android:layout_centerHorizontal="true"
+            android:progressTint="@color/gray_btn_bg_color"
+            android:transformPivotX="0dp"
+            android:transformPivotY="0dp"
+            android:max="5"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/ratingBar"
+            android:layout_height="wrap_content"
+            >
+      <TextView
+           android:layout_width="0dp"
+           android:gravity="center"
+           android:padding="8dp"
+           android:layout_margin="7dp"
+           android:layout_weight="0.5"
+           android:textColor="@color/white"
+           android:background="@drawable/button_design"
+           android:text="Call"
+           android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="0dp"
+                android:padding="8dp"
+                android:layout_margin="7dp"
+                android:gravity="center"
+                android:layout_weight="0.5"
+                android:textColor="@color/white"
+                android:background="@drawable/button_design"
+                android:text="Message"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>
