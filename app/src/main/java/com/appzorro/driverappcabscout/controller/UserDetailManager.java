@@ -24,7 +24,7 @@ public class UserDetailManager {
 
     public void UserDetailManager(Context context, String params) {
 
-        new UserDetailManager.ExecuteApi(context).execute(params);
+        new ExecuteApi(context).execute(params);
     }
 
     private class ExecuteApi extends AsyncTask<String, String, String> {
@@ -40,7 +40,7 @@ public class UserDetailManager {
             HttpHandler httpHandler = new HttpHandler();
             String response = httpHandler.makeServiceCall(strings[0]);
 
-            Log.e(TAG, "user update detail--" + response);
+            Log.e(TAG, "userupdatedetail--" + response);
 
             return response;
         }
@@ -64,6 +64,8 @@ public class UserDetailManager {
                     EventBus.getDefault().post(new Event(Constant.USERDETAILSTAUS, ""));
 
                 } catch (JSONException e) {
+                    EventBus.getDefault().post(new Event(Constant.SERVER_ERROR, ""));
+
                     e.printStackTrace();
                 }
 

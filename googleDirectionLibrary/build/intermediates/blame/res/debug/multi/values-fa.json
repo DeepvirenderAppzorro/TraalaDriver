@@ -1,6 +1,30 @@
 [
     {
-        "outputFile": "/Users/appzorro/Downloads/DriverAppCabscout (3)/googleDirectionLibrary/build/intermediates/incremental/mergeDebugResources/merged.dir/values-fa/values-fa.xml",
+        "outputFile": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/incremental/mergeDebugResources/merged.dir/values-fa/values-fa.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 105,
+                    "endColumn": 213,
+                    "endOffset": 314
+                },
+                "from": {
+                    "file": "/home/vijay/.android/build-cache/25bfd21df5a3a2603c983328827ed68e6ac29450/output/res/values-fa/values.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 0,
+                        "startOffset": 285,
+                        "endColumn": 213,
+                        "endOffset": 498
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "/Users/appzorro/Downloads/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/incremental/mergeDebugResources/merged.dir/values-fa/values-fa.xml",
         "map": [
             {
                 "to": {

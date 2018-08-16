@@ -1,164 +1,268 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_height="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_cab_companies"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_height="match_parent"
+        android:id="@+id/linear1_"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:weightSum="1">
+        android:layout_height="?android:attr/actionBarSize"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/linear1_"
-            android:layout_height="0dp"
-            android:layout_weight="0.1"
-            android:layout_width="match_parent"
-            android:orientation="horizontal">
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            android:visibility="gone" />
 
-            <include
-                android:id="@+id/toolbar"
-                layout="@layout/create_account_toolbar" />
-        </LinearLayout>
+    </LinearLayout>
 
-        <ImageView
-            android:id="@+id/image_blank"
-            android:layout_centerHorizontal="true"
-            android:layout_height="0dp"
-            android:layout_weight="0.038"
-            android:layout_width="20dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/linear1_"
+        android:padding="5dp">
 
         <ImageView
             android:id="@+id/image_main"
-            android:layout_below="@+id/image_blank"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:layout_height="0dp"
-            android:layout_weight="0.153"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
             android:src="@drawable/ic_icon_logo" />
 
-        <ImageView
-            android:id="@+id/image_blank11"
-            android:layout_below="@+id/image_main"
-            android:layout_centerHorizontal="true"
-            android:layout_height="0dp"
-            android:layout_weight="0.012"
-            android:layout_width="20dp" />
-
         <TextView
-            android:gravity="center"
             android:id="@+id/lbl_description"
-            android:layout_below="@+id/image_blank11"
-            android:layout_height="0dp"
-            android:layout_weight="0.18"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image_main"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:padding="10dp"
             android:text="@string/descriptionn"
             android:textColor="@color/black" />
 
-        <ImageView
-            android:id="@+id/image_blank1"
-            android:layout_below="@+id/lbl_description"
-            android:layout_centerHorizontal="true"
-            android:layout_height="0dp"
-            android:layout_weight="0.05"
-            android:layout_width="35dp" />
 
         <LinearLayout
-            android:background="@drawable/txtview_design"
             android:id="@+id/linear_select_comp"
-            android:layout_below="@+id/image_blank1"
-            android:layout_centerInParent="true"
-            android:layout_height="0dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="0.078"
             android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:layout_margin="8dp"
+            android:background="@drawable/btn_design"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/image"
-                android:layout_gravity="center"
-                android:layout_height="40dp"
-                android:layout_weight=".10"
                 android:layout_width="0dp"
-                android:padding="8dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight=".10"
                 android:src="@drawable/ic_icon_taxi" />
 
-            <Spinner
-                android:dropDownWidth="wrap_content"
-                android:id="@+id/selectCab"
+         <!--   <TextView
+                android:id="@+id/txt_select_company"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
                 android:layout_weight=".90"
-                android:layout_width="0dp" />
+                android:gravity="start"
+                android:text="Select Company Name"
+                android:textSize="12sp"
+                android:visibility="visible" />-->
+            <com.appzorro.driverappcabscout.model.CustomSearchableSpinner
+                android:id="@+id/selectCab"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".89"
+                android:background="@null"
+                android:visibility="visible"
+                android:dropDownVerticalOffset="-5dp"
+                android:hint="Select Your taxi Company"
+                android:overlapAnchor="false"
+                android:spinnerMode="dropdown"
+                android:textColor="@android:color/black"
+                android:textSize="15sp" />
+
+           <!-- <Spinner
+                android:id="@+id/selectCab"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".89"
+                android:background="@null"
+                android:dropDownVerticalOffset="-5dp"
+                android:hint="Select Your taxi Company"
+                android:overlapAnchor="false"
+                android:spinnerMode="dropdown"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                android:visibility="gone" />
+-->
+            <ImageView
+                android:id="@+id/dropdown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight=".01"
+                android:src="@mipmap/ic_launcher_dropdown"
+                android:visibility="visible" />
+
+
         </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linear_select_loc"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/linear_select_comp"
+            android:layout_centerInParent="true"
+            android:layout_margin="8dp"
+            android:background="@drawable/btn_design"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/image_loc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight=".10"
+                android:src="@mipmap/ic_icon_location" />
+
+        <!--    <TextView
+                android:id="@+id/txt_select_Location"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_weight=".90"
+                android:gravity="start"
+                android:text="Select Location Name"
+                android:textSize="12sp"
+                android:visibility="visible" />-->
+
+            <TextView
+                android:id="@+id/nolocation"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".89"
+                android:gravity="center_vertical"
+                android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+                android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+                android:text="No Location Found"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                android:visibility="gone" />
+
+
+            <com.appzorro.driverappcabscout.model.CustomSearchableSpinner
+                android:id="@+id/selectLoc"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".89"
+                android:background="@null"
+                android:visibility="visible"
+                android:dropDownVerticalOffset="-5dp"
+                android:hint="Select Your taxi Company"
+                android:overlapAnchor="false"
+                android:spinnerMode="dropdown"
+                android:textColor="@android:color/black"
+                android:textSize="15sp" />
+           <!-- <Spinner
+                android:id="@+id/selectLoc"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".89"
+                android:background="@null"
+                android:dropDownVerticalOffset="-5dp"
+                android:hint="Select Your taxi Company"
+                android:overlapAnchor="false"
+                android:spinnerMode="dropdown"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                android:visibility="gone" />
+-->
+            <ImageView
+                android:id="@+id/dropdown_loc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight=".01"
+                android:src="@mipmap/ic_launcher_dropdown"
+                android:visibility="visible" />
+
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/linear_select_comp1"
-            android:layout_below="@+id/linear_select_comp"
-            android:layout_height="0dp"
-            android:layout_weight="0.15"
             android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/linear_select_comp"
+            android:layout_margin="8dp"
             android:orientation="horizontal">
 
         </LinearLayout>
 
         <LinearLayout
-            android:background="@drawable/button_design"
             android:id="@+id/linear_next"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:layout_below="@+id/linear_select_comp1"
-            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_weight="0.08"
-            android:layout_width="match_parent"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/login_btn_design"
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/next_register"
                 style="@style/TextAppearance.AppCompat.Medium"
-                android:gravity="center"
-                android:id="@+id/btRegister"
-                android:layout_height="match_parent"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
                 android:text="@string/next"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
-        </LinearLayout>
-        <LinearLayout
-
-            android:layout_below="@+id/linear_select_comp"
-            android:layout_height="0dp"
-            android:layout_weight="0.04"
-            android:layout_width="match_parent"
-            android:orientation="horizontal">
 
         </LinearLayout>
+
         <RelativeLayout
-            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/linear_next"
-            android:layout_height="0dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="0.08"
-            android:layout_width="match_parent">
+            android:gravity="center">
 
             <TextView
-                android:gravity="center"
                 android:id="@+id/lbl_acc"
-                android:layout_height="match_parent"
                 android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
                 android:text="Already have an account?"
                 android:textColor="@android:color/black" />
 
             <TextView
-                android:gravity="center"
+
                 android:id="@+id/alreadyAccount"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/lbl_acc"
-                android:layout_width="wrap_content"
-                android:text="Login"
-                android:textColor="#0083db" />
+                android:gravity="center"
+                android:text="@string/login"
+                android:textColor="@android:color/holo_blue_dark" />
+
         </RelativeLayout>
-    </LinearLayout>
+
+    </RelativeLayout>
 </RelativeLayout>

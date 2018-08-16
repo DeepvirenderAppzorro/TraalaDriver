@@ -68,6 +68,9 @@ public class Tripsmanager {
                             String dropcordinate = jsonObject1.getString("drop_cordinates");
                             String startdate = jsonObject1.getString("start_date");
                             String startTym = jsonObject1.getString("start_time");
+                            Log.d("time",startTym+" start tym in tripmanger");
+                                String dropLoc= jsonObject1.getString("drop_location");
+                               String pickupLoc= jsonObject1.getString("pickup_location");
                             String enddate = jsonObject1.getString("end_date");
                             String endTym = jsonObject1.getString("end_time");
                             String totalamount = jsonObject1.getString("total_amount");
@@ -83,7 +86,7 @@ public class Tripsmanager {
                             String droplat = dropsplit[dropsplit.length - 2];
                             String droplng = dropsplit[dropsplit.length - 1];
                             CompletedRideBean completedRideBean = new CompletedRideBean(requestid, picklat, picklng, droplat, droplng,
-                                    startdate, startTym, enddate, endTym, totalamount, customername, Config.baserurl_image + profile, mobile);
+                                    startdate, startTym, enddate, endTym, totalamount, customername, Config.baserurl_image + profile, mobile,dropLoc,pickupLoc);
                             trips.add(completedRideBean);
 
 

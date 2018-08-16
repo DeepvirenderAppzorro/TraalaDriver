@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 <ScrollView
     android:layout_width="match_parent"
@@ -39,7 +40,7 @@
             android:layout_marginRight="8dp"
             android:id="@+id/linear_1st"
             android:padding="5dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
             android:layout_height="wrap_content"
             android:background="@drawable/txtview_design"
             android:orientation="horizontal">
@@ -63,6 +64,7 @@
                 android:background="@null"
                 android:paddingLeft="10dp"
                 android:maxLines="1"
+                android:textColorHint="#808080"
                 android:paddingRight="5dp"
                 android:hint="@string/name"
                 android:textColor="@android:color/black"
@@ -99,6 +101,7 @@
                 android:layout_weight=".90"
                 android:background="@null"
                 android:maxLines="1"
+                android:textColorHint="#808080"
                 android:inputType="textEmailAddress"
                 android:paddingLeft="10dp"
                 android:paddingRight="5dp"
@@ -114,6 +117,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginLeft="8dp"
             android:padding="5dp"
+            android:weightSum="1"
             android:layout_marginRight="8dp"
             android:layout_height="wrap_content"
             android:background="@drawable/txtview_design"
@@ -128,14 +132,40 @@
                 android:padding="8dp"
                 android:src="@drawable/ic_icon_contact_number" />
 
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_weight=".35"
+                android:id="@+id/country_spinner"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"></Spinner>
+            <TextView
+                android:id="@+id/editPhone_country"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="1dp"
+                android:layout_weight=".15"
+                android:background="@null"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:textSize="15sp" />
+
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/grey" />
+
+
             <EditText
                 android:id="@+id/edtphone"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:layout_weight=".90"
+                android:layout_weight=".50"
                 android:maxLines="1"
                 android:singleLine="true"
+                android:textColorHint="#808080"
                 android:inputType="number"
                 android:background="@null"
                 android:paddingLeft="10dp"
@@ -173,6 +203,7 @@
                 android:layout_gravity="center"
                 android:layout_weight=".90"
                 android:background="@null"
+                android:textColorHint="#808080"
                 android:singleLine="true"
                 android:maxLines="1"
                 android:inputType="textPassword"
@@ -202,7 +233,7 @@
                 android:layout_gravity="center"
                 android:layout_weight=".10"
                 android:padding="8dp"
-                android:src="@drawable/ic_icon_cn_password" />
+                android:src="@drawable/ic_icon_password" />
 
             <EditText
                 android:id="@+id/edtconfirmpassword"
@@ -211,6 +242,7 @@
                 android:layout_gravity="center"
                 android:layout_weight=".90"
                 android:maxLines="1"
+                android:textColorHint="#808080"
                 android:background="@null"
                 android:singleLine="true"
                 android:paddingLeft="10dp"
@@ -250,6 +282,7 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:background="@null"
+                android:textColorHint="#808080"
                 android:paddingLeft="10dp"
                 android:inputType="text"
                 android:paddingRight="5dp"
@@ -260,31 +293,59 @@
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="50dp"
             android:id="@+id/linear_9th"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/txtview_design"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/img_driving_country"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_weight=".10"
+                android:padding="8dp"
+                android:src="@drawable/ic_icon_contery" />
+
+            <TextView
+                android:id="@+id/txt_select_country"
+                android:layout_width="0dp"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="start"
+                android:textColorHint="#808080"
+                android:visibility="visible"
+                android:layout_weight=".90"
+                android:text="Select Country"
+              />
+            <Spinner
+                android:dropDownWidth="wrap_content"
+                android:id="@+id/selectCounties"
+                android:visibility="gone"
+                android:layout_height="match_parent"
+                android:layout_weight=".90"
+                android:layout_width="0dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/linear_10th"
+            android:background="@drawable/txtview_design"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="15dp"
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/edtcity"
-                android:layout_width="0dp"
-                android:gravity="start"
-                android:inputType="text"
-                android:singleLine="true"
-                android:layout_marginRight="5dp"
-                android:layout_height="match_parent"
-                android:hint="City/State"
-                android:background="@drawable/txtview_design"
-                android:layout_weight=".50"
-                android:padding="8dp"/>
-
-            <EditText
                 android:id="@+id/edtzipcode"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="start"
+                android:visibility="gone"
                 android:inputType="number"
                 android:singleLine="true"
                 android:layout_marginLeft="5dp"
@@ -293,30 +354,138 @@
                 android:hint="Zip"
                 android:padding="8dp"
                 />
+            <ImageView
+                android:id="@+id/img_driving_state"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_weight=".10"
+                android:padding="8dp"
+                android:src="@drawable/ic_icon_state" />
+
+            <TextView
+                android:id="@+id/txt_select_state"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:gravity="start"
+                android:textColorHint="#808080"
+                android:visibility="visible"
+                android:layout_weight=".90"
+                android:text="Select State"
+               />
+            <Spinner
+                android:dropDownWidth="wrap_content"
+                android:id="@+id/selectStates"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:layout_height="match_parent"
+                android:layout_weight=".90"
+                android:layout_width="0dp" />
+
+
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/linear_11th"
+        android:layout_marginLeft="8dp"
+        android:visibility="gone"
+        android:background="@drawable/txtview_design"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/img_driving_city"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight=".10"
+            android:padding="8dp"
+            android:src="@drawable/ic_icon_city" />
+
+        <TextView
+            android:id="@+id/txt_select_city"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:visibility="gone"
+            android:gravity="start"
+            android:textColorHint="#808080"
+            android:layout_gravity="center"
+            android:layout_weight=".90"
+            android:text="Select City"
+             />
+
+        <Spinner
+            android:dropDownWidth="wrap_content"
+            android:id="@+id/selectCities"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_weight=".90"
+            android:layout_width="0dp" />
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="5dp"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:id="@+id/termsCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:button="@drawable/checkbox_selector"
+                android:padding="2dp"
+                android:text="@string/reg2_lbl_desc"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/txDis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="2dp"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                android:textColor="@color/blue"
+                android:text=" the terms of service"
+                />
 
         </LinearLayout>
 
-        <CheckBox
-            android:id="@+id/termsCheckbox"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="12sp"
-            android:button="@drawable/checkbox_selector"
-            android:text="@string/reg2_lbl_desc"
-            />
-
-        <CheckBox
-            android:id="@+id/privacyCheckbox"
-            android:layout_width="match_parent"
-            android:layout_marginLeft="10dp"
-            android:button="@drawable/checkbox_selector"
-            android:textSize="12sp"
-            android:layout_height="48dp"
+            android:orientation="horizontal"
             android:layout_marginTop="10dp"
-            android:text="@string/privacy"/>
+            android:layout_marginLeft="5dp"
+            android:layout_height="wrap_content">
 
+            <CheckBox
+                android:id="@+id/privacyCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:button="@drawable/checkbox_selector"
+                android:padding="2dp"
+                android:text="@string/privacy"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/txPloiciy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="2dp"
+                android:textStyle="italic"
+                android:textSize="12sp"
+                android:textColor="@color/blue"
+                android:text=" the Privacy Policy"
+              />
+
+        </LinearLayout>
 
     <LinearLayout
         android:layout_width="50dp"
@@ -356,7 +525,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_below="@+id/linear_next"
@@ -375,7 +544,6 @@
                 android:id="@+id/tvAlreadyacc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/background_line_blue"
                 android:layout_marginLeft="10dp"
                 android:layout_centerInParent="true"
                 android:layout_toRightOf="@+id/lbl_acc"
@@ -387,7 +555,7 @@
         </RelativeLayout>
         <View
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="7dp"
             />
 

@@ -5,40 +5,55 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextPaint;
+import android.telephony.TelephonyManager;
 import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
 import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.appzorro.driverappcabscout.R;
+import com.appzorro.driverappcabscout.controller.CountryMaster;
 import com.appzorro.driverappcabscout.controller.ModelManager;
+import com.appzorro.driverappcabscout.model.Beans.City;
+import com.appzorro.driverappcabscout.model.Beans.Country;
+import com.appzorro.driverappcabscout.model.Beans.CountryCode;
+import com.appzorro.driverappcabscout.model.Beans.GetCountryCode;
+import com.appzorro.driverappcabscout.model.Beans.State;
+import com.appzorro.driverappcabscout.model.CSPreferences;
 import com.appzorro.driverappcabscout.model.Config;
 import com.appzorro.driverappcabscout.model.Constant;
 import com.appzorro.driverappcabscout.model.Event;
 import com.appzorro.driverappcabscout.model.Operations;
 import com.appzorro.driverappcabscout.model.Utils;
 import com.facebook.CallbackManager;
+import com.facebook.accountkit.AccountKitLoginResult;
+import com.facebook.accountkit.PhoneNumber;
+import com.facebook.accountkit.ui.AccountKitActivity;
+import com.facebook.accountkit.ui.AccountKitConfiguration;
+import com.facebook.accountkit.ui.LoginType;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,6 +64,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -60,25 +78,63 @@ import dmax.dialog.SpotsDialog;
  */
 public class SignUp extends AppCompatActivity {
     Toolbar toolbar;
+    CountryMaster countryMaster;
     Context context;
-    String userChoosenTask;
-    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+    String userChoosenTask, Country, State, phoneNo;
     ImageView back, driverPic;
     Activity activity = this;
     EditText etDrivername, etDriEmail, etDrivNo, etDrivPasswrd, etReDrivPassword, etDrivLicence, etDrivCity, etDrivZip;
-    String drivername, driEmail, drivNo, drivPasswrd, redrivPasswrd, drivLicence, drivCity, drivZip, devicetoken, cabid;
+    String CountriesName, iso = "af", drivername, driEmail, drivNo, drivPasswrd, redrivPasswrd, drivLicence, drivCity, drivZip, devicetoken, cabid, location_id, json, jsonStates, State_name, Country_id, State_id, chkCountry_id;
     CheckBox termsCheckBox, policyCheckBox;
     String covertedImage;
     CallbackManager callbackManager;
+    LinearLayout layoutCity;
     Dialog dialog;
-    TextView lbl_submit;
+    TextView lbl_submit, txt_state, txt_city, txt_country, editCountry_Code;
+    ArrayList<City> tempCities;
+    Spinner state_Spinner, country_Spinner, city_Spinner, spinner_country;
+    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+    private ArrayAdapter<Country> countryArrayAdapter;
+    private ArrayAdapter<State> stateArrayAdapter;
+    private ArrayAdapter<City> cityArrayAdapter;
+
+    private ArrayList<Country> countries;
+    private ArrayList<State> states;
+    private ArrayList<City> cities;
+
+    Location mLastLocation;
+    LocationManager locationManager;
+    double latitude, longitude;
+    private ArrayList<CountryCode> data = new ArrayList<CountryCode>(233);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up_driver);
         initViews();
-        setSpanText();
+
+
+        TextView txDis = (TextView) findViewById(R.id.txDis); //txt is object of TextView
+        txDis.setMovementMethod(LinkMovementMethod.getInstance());
+        txDis.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+                browserIntent.setData(Uri.parse("http://www.google.com"));
+                startActivity(browserIntent);
+            }
+        });
+
+
+        TextView txPoliciy = (TextView) findViewById(R.id.txPloiciy); //txt is object of TextView
+        txPoliciy.setMovementMethod(LinkMovementMethod.getInstance());
+        txPoliciy.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+                browserIntent.setData(Uri.parse("http://www.google.com"));
+                startActivity(browserIntent);
+            }
+        });
         //Top toolbar
         driverPic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,46 +143,335 @@ public class SignUp extends AppCompatActivity {
             }
         });
 
-        //Added by deep
-
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startActivity(new Intent(activity, CabCompanyActivity.class));
                 finish();
             }
         });
 
+        String key = printKeyHash(this);
+        Log.d("key_hash", key);
+
+        countryArrayAdapter = new ArrayAdapter<Country>(SignUp.this, android.R.layout.simple_list_item_1, countries);
+        countryArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        country_Spinner.setAdapter(countryArrayAdapter);
+
+
+        stateArrayAdapter = new ArrayAdapter<State>(SignUp.this, android.R.layout.simple_list_item_1, states);
+        stateArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        state_Spinner.setAdapter(stateArrayAdapter);
+
+
+        cityArrayAdapter = new ArrayAdapter<City>(SignUp.this, android.R.layout.simple_list_item_1, cities);
+        cityArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        city_Spinner.setAdapter(cityArrayAdapter);
+
+        country_Spinner.setOnItemSelectedListener(country_listener);
+        state_Spinner.setOnItemSelectedListener(state_listener);
+        city_Spinner.setOnItemSelectedListener(city_listener);
+        txt_country.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                txt_country.setVisibility(View.GONE);
+
+                country_Spinner.performClick();
+                country_Spinner.setVisibility(View.VISIBLE);
+            }
+        });
+
+        getLocation();
+
     }
 
+
+    void getLocation() {
+        try {
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            //  locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 5, (LocationListener) this);
+            mLastLocation = locationManager
+                    .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            mLastLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            try {
+                latitude = mLastLocation.getLongitude();
+                longitude = mLastLocation.getLongitude();
+            } catch (Exception e) {
+                Utils.makeSnackBar(SignUp.this, etDriEmail, "Poor Internet Connection");
+            }
+
+
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static String printKeyHash(Activity context) {
+        PackageInfo packageInfo;
+        String key = null;
+        try {
+            //getting application package name, as defined in manifest
+            String packageName = context.getApplicationContext().getPackageName();
+
+            //Retriving package info
+            packageInfo = context.getPackageManager().getPackageInfo(packageName,
+                    PackageManager.GET_SIGNATURES);
+
+            Log.e("Package Name=", context.getApplicationContext().getPackageName());
+
+            for (Signature signature : packageInfo.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                key = new String(Base64.encode(md.digest(), 0));
+
+                // String key = new String(Base64.encodeBytes(md.digest()));
+                Log.e("Key Hash=", key);
+            }
+        } catch (PackageManager.NameNotFoundException e1) {
+            Log.e("Name not found", e1.toString());
+        } catch (NoSuchAlgorithmException e) {
+            Log.e("No such an algorithm", e.toString());
+        } catch (Exception e) {
+            Log.e("Exception", e.toString());
+        }
+
+        return key;
+    }
+
+    private AdapterView.OnItemSelectedListener country_listener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            if (position >= 0) {
+
+                final Country country = (Country) country_Spinner.getItemAtPosition(position);
+                Log.d("SpinnerCountry", "onItemSelected: country: " + country.getCountryID());
+                ArrayList<State> tempStates = new ArrayList<>();
+                //   txt_country.setVisibility(View.GONE);
+                for (State singleState : states) {
+                    if (singleState.country_id == country.getCountryID()) {
+                        tempStates.add(singleState);
+                    }
+                }
+
+                if (tempStates.size() != 0) {
+                    txt_state.setVisibility(View.VISIBLE);
+                    state_Spinner.setVisibility(View.GONE);
+                    stateArrayAdapter = new ArrayAdapter<State>(SignUp.this, android.R.layout.simple_list_item_1, tempStates);
+                    stateArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    state_Spinner.setAdapter(stateArrayAdapter);
+
+                    txt_state.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            txt_state.setVisibility(View.GONE);
+                            state_Spinner.performClick();
+                            state_Spinner.setVisibility(View.VISIBLE);
+
+                        }
+                    });
+
+
+                } else if (tempStates.size() == 0) {
+                    state_Spinner.setVisibility(View.VISIBLE);
+                    //   txt_state.setVisibility(View.VISIBLE);
+                    //  city_Spinner.setVisibility(View.VISIBLE);
+                    //  txt_city.setVisibility(View.VISIBLE);
+                }
+
+            } else {
+
+                //  state_Spinner.setVisibility(View.GONE);
+                //  txt_country.setVisibility(View.VISIBLE);
+                //  txt_state.setVisibility(View.VISIBLE);
+            }
+
+
+            cityArrayAdapter = new ArrayAdapter<City>(SignUp.this, android.R.layout.simple_list_item_1, new ArrayList<City>());
+            cityArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            city_Spinner.setAdapter(cityArrayAdapter);
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+            country_Spinner.setVisibility(View.GONE);
+            //  txt_country.setVisibility(View.VISIBLE);
+        }
+    };
+    private AdapterView.OnItemSelectedListener state_listener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            if (position >= 0) {
+                //   txt_state.setVisibility(View.GONE);
+                final State state = (State) state_Spinner.getItemAtPosition(position);
+                Log.d("SpinnerCountry", "onItemSelected: state: " + state.getStateID());
+                tempCities = new ArrayList<>();
+
+
+                //  State firstState = new State(0, country, "Choose a State");
+                //  tempCities.add(new City(0, country, firstState, "Choose a City"));
+                int id1 = state.getStateID();
+
+                //   Log.d("stateid", +cities.size() + " ");
+
+
+                for (City singleCity : cities) {
+                    //   Log.d("stateid", " nclknkjn");
+                    if (singleCity.stateId == state.getStateID()) {
+                        tempCities.add(singleCity);
+
+
+                    } else {
+
+                    }
+                }
+                if (tempCities.size() != 0) {
+                    layoutCity.setVisibility(View.VISIBLE);
+                    txt_city.setVisibility(View.VISIBLE);
+                    city_Spinner.setVisibility(View.GONE);
+                    cityArrayAdapter = new ArrayAdapter<City>(SignUp.this, android.R.layout.simple_list_item_1, tempCities);
+                    cityArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    city_Spinner.setAdapter(cityArrayAdapter);
+                /*    layoutCity.setVisibility(View.VISIBLE);
+                    //   txt_city.setVisibility(View.GONE);
+                    city_Spinner.setVisibility(View.VISIBLE);*/
+                    txt_city.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            txt_city.setVisibility(View.GONE);
+                            city_Spinner.setVisibility(View.VISIBLE);
+                            city_Spinner.performClick();
+                        }
+                    });
+
+
+                } else {
+                    layoutCity.setVisibility(View.GONE);
+                    city_Spinner.setVisibility(View.GONE);
+                    // txt_city.setVisibility(View.GONE);
+                }
+
+            } else {
+              /*  layoutCity.setVisibility(View.GONE);
+                city_Spinner.setVisibility(View.GONE);*/
+                //  txt_city.setVisibility(View.GONE);
+            }
+
+
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
+    private AdapterView.OnItemSelectedListener city_listener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
+
+
+    //**** spinner items
+    private void initializeUI() {
+        country_Spinner = (Spinner) findViewById(R.id.selectCounties);
+        state_Spinner = (Spinner) findViewById(R.id.selectStates);
+        city_Spinner = (Spinner) findViewById(R.id.selectCities);
+
+        countries = new ArrayList<>();
+        states = new ArrayList<>();
+        cities = new ArrayList<>();
+
+
+    }
+
+    public void onSMSLoginFlow() {
+        String CountryCode = GetCountryCode.getmInstance().GetCountryZipCode(context);
+        //String code = editCountry_Code.getText().toString();
+        String code = editCountry_Code.getText().toString();
+        String mobileNo = etDrivNo.getText().toString();
+        //String iso = spinner_country.getSelectedItem().toString();
+        TelephonyManager tm = (TelephonyManager) getSystemService(getApplicationContext().TELEPHONY_SERVICE);
+      /*  if(tm==null)
+        {
+
+        }
+        else
+        {
+            String countryCodeIso = tm.getNetworkCountryIso();
+        }*/
+        Log.d("ISO", iso + "");
+        PhoneNumber phoneNumber = new PhoneNumber(code, mobileNo, iso);
+
+        final Intent intent = new Intent(this, AccountKitActivity.class);
+        AccountKitConfiguration.AccountKitConfigurationBuilder configurationBuilder =
+                new AccountKitConfiguration.AccountKitConfigurationBuilder(
+                        LoginType.PHONE,
+                        AccountKitActivity.ResponseType.CODE).setInitialPhoneNumber(phoneNumber); // or .ResponseType.TOKEN
+        // ... perform additional configuration ...
+        intent.putExtra(
+                AccountKitActivity.ACCOUNT_KIT_ACTIVITY_CONFIGURATION,
+                configurationBuilder.build());
+        startActivityForResult(intent, 101);
+    }
+
+    public void onEmailLoginFlow(View view) {
+        final Intent intent = new Intent(this, AccountKitActivity.class);
+        AccountKitConfiguration.AccountKitConfigurationBuilder configurationBuilder =
+                new AccountKitConfiguration.AccountKitConfigurationBuilder(
+                        LoginType.EMAIL,
+                        AccountKitActivity.ResponseType.CODE); // or .ResponseType.TOKEN
+        // ... perform additional configuration ...
+        intent.putExtra(
+                AccountKitActivity.ACCOUNT_KIT_ACTIVITY_CONFIGURATION,
+                configurationBuilder.build());
+        startActivityForResult(intent, 101);
+    }
+
+
     public void initViews() {
-     /*   toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("CREATE ACCOUNT");
-        setSupportActionBar(toolbar);*/
+
         ButterKnife.bind(this);
         context = this;
-
+        txt_state = (TextView) findViewById(R.id.txt_select_state);
+        layoutCity = (LinearLayout) findViewById(R.id.linear_11th);
+        txt_city = (TextView) findViewById(R.id.txt_select_city);
+        txt_country = (TextView) findViewById(R.id.txt_select_country);
         callbackManager = CallbackManager.Factory.create();
-        convertImageToBase64();
-
-     /*   if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }*/
+        editCountry_Code = (TextView) findViewById(R.id.editPhone_country);
+        // convertImageToBase64();
         devicetoken = FirebaseInstanceId.getInstance().getToken();
         cabid = getIntent().getStringExtra("cab_id");
-
+        CSPreferences.putString(context, "CompanyId", cabid);
+        location_id = getIntent().getStringExtra("location_id");
         etDrivername = (EditText) findViewById(R.id.edtname);
         etDriEmail = (EditText) findViewById(R.id.edtemail);
         etDrivNo = (EditText) findViewById(R.id.edtphone);
         etDrivPasswrd = (EditText) findViewById(R.id.edtpassword);
         etReDrivPassword = (EditText) findViewById(R.id.edtconfirmpassword);
         etDrivLicence = (EditText) findViewById(R.id.edtdriverlicence);
-        etDrivCity = (EditText) findViewById(R.id.edtcity);
         etDrivZip = (EditText) findViewById(R.id.edtzipcode);
         back = (ImageView) findViewById(R.id.back);
         termsCheckBox = (CheckBox) findViewById(R.id.termsCheckbox);
         policyCheckBox = (CheckBox) findViewById(R.id.privacyCheckbox);
         lbl_submit = (TextView) findViewById(R.id.txSubmit);
         driverPic = (ImageView) findViewById(R.id.driverimage);
+        spinner_country = (Spinner) findViewById(R.id.country_spinner);
+        initializeUI();
+        countries = SplashActivity.countries;
+        states = SplashActivity.states;
+        cities = SplashActivity.cities;
+        countryMaster = new CountryMaster(context);
+
     }
 
     @OnClick(R.id.tvAlreadyacc)
@@ -134,7 +479,6 @@ public class SignUp extends AppCompatActivity {
         Intent logIntent = new Intent(SignUp.this, LoginActivity.class);
         startActivity(logIntent);
     }
-
 
     @OnClick(R.id.txSubmit)
     public void signup() {
@@ -144,9 +488,27 @@ public class SignUp extends AppCompatActivity {
         driEmail = etDriEmail.getText().toString().trim();
         drivNo = etDrivNo.getText().toString().trim();
         drivPasswrd = etDrivPasswrd.getText().toString().trim();
+        Log.d("Red", drivPasswrd + " password");
         redrivPasswrd = etReDrivPassword.getText().toString().trim();
+        Log.d("Red", redrivPasswrd + "re");
         drivLicence = etDrivLicence.getText().toString().trim();
-        drivCity = etDrivCity.getText().toString().trim();
+
+        if (country_Spinner.getSelectedItem() != null) {
+            Country = country_Spinner.getSelectedItem().toString().trim();
+
+        }
+        if (state_Spinner.getSelectedItem() != null) {
+            State = state_Spinner.getSelectedItem().toString().trim();
+
+        }
+        if (city_Spinner.getSelectedItem() != null) {
+            drivCity = city_Spinner.getSelectedItem().toString().trim();
+
+        }
+        if (drivPasswrd.length() < 6) {
+            etDrivPasswrd.setError("Fill minimum 6 digits");
+        }
+
         drivZip = etDrivZip.getText().toString().trim();
 
         if (etDrivername.getText().toString().isEmpty()) {
@@ -167,25 +529,74 @@ public class SignUp extends AppCompatActivity {
 
             // Toast.makeText(this, "You must be agree to all terms and conditions", Toast.LENGTH_SHORT).show();
         } else if (drivNo.isEmpty()) {
-
             etDrivNo.setError("Required");
         } else {
             //progressView.setVisibility(View.VISIBLE);
             Utils.hideSoftKeyboard(activity);
-            dialog = new SpotsDialog(context);
-            dialog.show();
+
 
             Log.e("sending detail", cabid + "\n" + driEmail + "\n" + drivPasswrd + "\n" + drivCity + "\n" + drivZip);
          /*  ModelManager.getInstance().getRegistrationManager().registerUser(activity,
                    Operations.registrationTask(getApplicationContext(), driEmail, cabid, drivername, redrivPasswrd, "dhxddhfd", drivNo, drivLicence, drivCity,drivZip,covertedImage));*/
-            ModelManager.getInstance().getRegistrationManager().registerUser(context, Config.simplesignupurl, Operations.simpleuserRegister(context,
-                    cabid, driEmail, drivPasswrd, drivername, "A", devicetoken, etDrivNo.getText().toString(), covertedImage, drivCity, drivZip, drivLicence));
 
+
+        }
+        phoneNo = etDrivNo.getText().toString();
+        Log.d("phone_no", phoneNo);
+
+        if (!etDrivername.getText().toString().isEmpty() && !driEmail.isEmpty() && !etDrivNo.getText().toString().isEmpty() && !etDrivLicence.getText().toString().isEmpty() && !etDrivPasswrd.getText().toString().isEmpty() && !etReDrivPassword.getText().toString().isEmpty() &&
+                Country != null && State != null) {
+            if (covertedImage != null) {
+                if (drivNo.length() == 10) {
+                    if (drivPasswrd.length() >= 6) {
+                        if (drivPasswrd.equalsIgnoreCase(redrivPasswrd)) {
+                            CSPreferences.putString(context, Constant.Password, drivPasswrd);
+
+                            dialog = new SpotsDialog(context);
+                            dialog.show();
+                            onSMSLoginFlow();
+                        } else {
+                            Utils.makeSnackBar(context, city_Spinner, "Password did't matched");
+
+                        }
+                    } else {
+                        Utils.makeSnackBar(context, city_Spinner, "Fill password minimum 6 digits");
+
+                    }
+
+
+                } else {
+                    Utils.makeSnackBar(context, city_Spinner, "Please Fill correct Number");
+
+                }
+            } else {
+                Utils.makeSnackBar(context, city_Spinner, "Please Upload Image");
+
+            }
+        } else {
+            Utils.makeSnackBar(context, city_Spinner, "Please Fill All Fields");
         }
 
 
     }
 
+    private void setSpinnerAdapter() {
+
+        spinner_country.setAdapter(new ArrayAdapter<String>(activity, R.layout.sppiner_item, R.id.txt1, countryMaster.mCountries_ISO));
+
+        spinner_country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                editCountry_Code.setText("+" + countryMaster.mCountries_CODE.get(i));
+                iso = countryMaster.mIso.get(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
 
     private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -199,7 +610,7 @@ public class SignUp extends AppCompatActivity {
         bit.compress(Bitmap.CompressFormat.JPEG, 100, bao);
         byte[] ba = bao.toByteArray();
         covertedImage = Base64.encodeToString(ba, 0);
-        Log.e("converted Image", "" + covertedImage);
+        Log.e("convertedImage", "" + covertedImage);
     }
 
     private void galleryIntent() {
@@ -208,7 +619,6 @@ public class SignUp extends AppCompatActivity {
         intent.setAction(Intent.ACTION_GET_CONTENT);//
         startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
     }
-// select image from the Gallery >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.
 
     private void selectImage() {
 
@@ -250,13 +660,23 @@ public class SignUp extends AppCompatActivity {
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 bm.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
                 byte[] byteArray = bytes.toByteArray();
-                covertedImage = Base64.encodeToString(byteArray, 0);
+                //  covertedImage = Base64.encodeToString(byteArray, 0);
+                Bitmap bm400 = Utils.getScaledBitmap(bm, 500, 500);
+                covertedImage = BitMapToString(bm400);
                 driverPic.setImageBitmap(bm);
                 Log.e("From gallery", covertedImage);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public String BitMapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
     }
 
     private void onCaptureImageResult(Intent data) {
@@ -280,57 +700,11 @@ public class SignUp extends AppCompatActivity {
         }
         driverPic.setImageBitmap(thumbnail);
         byte[] byteArray = bytes.toByteArray();
-        covertedImage = Base64.encodeToString(byteArray, 0);
+        //  covertedImage = Base64.encodeToString(byteArray, 0);
+        Bitmap bm400 = Utils.getScaledBitmap(thumbnail, 500, 500);
+        covertedImage = BitMapToString(bm400);
         Log.e("camera images", covertedImage);
 
-
-    }
-
-    private void setSpanText() {
-        String terms_str = "<font color=#000>&nbsp I have read,understand and agree to the</font> <font color=#009de0> terms of service</font>";
-        String privacy_str = "<font color=#000>&nbsp I have read,understand and agree to the</font> <font color=#009de0> Privacy Policy</font>";
-        termsCheckBox.setText(Html.fromHtml(terms_str));
-        policyCheckBox.setText(Html.fromHtml(privacy_str));
-
-        SpannableString ss = new SpannableString("I have read,understand and agree to the terms of service");
-        ClickableSpan clickableSpan = new ClickableSpan() {
-            @Override
-            public void onClick(View textView) {
-                Intent videoclk= new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://www.youtube.com/watch?v=jvO6CqtiRmo"));
-                startActivity(videoclk);
-            }
-            @Override
-            public void updateDrawState(TextPaint ds) {
-                super.updateDrawState(ds);
-                int color = ContextCompat.getColor(activity, R.color.blue);
-                ds.setColor(color);
-                ds.setUnderlineText(false);
-            }
-        };
-        ss.setSpan(clickableSpan, 40, 56, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        termsCheckBox.setText(ss);
-        termsCheckBox.setMovementMethod(LinkMovementMethod.getInstance());
-
-        SpannableString ss1 = new SpannableString("I have read,understand and agree to the Privacy Policy");
-        ClickableSpan clickableSpan1 = new ClickableSpan() {
-            @Override
-            public void onClick(View textView) {
-                Intent videoclk= new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://www.youtube.com/watch?v=jvO6CqtiRmo"));
-                startActivity(videoclk);
-            }
-            @Override
-            public void updateDrawState(TextPaint ds) {
-                super.updateDrawState(ds);
-                int color = ContextCompat.getColor(activity, R.color.blue);
-                ds.setColor(color);
-                ds.setUnderlineText(false);
-            }
-        };
-        ss1.setSpan(clickableSpan1, 40, 54, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        policyCheckBox.setText(ss1);
-        policyCheckBox.setMovementMethod(LinkMovementMethod.getInstance());
 
     }
 
@@ -340,21 +714,17 @@ public class SignUp extends AppCompatActivity {
             case Constant.SIGNUPRESPONSE:
                 dialog.dismiss();
 
-                new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText("Success")
-                        .setContentText(event.getValue())
-                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                ModelManager.getInstance().getUserDetailManager().UserDetailManager(context, Operations.getUserDetail(context,
+                        CSPreferences.readString(context, "customer_id")));
 
-                                Intent i = new Intent(context, LoginActivity.class);
-                                startActivity(i);
-                                finish();
+                break;
 
-                            }
-                        })
-                        .show();
-
+            case Constant.USERDETAILSTAUS:
+                dialog.dismiss();
+                CSPreferences.putString(SignUp.this, "login_status", "true");
+                Intent i = new Intent(context, HomeScreenActivity.class);
+                startActivity(i);
+                finish();
 
                 break;
             case Constant.ERROR:
@@ -392,7 +762,16 @@ public class SignUp extends AppCompatActivity {
                             }
                         })
                         .show();
+                break;
+            case Constant.GetCountryISO:
+                data = event.getCountry();
+
+                setSpinnerAdapter();
+                // setCountryName(GetCountryCode.getmInstance().CountryID);
+                break;
         }
+
+
     }
 
     @Override
@@ -421,8 +800,35 @@ public class SignUp extends AppCompatActivity {
                 onCaptureImageResult(data);
         }
         callbackManager.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 101) { // confirm that this response matches your request
+            AccountKitLoginResult loginResult = data.getParcelableExtra(AccountKitLoginResult.RESULT_KEY);
+            String toastMessage;
+            if (loginResult.getError() != null) {
+                toastMessage = loginResult.getError().getErrorType().getMessage();
+                //  showErrorActivity(loginResult.getError());
+            } else if (loginResult.wasCancelled()) {
+                toastMessage = "Login Cancelled";
+            } else {
+                if (loginResult.getAccessToken() != null) {
+                    toastMessage = "Success:" + loginResult.getAccessToken().getAccountId();
+                } else {
+                    toastMessage = String.format(
+                            "Success:%s...",
+                            loginResult.getAuthorizationCode().substring(0, 10));
+                }
+                Log.d("img", covertedImage + " sigunup");
+                ModelManager.getInstance().getRegistrationManager().
+                        registerUser(context, Config.simplesignupurl,
+                                Operations.simpleuserRegister(context, CSPreferences.readString(context, "LocationId"),
+                                        cabid, driEmail, drivername, "A", devicetoken, etDrivNo.getText().toString(), covertedImage, drivCity, drivZip, drivLicence, Country, State, latitude + "", longitude + "", drivPasswrd));
 
+            }
+
+            // Surface the result to your user in an appropriate way.
+            //  Toast.makeText(this, toastMessage, Toast.LENGTH_LONG).show();
+        }
     }
+
 
     @Override
     protected void onStart() {
@@ -446,5 +852,12 @@ public class SignUp extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(activity, CabCompanyActivity.class));
+        finish();
     }
 }

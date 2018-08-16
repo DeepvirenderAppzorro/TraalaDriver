@@ -19,9 +19,9 @@ import org.json.JSONObject;
 public class OnlineOfflineManager {
     private static final String TAG = OnlineOfflineManager.class.getSimpleName();
 
-    public void OnlineOfflineManager(Context context, String params) {
+    public void OnlineOfflineManager(Context context, String url,String params) {
 
-       new ExecuteApi(context).execute(params);
+       new ExecuteApi(context).execute(url,params);
     }
 
     private class ExecuteApi extends AsyncTask<String, String, String> {
@@ -34,7 +34,7 @@ public class OnlineOfflineManager {
         @Override
         protected String doInBackground(String... strings) {
             HttpHandler httpHandler = new HttpHandler();
-            String response = httpHandler.makeServiceCall(strings[0]);
+            String response = httpHandler.getResponse(strings[0],strings[1]);
 
             Log.e(TAG, "onlineofflineresponse--" +response);
 
@@ -48,11 +48,22 @@ public class OnlineOfflineManager {
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     JSONObject response = jsonObject.getJSONObject("response");
-                    int id = Integer.parseInt(response.getString("id"));
-                    String message = response.getString("message");
-                    EventBus.getDefault().post(new Event(Constant.DRIVERSTATUS, message));
+                    if(!response.getString("id").equalsIgnoreCase("null"))
+                    {
+                        int id = Integer.parseInt(response.getString("id"));
+                        String message = response.getString("message");
+                        EventBus.getDefault().post(new Event(Constant.DRIVERSTATUS, message));
+
+                    }
+                    else
+                    {
+                        EventBus.getDefault().post(new Event(Constant.SERVER_ERROR,""));
+
+                    }
 
                 } catch (JSONException e) {
+                    EventBus.getDefault().post(new Event(Constant.SERVER_ERROR,""));
+
                     e.printStackTrace();
                 }
             }

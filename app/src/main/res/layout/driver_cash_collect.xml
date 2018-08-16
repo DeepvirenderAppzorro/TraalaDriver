@@ -133,7 +133,7 @@
             android:id="@+id/tvtime2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Distance"
+            android:text="Time"
             android:textColor="@color/colorBlack" />
 
         <TextView
@@ -167,7 +167,7 @@
             android:id="@+id/tvtime3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Time"
+            android:text="Distance"
             android:textColor="@color/colorBlack" />
 
         <TextView

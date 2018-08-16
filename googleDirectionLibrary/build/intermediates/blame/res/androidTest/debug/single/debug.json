@@ -1,0 +1,110 @@
+[
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/raw_amu_multigeometry_placemarks.kml.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/raw/amu_multigeometry_placemarks.kml"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4_amu_bubble_shadow.9.png.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/drawable-xhdpi-v4/amu_bubble_shadow.9.png"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/raw_amu_poly_style_boolean_numeric.kml.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/raw/amu_poly_style_boolean_numeric.kml"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/raw_amu_poly_style_boolean_alpha.kml.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/raw/amu_poly_style_boolean_alpha.kml"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/raw_amu_basic_folder.kml.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/raw/amu_basic_folder.kml"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/drawable-xxhdpi-v4_amu_bubble_mask.9.png.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/drawable-xxhdpi-v4/amu_bubble_mask.9.png"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/raw_amu_cdata.kml.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/raw/amu_cdata.kml"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/raw_amu_multiple_placemarks.kml.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/raw/amu_multiple_placemarks.kml"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/raw_amu_nested_multigeometry.kml.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/raw/amu_nested_multigeometry.kml"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/drawable-xxhdpi-v4_amu_bubble_shadow.9.png.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/drawable-xxhdpi-v4/amu_bubble_shadow.9.png"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/raw_amu_unsupported.kml.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/raw/amu_unsupported.kml"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/raw_amu_document_nest.kml.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/raw/amu_document_nest.kml"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/raw_amu_visibility_ground_overlay.kml.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/raw/amu_visibility_ground_overlay.kml"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/raw_amu_unknwown_folder.kml.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/raw/amu_unknwown_folder.kml"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/raw_amu_basic_placemark.kml.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/raw/amu_basic_placemark.kml"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/raw_amu_ground_overlay_color.kml.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/raw/amu_ground_overlay_color.kml"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/raw_amu_nested_folders.kml.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/raw/amu_nested_folders.kml"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4_amu_bubble_mask.9.png.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/drawable-xhdpi-v4/amu_bubble_mask.9.png"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/raw_amu_inline_style.kml.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/raw/amu_inline_style.kml"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/raw_amu_extended_data.kml.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/raw/amu_extended_data.kml"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/layout_amu_info_window.xml.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/layout/amu_info_window.xml"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/raw_amu_ballon_gx_prefix.kml.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/raw/amu_ballon_gx_prefix.kml"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/raw_amu_default_balloon.kml.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/raw/amu_default_balloon.kml"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/raw_amu_ground_overlay.kml.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/raw/amu_ground_overlay.kml"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/layout_amu_webview.xml.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/layout/amu_webview.xml"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/layout_amu_text_bubble.xml.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/layout/amu_text_bubble.xml"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/raw_amu_draw_order_ground_overlay.kml.flat",
+        "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/raw/amu_draw_order_ground_overlay.kml"
+    }
+]

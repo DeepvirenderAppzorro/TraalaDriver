@@ -1,5 +1,6 @@
 package com.appzorro.driverappcabscout.model;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -16,6 +17,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.appzorro.driverappcabscout.AppController;
 import com.appzorro.driverappcabscout.R;
 import com.appzorro.driverappcabscout.controller.ModelManager;
 import com.appzorro.driverappcabscout.view.HomeScreenActivity;
@@ -29,6 +31,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -53,6 +57,8 @@ public class SignalRService extends Service {
     private final IBinder mBinder = new LocalBinder(); // Binder given to clients
     private static boolean isDisconnnected = true;
     Intent intent;
+    public static String[] arry_split;
+    public static ArrayList<String> arraylist_split = new ArrayList<>();
 
     public SignalRService() {
     }
@@ -67,6 +73,7 @@ public class SignalRService extends Service {
         super.onCreate();
         mHandler = new Handler(Looper.getMainLooper());
         context = this;
+        AppController.activityVisible = true;
         Log.d("Services", "Started");
     }
 
@@ -95,7 +102,7 @@ public class SignalRService extends Service {
             public void run() {
                 if (mConnection != null) {
                     getMessages();
-                } else {
+                } else if (NetworkChangeReceiver.isConnected) {
                     SignalRFuture<Void> connect = connect(Constant.SOCKET_URL);
                     configConnectFuture(connect);
                     getMessages();
@@ -111,10 +118,10 @@ public class SignalRService extends Service {
             public void onError(final Throwable error) {
 
                 Log.d("messgaes", error.getMessage());
-                if (error.getMessage().equals("The operation is not allowed in the 'Disconnected' state")){
-                    if (isDisconnnected){
+                if (error.getMessage().equals("The operation is not allowed in the 'Disconnected' state")) {
+                    if (isDisconnnected) {
                         Log.d("messgaesInside", error.getMessage());
-                        isDisconnnected =false;
+                        isDisconnnected = false;
                         SignalRFuture<Void> connect = connect(Constant.SOCKET_URL);
                         SignalRService signalRService = new SignalRService();
                         signalRService.configConnectFuture(connect);
@@ -154,8 +161,8 @@ public class SignalRService extends Service {
             sendBroadcast(broadcastIntent);
             stoptimertask();
 
-
         }
+
 
     }
 
@@ -207,7 +214,7 @@ public class SignalRService extends Service {
 
 
                     Log.d("SignalR195", level.toString() + ":: " + message);
-                  //  if (message.equals("The operation is not allowed in the 'Disconnected' state")) {
+                    //  if (message.equals("The operation is not allowed in the 'Disconnected' state")) {
 //                        Intent intent = new Intent(BROADCAST_ACTION);
 //                        intent.putExtra("message", "restartService");
 //                        context.sendBroadcast(intent);
@@ -245,13 +252,14 @@ public class SignalRService extends Service {
             @Override
             public void run() {
                 System.out.println("DISCONNECTED");
-                if (isDisconnnected){
-                    isDisconnnected =false;
-                    SignalRFuture<Void> connect = connect(Constant.SOCKET_URL);
-                    SignalRService signalRService = new SignalRService();
-                    signalRService.configConnectFuture(connect);
-                    signalRService.getMessages();
-                }
+                mConnection = null;
+//                if (isDisconnnected) {
+//                    isDisconnnected = false;
+//                    SignalRFuture<Void> connect = connect(Constant.SOCKET_URL);
+//                    SignalRService signalRService = new SignalRService();
+//                    signalRService.configConnectFuture(connect);
+//                    signalRService.getMessages();
+//                }
 
 //                Toast.makeText(context,"DISCONNECTED",Toast.LENGTH_SHORT).show();
 
@@ -263,14 +271,12 @@ public class SignalRService extends Service {
                 .done(new Action<Void>() {
                     @Override
                     public void run(Void obj) throws Exception {
-                        isDisconnnected=true;
+                        isDisconnnected = true;
                         System.out.println("Done Connecting!");
-                      //  Toast.makeText(context,"Done Connecting!",Toast.LENGTH_SHORT).show();
+                        //  Toast.makeText(context,"Done Connecting!",Toast.LENGTH_SHORT).show();
 
                     }
                 });
-
-
 
 
         mConnection.received(new MessageReceivedHandler() {
@@ -381,20 +387,66 @@ public class SignalRService extends Service {
         String message = "";
         String ride_request_id = "";
         String driver_status = "";
+        String driver_ID_Array = "";
+        boolean isDriverID = false;
+        boolean showDialog = false;
+        arraylist_split = new ArrayList<String>();
+
 
         try {
-            message = jsonObject.getString("message");
+            if (jsonObject.has("message"))
+                message = jsonObject.getString("message");
             key = jsonObject.getString("noti_type");
             driver_status = CSPreferences.readString(context, Constant.DRIVER_STATUS);
             Log.d("driverStatus", driver_status + " ");
 
-            if (key.equals("customer_request")&&jsonObject.has("ride_request_id")) {
-                ride_request_id = jsonObject.getString("ride_request_id");
-                CSPreferences.putString(SignalRService.this, Constant.REQUEST_ID, ride_request_id);
+
+            if (key.equals("cancel_booking")) {
+                if (NotificatonDialog.isActive) {
+                    NotificatonDialog.isActive = false;
+                    EventBus.getDefault().post(new Event(Constant.CANCEL_RIDEFCM, ""));
+                    // NotificatonDialog.finishActivity();
+                    //startActivity(new Intent(getApplicationContext(), HomeScreenActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                }
             }
 
 
-            if (!driver_status.equals("2") && key.equals("customer_request")) {
+            if (jsonObject.has("driver_ID")) {
+                driver_ID_Array = jsonObject.getString("driver_ID");
+                if (driver_ID_Array.contains(",")) {
+                    arry_split = driver_ID_Array.split(",");
+                    arraylist_split = new ArrayList(Arrays.asList(arry_split));
+                } else {
+                    arraylist_split.add(driver_ID_Array);
+                }
+                Log.d("driverId", CSPreferences.readString(SignalRService.this, "customer_id") + "   " + (arraylist_split.get(0)));
+                if (CSPreferences.readString(SignalRService.this, "customer_id").equals(arraylist_split.get(0))) {
+                    isDriverID = true;
+
+                }
+            }
+
+
+            if (key.equals("customer_request") && jsonObject.has("ride_request_id") && isDriverID && !NotificatonDialog.isActive) {
+                ride_request_id = jsonObject.getString("ride_request_id");
+                CSPreferences.putString(SignalRService.this, Constant.REQUEST_ID, ride_request_id);
+                String token = jsonObject.getString("token");
+                CSPreferences.putString(SignalRService.this, Constant.TOKEN, token);
+                showDialog = true;
+
+            } else if (key.equals("customer_request") && jsonObject.has("ride_request_id") && isDriverID && NotificatonDialog.isActive) {
+                String token = jsonObject.getString("token");
+
+
+                if (arraylist_split.size() > 0) {
+                    int size = arraylist_split.size();
+                    arraylist_split.remove(0);
+                    sendToNextDriver();
+                }
+            }
+
+
+            if (!driver_status.equals("2") && key.equals("customer_request") && showDialog) {
                 sendNotification(message);
                 //Calling method to generate notification
                 intent = new Intent(this, NotificatonDialog.class);
@@ -415,9 +467,28 @@ public class SignalRService extends Service {
             }
 
         } catch (Exception e) {
-            Log.d("Exceptions",e.getMessage()+"");
+            Log.d("Exceptions", e.getMessage() + "");
 
         }
+    }
+
+    public void sendToNextDriver() {
+        if (SignalRService.arraylist_split.size() > 0) {
+            if (arraylist_split.size() == 2) {
+                String driver_Array = arraylist_split.get(0) + "," + SignalRService.arraylist_split.get(1);
+                JSONObject jsonObject = JsonRequestIR.jsonRequestForSingleDriver(getApplicationContext(), driver_Array);
+                Utils.sendMessage((Activity) context, jsonObject);
+            }
+            if (arraylist_split.size() == 1) {
+                String driver_Array = arraylist_split.get(0);
+                JSONObject jsonObject = JsonRequestIR.jsonRequestForSingleDriver(getApplicationContext(), driver_Array);
+                Utils.sendMessage((Activity) context, jsonObject);
+            }
+        } else if (arraylist_split.size() == 0) {
+            JSONObject jsonObject = JsonRequestIR.cancelCustomerDialog(getApplicationContext());
+            Utils.sendMessage(context, jsonObject);
+        }
+
     }
 
     private void sendNotification(String messageBody) {
@@ -445,5 +516,4 @@ public class SignalRService extends Service {
 //
 
     }
-
 }

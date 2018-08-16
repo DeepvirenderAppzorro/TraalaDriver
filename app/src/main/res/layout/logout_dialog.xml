@@ -1,0 +1,85 @@
+<LinearLayout android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:background="@color/black"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/Base.TextAppearance.AppCompat.Medium"
+            android:id="@+id/txttitle"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:padding="5dp"
+            android:text="LOGOUT"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.CardView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:cardCornerRadius="2dp">
+
+        <RelativeLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:padding="10dp">
+
+            <TextView
+                style="@style/Base.TextAppearance.AppCompat.Medium"
+                android:background="@color/gray_btn_bg_color"
+                android:gravity="center"
+                android:id="@+id/txtmessage"
+                android:layout_centerHorizontal="true"
+                android:layout_height="40dp"
+                android:layout_width="match_parent"
+                android:text="Do you want to logout?"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_below="@+id/txtmessage"
+                android:layout_centerVertical="true"
+                android:layout_height="45dp"
+                android:layout_marginTop="25dp"
+                android:layout_width="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:background="#0083db"
+                    android:gravity="center"
+                    android:id="@+id/txtok"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight=".5"
+                    android:layout_width="0dp"
+                    android:padding="8dp"
+                    android:text="OK"
+                    android:textAlignment="center"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:background="#0083db"
+                    android:gravity="center"
+                    android:id="@+id/txtcancel"
+                    android:layout_height="40dp"
+                    android:layout_weight=".5"
+                    android:layout_width="0dp"
+                    android:padding="8dp"
+                    android:text="CANCEL"
+                    android:textAlignment="center"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

@@ -5,9 +5,11 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -45,7 +47,6 @@ import com.appzorro.driverappcabscout.controller.CustomerReQuestManager;
 import com.appzorro.driverappcabscout.controller.ModelManager;
 import com.appzorro.driverappcabscout.model.Beans.CustomerRequest;
 import com.appzorro.driverappcabscout.model.CSPreferences;
-import com.appzorro.driverappcabscout.model.ConfigVariable;
 import com.appzorro.driverappcabscout.model.Constant;
 import com.appzorro.driverappcabscout.model.Event;
 import com.appzorro.driverappcabscout.model.JsonRequestIR;
@@ -56,7 +57,6 @@ import com.directions.route.Route;
 import com.directions.route.RouteException;
 import com.directions.route.Routing;
 import com.directions.route.RoutingListener;
-import com.google.android.exoplayer.C;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -84,12 +84,12 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import dmax.dialog.SpotsDialog;
@@ -97,8 +97,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.graphics.Paint.Join.ROUND;
-import static com.appzorro.driverappcabscout.R.id.l;
 import static com.appzorro.driverappcabscout.R.id.makecall;
 import static com.appzorro.driverappcabscout.controller.NearestRoadManager.polyLineList;
 
@@ -133,7 +131,7 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
     String startTrips_status = "false", stopTrips_status = "false";
     private boolean isFirstTime = true;
     Dialog messagedialog;
-
+    boolean distanceChk = false;
     ImageView callimage, cancelimage, customerimage, navigate_image;
     TextView makecalltext, customername, stoptrips, customer_name, payment_method, complete_trip, complete_ride, addtoll, addstopfee, addresstext, txt_begin_trip;
     TextView text_paymentstaus;
@@ -146,8 +144,9 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
     private boolean isFirstMarker = true;
     private Marker carMarker;
     private Marker stopMarker;
-    // state=1 for arrived // state =2 when start and state=3 fom completing
+    // state=1 for arrived // state =2 when start and state=3 for completing
     int state = 0;
+    BroadcastReceiver mReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,42 +154,12 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
         setContentView(R.layout.driver_trip_new);
         context = this;
         initViews();
-     /*   makecalltext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        clickelisteners();
 
-                if (makecalltext.getText().toString().equals("Arrived")) {
-                    makecalltext.setText("Start");
-                    dialog = new SpotsDialog(context);
-                    dialog.show();
-                    ModelManager.getInstance().getArrivedManager().ArrivedManager(context, Operations.arrivedDriver(context,
-                            CSPreferences.readString(context, "customer_id"), customerRequest.getRequestid()));
-
-                } else {
+    }
 
 
-                    dialog = new SpotsDialog(context);
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss a");
-                    Calendar calander = Calendar.getInstance();
-                    String currentDate = DateFormat.getDateInstance().format(Calendar.getInstance().getTime()).replaceAll(" ", "");
-                    Log.e("date and time ", currentDate);
-                    String time = simpleDateFormat.format(calander.getTime()).replaceAll(" ", "");
-
-                    Log.e("start time", String.valueOf(time));
-
-                    Log.e("driver id ", CSPreferences.readString(context, "customer_id"));
-                    dialog.show();
-
-                    ModelManager.getInstance().getStartTripsManager().StartTripsManager(context, Operations.startTrips(
-                            context, CSPreferences.readString(context, "customer_id"), customerRequest.getRequestid(),
-                            time, currentDate, String.valueOf(lat) + "," + String.valueOf(lng)
-                    ));
-
-                }
-
-            }
-        });
-*/
+    private void clickelisteners() {
         txt_begin_trip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -217,15 +186,15 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
 
 
                     dialog = new SpotsDialog(context);
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss a");
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm a");
                     Calendar calander = Calendar.getInstance();
                     String currentDate = DateFormat.getDateInstance().format(Calendar.getInstance().getTime()).replaceAll(" ", "");
                     Log.e("date and time ", currentDate);
                     String time = simpleDateFormat.format(calander.getTime()).replaceAll(" ", "");
 
-                    Log.e("start time", String.valueOf(time));
+                    Log.e("starttime", String.valueOf(time));
 
-                    Log.e("driver id ", CSPreferences.readString(context, "customer_id"));
+                    Log.e("driverid ", CSPreferences.readString(context, "customer_id"));
                     dialog.show();
 
                     ModelManager.getInstance().getStartTripsManager().StartTripsManager(context, Operations.startTrips(
@@ -243,9 +212,8 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
             @Override
             public void onClick(View view) {
 
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss a");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm a");
                 Calendar calander = Calendar.getInstance();
-
                 String time = simpleDateFormat.format(calander.getTime()).replaceAll(" ", "");
                 SimpleDateFormat mdformat = new SimpleDateFormat("dd-MM-yyyy");
                 String strDate = "" + mdformat.format(calander.getTime());
@@ -422,7 +390,50 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
 
             }
         });
+    }
 
+    private void checkRideStates() {
+        String state_is = CSPreferences.readString(getApplicationContext(), Constant.RIDE_STATE);
+        if (!state_is.isEmpty() && !state_is.equals("5")) {
+
+            switch (state_is) {
+
+                case "0":
+
+
+                    break;
+                case "1":
+
+                    addresstext.setText(Utils.getCompleteAddressString(context, customer_destination.latitude,
+                            customer_destination.longitude));
+
+                    drawPath(myLocation_Start, customer_destination);
+
+                    txt_begin_trip.setVisibility(View.GONE);
+                    swipe_StartTrip.setVisibility(View.VISIBLE);
+
+
+                    break;
+
+                case "2":
+                    txt_begin_trip.setVisibility(View.GONE);
+                    swipe_StartTrip.setVisibility(View.GONE);
+                    // This line add by me
+                    drawPath(myLocation_Start, customer_destination);
+                    //End
+                    trip_begin();
+                    visibleButton();
+                    break;
+
+                case "3":
+                    state = 3;
+                    Intent intent = new Intent(PathMapActivity.this, CashCollect.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    startActivity(intent);
+                    finishAffinity();
+                    break;
+            }
+        }
 
     }
 
@@ -442,19 +453,27 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
             @Override
             public void onSwipeConfirm() {
                 state = 3;
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss a");
+                String latt = CSPreferences.readString(context, "Lat");
+                String Lngg = CSPreferences.readString(context, "Longi");
+                LatLng satrst = new LatLng(Double.parseDouble(latt), Double.parseDouble(Lngg));
+                Log.d("curLatLong", lat + " Lati complte" + lng + " Longi complete");
+
+                LatLng End = new LatLng(lat, lng);
+                distanceChk = true;
+                drawPath(satrst, End);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm a");
                 Calendar calander = Calendar.getInstance();
                 //  String currentDate = DateFormat.getDateInstance().format(Calendar.getInstance().getTime()).replaceAll(" ", "");
                 //Log.e("date and time ", currentDate);
                 String time = simpleDateFormat.format(calander.getTime()).replaceAll(" ", "");
                 SimpleDateFormat mdformat = new SimpleDateFormat("dd-MM-yyyy");
                 String strDate = "" + mdformat.format(calander.getTime());
-                Log.e("stop time", String.valueOf(time));
+                Log.e("stoptime", String.valueOf(time));
 
                 dialog = new SpotsDialog(context);
                 dialog.show();
 
-                Log.e("nkjkf;vf", CSPreferences.readString(context, "customer_id"));
+                Log.e("driverid", CSPreferences.readString(context, "customer_id"));
 
                 //latitude=, Total Amount=, id=31, json3=, longitude=,
                 // ride_request_id=, message=Trip Has completed, noti_type=trip_completed}
@@ -463,7 +482,8 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
 
                 ModelManager.getInstance().getStopRideManager().StopRideManager(context, Operations.stopRide(context,
                         CSPreferences.readString(context, "customer_id"), customerRequest.getRequestid(), time, strDate, String.valueOf(lat) + "," + String.valueOf(lng)));
-
+                Log.d("Curlatl", lat + " Lati " + lng + " longi");
+                Log.d("Source", customer_source.latitude + " Lati " + customer_source.longitude + " longi");
 
             }
         });
@@ -486,6 +506,10 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
                 swipe_StartTrip.setVisibility(View.GONE);
                 trip_begin();
                 visibleButton();
+                CSPreferences.putString(context, "Lat", lat + "");
+                CSPreferences.putString(context, "Longi", lng + "");
+                Log.d("curLatLong", lat + " Lati Starttrip" + lng + " Longi Starttrip");
+
 
                 // Toast.makeText(PathMapActivity.this, "Trip has started!", Toast.LENGTH_LONG).show();
             }
@@ -493,6 +517,13 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
 
     }
 
+    //Convert Distace in miles to km
+    public static double milesTokm(double distanceInMiles) {
+        return distanceInMiles / 0.6213;
+    }
+
+
+    //End
     void visibleButton() {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -507,24 +538,21 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
         }, 200);
     }
 
-
-    //Addeed by deep
-
     private void trip_begin() {
-      /*  String myConcatedString = cursor.getString(numcol).concat('-').
-                concat(cursor.getString(cursor.getColumnIndexOrThrow(db.KEY_DESTINATIE)));
-*/
-        //{latitude=, Total Amount=, id=31, json3=, longitude=, ride_request_id=, message=Trip Has Started, noti_type=trip_started}
+
         JSONObject jsonObject = JsonRequestIR.RideStartjsonRequest(getApplicationContext(), "Trip Has Started", "trip_started");
         Utils.sendMessage(this, jsonObject);
-
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm a");
+        Calendar calander = Calendar.getInstance();
+        String time = simpleDateFormat.format(calander.getTime()).replaceAll(" ", "");
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat mdformat = new SimpleDateFormat("dd-MM-yyyy");
         String strDate = "" + mdformat.format(calendar.getTime());
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         String latLong = lat.toString().concat(",").concat(lng.toString());
+        Log.d("begin", time);
         Date currentTime = Calendar.getInstance().getTime();
-        Call<ModelTrip> call = apiService.getmodeldemoresult(CSPreferences.readString(this, "customer_id"), customerRequest.getRequestid(), "01:01pm", strDate, latLong);
+        Call<ModelTrip> call = apiService.getmodeldemoresult(CSPreferences.readString(this, "customer_id"), customerRequest.getRequestid(), time, strDate, latLong);
         call.enqueue(new Callback<ModelTrip>() {
 
             @Override
@@ -587,15 +615,19 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
         //here we  get the detail of cutomer whoes make the request using bean class
         list = new ArrayList<>();
         list = CustomerReQuestManager.requestlis;
-        customerRequest = list.get(0);
+        if (list.size() > 0) {
+            customerRequest = list.get(0);
 
-        customer_source = new LatLng(Double.parseDouble(customerRequest.getSourcelat()), Double.parseDouble(customerRequest.getSourcelng()));
-        customer_destination = new LatLng(Double.parseDouble(customerRequest.getDroplat()), Double.parseDouble(customerRequest.getDroplng()));
+            customer_source = new LatLng(Double.parseDouble(customerRequest.getSourcelat()), Double.parseDouble(customerRequest.getSourcelng()));
+            customer_destination = new LatLng(Double.parseDouble(customerRequest.getDroplat()), Double.parseDouble(customerRequest.getDroplng()));
 
-        Picasso.with(this)
-                .load(customerRequest.getProfilepic())
-                .into(customerimage);
-        customername.setText(customerRequest.getName());
+            Picasso.with(this)
+                    .load(customerRequest.getProfilepic())
+                    .into(customerimage);
+            customername.setText(customerRequest.getName());
+
+        }
+
         swipe_StartTrip = (SwipeButton) findViewById(R.id.slide);
         swipe_CompleteTrip = (SwipeButton) findViewById(R.id.slide2);
 
@@ -647,13 +679,13 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
 
     public void onclickNavigate(View view) {
 
-        if (startTrips_status.equals("false")) {
+        if (state != 1 && state != 2 && state != 3) {
 
             String uri = "http://maps.google.com/maps?daddr=" + customer_source.latitude + "," + customer_source.longitude + " (" + "Pickup location" + ")";
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
             intent.setPackage("com.google.android.apps.maps");
             startActivity(intent);
-        } else {
+        } else if (state == 1 || state == 2) {
 
             String uri = "http://maps.google.com/maps?daddr=" + customer_destination.latitude + "," + customer_destination.longitude + " (" + "Drop location" + ")";
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
@@ -810,7 +842,7 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        googleMap.setMyLocationEnabled(true);
+        googleMap.setMyLocationEnabled(false);
         myLocation_Start = new LatLng(mLocation.getLatitude(), mLocation.getLongitude());
         //Comment by Sumit
         drawPath(currentlatlng, customer_source);
@@ -836,14 +868,7 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
             }
         }, 1000);
 
-
-    }
-
-    @Override
-    protected void onResume() {
-
-        super.onResume();
-
+        checkRideStates();
     }
 
     @Override
@@ -853,7 +878,7 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
 
     @Override
     public void onRoutingFailure(RouteException e) {
-    Toast.makeText(getApplicationContext(),"Invalid Request "+e.getMessage(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Invalid Request " + e.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -908,20 +933,29 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
             // googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(new LatLng(focuspostion.latitude,focuspostion.longitude)));
 
         }
+        double distnace1 = arrayList.get(i).getDistanceValue() / 1000;
+        double distanceKm = Utils.milesTokm(distnace1);
+        //   CSPreferences.putString(context, Constant.Distance, distanceKm + "");
         drawPolyLine(arrayList);
-
-    }
-
-
-    // here we can the  total ammount to server if customer select the credit card payment
-
-    public void Collectcash(View view) {
-
+        if (distanceChk == true) {
+            Log.d("ck", "Its working");
+            double distnacF = arrayList.get(i).getDistanceValue() / 1000;
+            double distanceKmF = Utils.milesTokm(distnacF);
+            CSPreferences.putString(context, Constant.Distance, distanceKmF + "");
+        }
 
     }
 
     @Override
     public void onRoutingCancelled() {
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        CSPreferences.putString(context, Constant.RIDE_STATE, String.valueOf(state));
+        this.unregisterReceiver(mReceiver);
 
     }
 
@@ -933,11 +967,6 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
                 dialog.dismiss();
                 txt_begin_trip.setVisibility(View.GONE);
                 swipe_StartTrip.setVisibility(View.VISIBLE);
-                //   Toast.makeText(PathMapActivity.this, "You are arrived customer location", Toast.LENGTH_SHORT).show();
-//                new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-//                        .setTitleText("Arrived")
-//                        .setContentText("You are arrived on the customer location please make the call to customer")
-//                        .show();
 
 
                 break;
@@ -959,6 +988,7 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
                         .setTitleText("Error")
                         .setContentText("Please check your internet connection")
                         .show();
+
                 break;
 
             case Constant.STARTTRIPS:
@@ -972,7 +1002,7 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
 
                 double driverToCustomerDistance = findDistance();
 
-                Log.e("driver distance ", String.valueOf(driverToCustomerDistance));
+                Log.e("driverdistance ", String.valueOf(driverToCustomerDistance));
 
                 starttriplayout.setVisibility(View.GONE);
                 //addtolllayout.setVisibility(View.VISIBLE);
@@ -1008,14 +1038,46 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
                 CSPreferences.putString(context, "path", "");
                 CSPreferences.putString(context, "TOLLFEE", String.valueOf(tollfee));
                 CSPreferences.putString(context, "STOPFEE", String.valueOf(stopfee));
-
-                //  addtolllayout.setVisibility(View.GONE);
-                //   starttriplayout.setVisibility(View.GONE);
+                CSPreferences.putString(context, Constant.RIDE_STATE, String.valueOf("5"));
 
 
-                //    paymentcardview.setVisibility(View.VISIBLE);
-                Intent intent = new Intent(PathMapActivity.this, CashCollect.class);
-                startActivity(intent);
+                Calendar c = Calendar.getInstance();
+                SimpleDateFormat df3 = new SimpleDateFormat("hh:mm a");
+                String formattedDate3 = df3.format(c.getTime());
+                Log.d("CurrentTime_", formattedDate3);
+                String timeChk = CSPreferences.readString(PathMapActivity.this, "currenTimeDriver");
+                Log.d("ChkTime", timeChk);
+
+                SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
+                try {
+                    Date date1 = format.parse(formattedDate3);
+                    Date date2 = format.parse(timeChk);
+
+                    long mills = date1.getTime() - date2.getTime();
+                    Log.v("Data1", "" + date1.getTime());
+                    Log.v("Data2", "" + date2.getTime());
+                    int hours = (int) (mills / (1000 * 60 * 60));
+                    int mins = (int) (mills / (1000 * 60)) % 60;
+
+                    String diff = hours + ":" + mins; // updated value every1 second
+                    Log.v("diffrence", diff);
+                    CSPreferences.putString(context, "tymDiff", diff);
+                    Log.d("diffrencedd", diff);
+                    state = 3;
+                    CSPreferences.putString(context, Constant.RIDE_STATE, "3");
+                    Intent it = new Intent(PathMapActivity.this, CashCollect.class);
+                    startActivity(it);
+                    finish();
+
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+
+                    //wrong
+                    Intent it = new Intent(PathMapActivity.this, CashCollect.class);
+                    startActivity(it);
+                    finish();
+                }
 
 
                 if (CSPreferences.readString(context, "payment_method").equals("1")) {
@@ -1024,7 +1086,9 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
                 } else {
                     text_paymentstaus.setText("Cash");
                 }
-                finish();
+                //    ModelManager.getInstance().getAmt().getAmount(context, Operations.collectAmt(context, CSPreferences.readString(context, "CompanyIdAb"), CSPreferences.readString(context, "VehicleType"), CSPreferences.readString(context, "FullDisatance"), CSPreferences.readString(context, "tymDiff"), CSPreferences.readString(context, "CustomerId"), CSPreferences.readString(context, "customer_id"), CSPreferences.readString(context, "request_id")));
+
+
                 break;
             case Constant.STOPRIDEFAIL:
                 dialog.dismiss();
@@ -1032,6 +1096,9 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
                 break;
 
             case Constant.MY_LOCATION:
+                double latt = ModelManager.getInstance().getNearestRoadManager().driverlat;
+                double lngg = ModelManager.getInstance().getNearestRoadManager().driverlongititude;
+
                 if (!isFirstMarker) {
                     double lat = ModelManager.getInstance().getNearestRoadManager().driverlat;
                     double lng = ModelManager.getInstance().getNearestRoadManager().driverlongititude;
@@ -1048,8 +1115,8 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
                 dialog.dismiss();
 
                 new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                        .setTitleText("Cacel Trip")
-                        .setContentText(event.getValue())
+                        .setTitleText("Cancel Trip")
+                        .setContentText("Trip Canceled By Customer")
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1074,24 +1141,27 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
 
             case Constant.CANCEL_RIDEFCM:
 
-                messagedialog.show();
-
-                TextView titletext = (TextView) messagedialog.findViewById(R.id.txttitle);
-                TextView messagetext = (TextView) messagedialog.findViewById(R.id.txtmessage);
-
-                TextView ok = (TextView) messagedialog.findViewById(R.id.txtok);
+                Dialog dialog = Utils.CancelDialog(context);
+                dialog.show();
+                TextView ok = dialog.findViewById(R.id.txtok);
 
                 ok.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
-                        startActivity(new Intent(PathMapActivity.this, HomeScreenActivity.class));
-                        finish();
+                    public void onClick(View v) {
+                        CSPreferences.putString(PathMapActivity.this, Constant.RIDE_STATE, "5");
+                        Intent it = new Intent(PathMapActivity.this, HomeScreenActivity.class);
+                        startActivity(it);
+                        finishAffinity();
                     }
                 });
                 break;
             case Constant.LOCATIONSEND:
 
                 //    Toast.makeText(context, "send", Toast.LENGTH_SHORT).show();
+
+                break;
+
+            case Constant.COLLECTAMT:
 
                 break;
 
@@ -1103,44 +1173,8 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
 
         }
     }
+
     // here we perofrm of collectcash fuctionality
-
-    public void onclickCollect(View view) {
-
-// if the customer select the payment method as acredit card
-        double totaldistance = findDistance();
-
-        if (CSPreferences.readString(context, "payment_method").equals("1")) {
-
-
-            double totalamount = 0.0;
-
-            //collect the total amount of the ride
-
-            totalamount = totalamount + totaldistance * ConfigVariable.dbdistancefare + 10 * ConfigVariable.dbtimefare +
-                    ConfigVariable.dbbasefare + Double.parseDouble(CSPreferences.readString(context, "TOLLFEE")) +
-                    Double.parseDouble(CSPreferences.readString(context, "STOPFEE"));
-            Log.e("total amount ", totalamount + "");
-
-
-            // send the ride amount to the server and server sen the amount to the customer and amount deduct from customer card
-
-            ModelManager.getInstance().getCollectCashmanager().CollectCashmanager(context, Operations.collectCash(context,
-                    CSPreferences.readString(context, "customer_id"), CSPreferences.readString(context, "request_id"),
-                    customerRequest.getCutomerid(), String.valueOf(totalamount)));
-
-
-            return;
-
-        }
-
-
-        Intent intent = new Intent(context, CashCollect.class);
-        CSPreferences.putString(context, "distance", String.valueOf(totaldistance));
-
-        startActivity(intent);
-
-    }
 
     public void ratingToCustomer() {
 
@@ -1212,7 +1246,8 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
 
         currentlatlng = new LatLng(lat, lng);
         String points = lat + "," + lng;
-        ModelManager.getInstance().getNearestRoadManager().NearestRoadManager(this, Operations.nearestRoadlatlng(this, points), 1);
+
+        ModelManager.getInstance().getNearestRoadManager().NearestRoadManager(this, Operations.nearestRoadlatlng(this, points), 1, true);
 
         Utils.getCompleteAddressString(context, Double.parseDouble(customerRequest.getDroplat()),
                 Double.parseDouble(customerRequest.getDroplng()));
@@ -1225,7 +1260,7 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
             dest_long = customer_source.longitude;
         }
         ModelManager.getInstance().getNearestRoadManager().NearestRoadManager(this, Operations.nearestDistancelatlng(this,
-                lat, lng, dest_lat, dest_long), 2);
+                lat, lng, dest_lat, dest_long), 2, true);
 
         //  moveCarAnimation(lat,lng);
         CSPreferences.putString(context, "start_lat", String.valueOf(lat));
@@ -1248,13 +1283,13 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
 
         if (stopTrips_status.equals("false")) {
 
-            Log.e("stop trips11111", stopTrips_status);
+            Log.e("stop trips1", stopTrips_status);
             Log.e("driver locatsion ", String.valueOf(lat) + "     " + String.valueOf(lng));
 
             //{id=30.7097883, ride_request_id=76.6934938, noti_type=driver location}
 
-            JSONObject jsonObject = JsonRequestIR.jsonRequestForLatLong(getApplicationContext(), lat, lng);
-            Utils.sendMessage(this, jsonObject);
+            // JSONObject jsonObject = JsonRequestIR.jsonRequestForLatLong(getApplicationContext(), lat, lng);
+            //Utils.sendMessage(this, jsonObject);
 
             ModelManager.getInstance().getLocationSendManager().locationsend(context, Operations.sendLocationurl(context,
                     String.valueOf(lat), String.valueOf(lng), customerRequest.getCutomerid(), CSPreferences.readString(context,
@@ -1374,21 +1409,6 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
         }
     }
 
-    public void onArrivingState() {
-
-    }
-
-    public void onBeginTripState() {
-        txt_begin_trip.setVisibility(View.GONE);
-        swipe_StartTrip.setVisibility(View.VISIBLE);
-    }
-
-    public void onCompleteTripState() {
-        swipe_StartTrip.setVisibility(View.GONE);
-        trip_begin();
-        visibleButton();
-    }
-
 
     public void drawPath(LatLng startPosition, LatLng end) {
         Routing routing = new Routing.Builder()
@@ -1429,7 +1449,7 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
             int colorIndex = j % COLORS.length;
             polyOptions = new PolylineOptions();
             polyOptions.color(getResources().getColor(COLORS[4]));
-            polyOptions.width(7 + j * 5);
+            polyOptions.width(5 + j * 3);
             if (j > 0) {
 
                 if (min > arrayList.get(j).getDurationValue()) {
@@ -1461,12 +1481,13 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
             options1.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_icon_pin_white));
             stopMarker = googleMap.addMarker(options1);
 
-            if (state == 0) {
-                assert polyOptions != null;
-                polyOptions.addAll(arrayList.get(indexvalue).getPoints());
-                polyline_Route = googleMap.addPolyline(polyOptions);
-                polylines.add(polyline_Route);
-            }
+            // if (state == 0) {
+            assert polyOptions != null;
+
+            polyOptions.addAll(arrayList.get(indexvalue).getPoints());
+            polyline_Route = googleMap.addPolyline(polyOptions);
+            polylines.add(polyline_Route);
+            // }
 
         } else {
             firstlat = myLocation_Start;
@@ -1511,6 +1532,11 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
         blackPolylineOptions.jointType(JointType.ROUND);
         blackPolyline = googleMap.addPolyline(blackPolylineOptions);
 
+        if (polyLineList != null && polyLineList.size() > 0) {
+            polyline_Route.remove();
+        }
+
+
         ValueAnimator polylineAnimator = ValueAnimator.ofInt(0, 100);
         polylineAnimator.setDuration(2000);
         polylineAnimator.setInterpolator(new LinearInterpolator());
@@ -1526,11 +1552,49 @@ public class PathMapActivity extends AppCompatActivity implements GoogleApiClien
             }
         });
         polylineAnimator.start();
-        if (polylines != null && polylines.size() > 0) {
-            polyline_Route.remove();
-        }
 
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter filter = new IntentFilter(Intent.ACTION_SHUTDOWN);
+        mReceiver = new ShutDownReceiver();
+        registerReceiver(mReceiver, filter);
+    }
+
+    public class ShutDownReceiver extends BroadcastReceiver {
+        private static final String TAG = "ShutdownReceiver";
+
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            Log.d(TAG, "Shutting Down..........................");
+            if ("android.intent.action.ACTION_SHUTDOWN".equals(intent.getAction())) {
+                //Power Off
+                CSPreferences.putString(context, Constant.RIDE_STATE, String.valueOf(state));
+            }
+        }
+    }
+
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))
+                * Math.sin(deg2rad(lat2))
+                + Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        return (dist);
+    }
+
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
+    }
 }

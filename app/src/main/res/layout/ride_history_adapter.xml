@@ -71,7 +71,7 @@
                 <RelativeLayout
                     android:layout_gravity="center"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.8"
+                    android:layout_weight="0.75"
                     android:layout_width="0dp">
 
                     <TextView
@@ -102,7 +102,7 @@
                     android:id="@+id/txt_price"
                     android:layout_gravity="right|center"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.1"
+                    android:layout_weight="0.15"
                     android:layout_width="0dp"
                     android:padding="3dp"
                     android:text="10"

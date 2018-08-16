@@ -25,7 +25,7 @@ public class AcceptCustomerRequest {
 
     public void AcceptCustomerRequest(Context context, String params) {
         this.context = context;
-        new AcceptCustomerRequest.ExecuteApi(context).execute(params);
+        new ExecuteApi(context).execute(params);
     }
 
     private class ExecuteApi extends AsyncTask<String, String, String> {
@@ -64,6 +64,8 @@ public class AcceptCustomerRequest {
 
 
                 } catch (JSONException e) {
+                    EventBus.getDefault().post(new Event(Constant.SERVER_ERROR, ""));
+
                     e.printStackTrace();
                 }
             } else {

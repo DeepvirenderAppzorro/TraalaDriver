@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.appzorro.driverappcabscout.R;
 
@@ -15,7 +17,9 @@ public class HelpActivity extends AppCompatActivity {
 
 
     Toolbar toolbar;
-    EditText email, message;
+    EditText message;
+    String strMessage;
+    TextView email;
     LinearLayout submit;
     ImageView iv_back;
 
@@ -23,10 +27,7 @@ public class HelpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.help_xml);
-
         initViews();
-
-
     }
 
     public void initViews() {
@@ -38,7 +39,7 @@ public class HelpActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        email = (EditText) findViewById(R.id.email);
+        email = (TextView) findViewById(R.id.email);
         iv_back = (ImageView) findViewById(R.id.back);
         message = (EditText) findViewById(R.id.message);
         submit = (LinearLayout) findViewById(R.id.submit_ll);
@@ -46,7 +47,11 @@ public class HelpActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                strMessage = message.getText().toString();
+                if (strMessage.isEmpty())
+                    Toast.makeText(HelpActivity.this, "Please write your query for help!", Toast.LENGTH_SHORT).show();
+                else
+                    finish();
 
             }
         });
@@ -58,7 +63,6 @@ public class HelpActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
     @Override

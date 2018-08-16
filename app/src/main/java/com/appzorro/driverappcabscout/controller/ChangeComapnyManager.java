@@ -37,7 +37,7 @@ public class ChangeComapnyManager {
             HttpHandler httpHandler = new HttpHandler();
             String response = httpHandler.makeServiceCall(strings[0]);
 
-            Log.e(TAG, "change company response-" +response);
+            Log.e(TAG, "changecompanyresponse-" +response);
 
             return response;
         }

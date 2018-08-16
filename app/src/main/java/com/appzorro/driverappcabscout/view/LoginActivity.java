@@ -112,7 +112,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     LinearLayout linear3;
     GoogleApiClient mGoogleApiClient;
     LoginButton loginButton;
-    ImageView google_signin;
+    ImageView google_signin,fb_login;
     private static final String EMAIL = "email";
 
     @Override
@@ -138,9 +138,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         printhashkey();
         init();
 
+
         image1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+              //  ModelManager.getInstance().getFacebookLoginManager().doFacebookLogin(context,callbackManager);
+
                 loginButton.performClick();
             }
         });
@@ -148,6 +151,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions(Arrays.asList(EMAIL));
+
 
         // Callback registration
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -193,6 +197,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         callbackManager = CallbackManager.Factory.create();
         edit_email = (EditText) findViewById(R.id.etLoginid);
+        fb_login=(ImageView)findViewById(R.id.image1);
         edit_password = (EditText) findViewById(R.id.etPassword);
         google_signin = (ImageView) findViewById(R.id.image2);
         relativeLayout = (RelativeLayout) findViewById(R.id.activitylogin);
@@ -201,9 +206,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         Log.e("device tokenn", "j " + devicetoken);
 
-//Added by me
+         //Added by me
         // Configure sign-in to request the user's ID, email address, and basic
-// profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -227,7 +232,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
 
-        //End
+        forgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               Intent intent=new Intent(LoginActivity.this,ForgotPassword.class);
+               startActivity(intent);
+            }
+        });
 
     }
 
@@ -240,6 +251,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         Intent signupIntent = new Intent(LoginActivity.this, CabCompanyActivity.class);
         startActivity(signupIntent);
     }
+
 
     // Stoped by deep
    /*@Override
@@ -272,13 +284,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         switch (event.getKey()) {
             case Constant.LOGIN_STATUS:
                 dialog.dismiss();
-
-
                 dialog = new SpotsDialog(context);
                 dialog.show();
                 ModelManager.getInstance().getUserDetailManager().UserDetailManager(context, Operations.getUserDetail(context,
                         CSPreferences.readString(context, "customer_id")));
-
 
                 break;
 
@@ -295,6 +304,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             case Constant.USERDETAILSTAUS:
                 dialog.dismiss();
+                Log.d("ChkHome","Userdeatil");
+                CSPreferences.putString(this, Constant.OfflineOrOnline,"true");
                 Intent i = new Intent(LoginActivity.this, HomeScreenActivity.class);
                 CSPreferences.putString(LoginActivity.this, "login_status", "true");
                 startActivity(i);
@@ -305,7 +316,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             case Constant.SERVER_ERROR:
                 dialog.dismiss();
                 String message1 = event.getValue();
-                Utils.makeSnackBar(context, relativeLayout, message1);
+                new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("Error")
+                        .setContentText(event.getValue())
+                        .show();
+
+
                 break;
         }
     }
@@ -318,11 +334,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         password = edit_password.getText().toString().trim();
 
         if (emailid.isEmpty() && password.isEmpty()) {
-            Utils.makeSnackBar(context,image,"Please enter  email id and password");
+            Utils.makeSnackBar(context, image, "Please enter  email id and password");
 
         } else if (!Utils.emailValidator(emailid) && !emailid.isEmpty()) {
 
-            Utils.makeSnackBar(context,image,"Please  enter valid  email id");
+            Utils.makeSnackBar(context, image, "Please  enter valid  email id");
 
         } else if (edit_password.getText().toString().isEmpty()) {
 
@@ -337,9 +353,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             dialog = new SpotsDialog(context);
             dialog.show();
+            CSPreferences.putString(context, Constant.Password, password);
 
             ModelManager.getInstance().getLoginManager().doLogin(LoginActivity.this, Operations.loginTask(LoginActivity.this,
                     emailid, password, devicetoken));
+
 
         }
     }

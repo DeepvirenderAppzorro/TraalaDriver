@@ -62,7 +62,7 @@
                 <RelativeLayout
                     android:id="@+id/pricelayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_below="@+id/view_"
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="10dp"
@@ -92,7 +92,7 @@
                             android:layout_width="60dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="15 km"
+                            android:text="N/A"
                             android:maxLines="1"
                             android:textColor="@android:color/black"
                             android:textSize="11dp" />
@@ -121,18 +121,24 @@
                         android:id="@+id/ll_tym"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginTop="7dp"
+                        android:visibility="visible"
                         android:layout_toRightOf="@+id/image_tym"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/txttime"
+                        <cn.iwgang.countdownview.CountdownView
+                            android:id="@+id/count_down"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="00:20"
                             android:textColor="@android:color/black"
-                            android:textSize="11dp" />
+                            android:textSize="11dp"
+                            app:isHideTimeBackground="true"
+                            app:isShowDay="false"
+                            app:isShowHour="false"
+                            app:isShowMinute="true"
+                            app:isShowSecond="true"
+                            app:isShowMillisecond="false"/>
 
                         <TextView
                             android:id="@+id/txt_tym_value"
@@ -141,6 +147,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_below="@+id/ll_distance"
                             android:text="Time"
+                            android:layout_marginTop="2dp"
                             android:textSize="10dp" />
 
                     </LinearLayout>
@@ -150,9 +157,10 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginEnd="5dp"
+                        android:padding="4dp"
                         android:layout_marginTop="3dp"
                         android:layout_toLeftOf="@+id/ll_price"
-                        android:src="@mipmap/ic_icon_dollar_new" />
+                        android:src="@drawable/ic_icon_dollar" />
 
                     <LinearLayout
                         android:id="@+id/ll_price"
@@ -166,15 +174,17 @@
                             android:id="@+id/txtprice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="$56"
+                            android:layout_gravity="center|start"
+                            android:gravity="center"
+                            android:text="$562.70"
                             android:textColor="@android:color/black"
                             android:textSize="11dp" />
 
                         <TextView
                             android:id="@+id/txtpricevalue"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="center|start"
                             android:layout_alignParentLeft="true"
                             android:layout_below="@+id/ll_distance"
                             android:text="Price"
@@ -182,23 +192,6 @@
 
                     </LinearLayout>
 
-                    <!--  <TextView
-                          android:id="@+id/txtprice"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_alignParentRight="true"
-                          android:text="$ 55.00"
-                          android:textSize="10dp"
-                          android:textColor="@android:color/black"/>
-                      <TextView
-                          android:id="@+id/txtdatevalue"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_marginTop="10dp"
-                          android:layout_alignParentRight="true"
-                          android:layout_below="@+id/txtprice"
-                          android:text="Price"
-                          android:textSize="10dp" />-->
                 </RelativeLayout>
 
                 <View
@@ -210,7 +203,7 @@
                 <LinearLayout
                     android:id="@+id/ll_source_destination"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
                     android:layout_marginTop="5dp"
                     android:layout_below="@+id/pricelayout"
                     android:orientation="horizontal">
@@ -233,7 +226,7 @@
                             android:gravity="center"
                             android:padding="2dp"
                             android:text="California"
-                            android:maxLines="1"
+                            android:maxLines="2"
                             android:textColor="@android:color/black"
                             android:textSize="10dp" />
 
@@ -244,7 +237,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_below="@+id/txtpickaddress"
                             android:layout_centerHorizontal="true"
-                            android:text="Destination"
+                            android:text="Source"
                             android:maxLines="1"
                             android:textSize="10dp" />
                     </LinearLayout>
@@ -267,7 +260,7 @@
                             android:gravity="center"
                             android:padding="2dp"
                             android:text="Los Angeles"
-                            android:maxLines="1"
+                            android:maxLines="2"
                             android:textColor="@android:color/black"
                             android:textSize="10dp" />
 
@@ -281,7 +274,7 @@
                             android:layout_marginLeft="20dp"
                             android:layout_marginRight="20dp"
                             android:maxLines="1"
-                            android:text="Source"
+                            android:text="Destination"
                             android:textSize="10dp" />
                     </LinearLayout>
                 </LinearLayout>

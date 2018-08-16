@@ -11,13 +11,10 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.appzorro.driverappcabscout.R;
-import com.appzorro.driverappcabscout.controller.ModelManager;
-import com.appzorro.driverappcabscout.view.HomeScreenActivity;
-import com.appzorro.driverappcabscout.view.NotificatonDialog;
+import com.appzorro.driverappcabscout.view.SplashActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -49,44 +46,26 @@ public class FireMsgService extends FirebaseMessagingService {
 */
 
         JSONObject jsonObject1 = new JSONObject(remoteMessage.getData());
-       // Log.d("")
-/*
+        Log.d("jsonObj", remoteMessage.getData()+"");
+
         try {
             key = jsonObject1.getString("noti_type");
-            Config.rideRequestid = jsonObject1.getString("ride_request_id");
             message = jsonObject1.getString("message");
             Config.notificationkey = "" + key;
 
             Log.e("key print", key);
-            if (key.equals("customer_request")) {
+            if (key.equals("verify_driver")) {
                 sendNotification(message);
-                //Calling method to generate notification
-
-                intent = new Intent(this, NotificatonDialog.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                ModelManager.getInstance().getCustomerReQuestManager().CustomerReQuestManager(getApplicationContext(), Operations.
-                        getCustomerRequest(getApplicationContext(), CSPreferences.readString(getApplicationContext(), "customer_id")));
-              */
-
-/*  timer = new MyTimer(1500, 1000);
-                timer.start();*//*
-
-            } else if (key.equals("cancel_ride")) {
-
-                intent = new Intent(this, HomeScreenActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                EventBus.getDefault().post(new Event(Constant.CANCEL_RIDEFCM, ""));
-
             }
 
 
         } catch (JSONException e) {
             Log.e("exception", e.toString());
         }
-*/
 
     }
 
+/*
     private void sendNotification(String messageBody) {
         Intent intent = new Intent(this, NotificatonDialog.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -111,6 +90,29 @@ public class FireMsgService extends FirebaseMessagingService {
 
 
     }
+*/
+private void sendNotification(String messageBody) {
+    Intent intent = new Intent(this, SplashActivity.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
+            PendingIntent.FLAG_ONE_SHOT);
+
+    Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+    NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+            .setSmallIcon(R.drawable.ic_icon_logo)
+            .setContentTitle("Trala Notification")
+            .setContentText(messageBody)
+            .setAutoCancel(true)
+            .setSound(defaultSoundUri)
+            .setContentIntent(pendingIntent);
+
+    NotificationManager notificationManager =
+            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+    notificationManager.notify(0, notificationBuilder.build());
+
+
+}
 
 }
 

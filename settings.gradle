@@ -1,1 +1,1 @@
-include ':app', ':slide-button', ':googleDirectionLibrary'
+include ':app', ':slide-button', ':googleDirectionLibrary',':library'

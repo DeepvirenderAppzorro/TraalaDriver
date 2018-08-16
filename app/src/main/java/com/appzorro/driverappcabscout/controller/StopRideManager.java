@@ -24,7 +24,7 @@ public class StopRideManager {
 
     public void StopRideManager(Context context, String params) {
 
-        new StopRideManager.ExecuteApi(context).execute(params);
+        new ExecuteApi(context).execute(params);
     }
 
     private class ExecuteApi extends AsyncTask<String, String, String> {
@@ -58,10 +58,12 @@ public class StopRideManager {
                     }
                     else {
 
-                        EventBus.getDefault().post(new Event(Constant.STOPRIDEFAIL, message));
+                        EventBus.getDefault().post(new Event(Constant.SERVER_ERROR,""));
                     }
 
                 }catch (JSONException e) {
+                    EventBus.getDefault().post(new Event(Constant.SERVER_ERROR,""));
+
                     e.printStackTrace();
                 }
             }

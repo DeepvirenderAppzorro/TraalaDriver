@@ -13,6 +13,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static com.appzorro.driverappcabscout.model.Constant.COMPANYID;
+
 /**
  * Created by Pankaj on 24/1/17.
  */
@@ -47,17 +49,21 @@ public class LoginManager {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if (s!=null) {
-
+                String companyID="";
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     JSONObject response = jsonObject.getJSONObject("response");
                     int id = Integer.parseInt(response.getString("id"));
-
+                    if (response.has("company_id")) {
+                        companyID = response.getString("company_id");
+                    }
+                     Log.d("Driverid",id+"");
                     String message = response.getString("message");
                     if (id>0) {
 
 
                         CSPreferences.putString(mContext, "customer_id",String.valueOf(id));
+                        CSPreferences.putString(mContext, COMPANYID,companyID);
                         EventBus.getDefault().post(new Event(Constant.LOGIN_STATUS, ""));
                     }
                     else{
@@ -66,6 +72,8 @@ public class LoginManager {
                     }
 
                 } catch (JSONException e) {
+                    EventBus.getDefault().post(new Event(Constant.SERVER_ERROR,""));
+
                     e.printStackTrace();
                 }
             }else {

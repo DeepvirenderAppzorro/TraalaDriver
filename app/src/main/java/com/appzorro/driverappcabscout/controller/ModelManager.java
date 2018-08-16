@@ -12,7 +12,7 @@ public class ModelManager {
     private LaterBookingManager laterBookingManager;
     private ChangepasswordManager changepasswordManager;
     private UpdateProfileManager updateProfileManager;
-    private  ChangeComapnyManager changeComapnyManager;
+    private ChangeComapnyManager changeComapnyManager;
     private ReviewManager reviewManager;
     private OnlineOfflineManager onlineOfflineManager;
     private ArrivedManager arrivedManager;
@@ -23,12 +23,17 @@ public class ModelManager {
     private RatingManager ratingManager;
     private Tripsmanager tripsmanager;
     private FareDetailManager fareManager;
-    private  LocationSendManager locationSendManager;
-    private  NearestRoadManager nearestRoadManager;
-
+    private GetCityManager getCityManager;
+    private LocationSendManager locationSendManager;
+    private NearestRoadManager nearestRoadManager;
+    private UpdateProfilePicManager updateProfilePicManager;
+    private CollectAmtManager collectAmtManager;
 
 
     private ModelManager() {
+        getCityManager = new GetCityManager();
+        collectAmtManager = new CollectAmtManager();
+        updateProfilePicManager = new UpdateProfilePicManager();
         cabCompaniesManager = new CabCompaniesManager();
         registrationManager = new RegistrationManager();
         loginManager = new LoginManager();
@@ -77,6 +82,19 @@ public class ModelManager {
     public LocationSendManager getLocationSendManager() {
         return locationSendManager;
     }
+
+    public GetCityManager getCityManagerr() {
+        return getCityManager;
+    }
+
+    public UpdateProfilePicManager updateProfilepicManager() {
+        return updateProfilePicManager;
+    }
+
+    public CollectAmtManager getAmt() {
+        return collectAmtManager;
+    }
+
 
     public Tripsmanager getTripsmanager() {
         return tripsmanager;
@@ -151,10 +169,11 @@ public class ModelManager {
         return registrationManager;
     }
 
-   public LoginManager getLoginManager() {
+    public LoginManager getLoginManager() {
         return loginManager;
     }
-    public FareDetailManager getFareDetailManager(){
+
+    public FareDetailManager getFareDetailManager() {
         return fareManager;
     }
 

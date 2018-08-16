@@ -18,6 +18,7 @@ public class CabCompanyBean {
     public void setResponse(Response response) {
         this.response = response;
     }
+
     public class CompanyList {
 
         @SerializedName("comapny_id")
@@ -44,6 +45,7 @@ public class CabCompanyBean {
         }
 
     }
+
     public class Response {
 
         @SerializedName("status")

@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/layout/amu_webview.xml",
+        "source": "/home/vijay/.android/build-cache/45496ea3340bd471bbdf7fa786064620e60e6b13/output/res/layout/amu_webview.xml"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/layout/amu_info_window.xml",
+        "source": "/home/vijay/.android/build-cache/45496ea3340bd471bbdf7fa786064620e60e6b13/output/res/layout/amu_info_window.xml"
+    },
+    {
+        "merged": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/res/merged/androidTest/debug/layout/amu_text_bubble.xml",
+        "source": "/home/vijay/.android/build-cache/45496ea3340bd471bbdf7fa786064620e60e6b13/output/res/layout/amu_text_bubble.xml"
+    }
+]

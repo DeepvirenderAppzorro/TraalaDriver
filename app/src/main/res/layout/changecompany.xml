@@ -19,24 +19,47 @@
             android:layout_alignParentLeft="true"
             android:textColor="@android:color/white"/>
     </RelativeLayout>
-
-    <android.support.design.widget.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/ll_cList"
         android:layout_below="@+id/headerlayout"
-        android:layout_marginTop="20dp"
-        android:id="@+id/textInputEmail">
+        android:layout_height="wrap_content">
+        <com.appzorro.driverappcabscout.model.CustomSearchableSpinner
+            android:id="@+id/selectCab"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight=".99"
+            android:background="@null"
+            android:visibility="visible"
+            android:dropDownVerticalOffset="-5dp"
+            android:hint="Select Your taxi Company"
+            android:overlapAnchor="false"
+            android:spinnerMode="dropdown"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
         <EditText
             android:id="@+id/changecompany"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Change company"
+            android:visibility="gone"
             android:inputType="textPassword"/>
-    </android.support.design.widget.TextInputLayout>
+        <ImageView
+            android:id="@+id/dropdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight=".01"
+            android:src="@mipmap/ic_launcher_dropdown"
+            android:visibility="visible" />
+    </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textInputEmail"
+        android:layout_below="@+id/ll_cList"
         android:layout_marginTop="10dp"
         android:padding="10dp">
         <TextView

@@ -16,6 +16,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.appzorro.driverappcabscout.controller.ConnectivityReceiver;
 import com.appzorro.driverappcabscout.controller.NetworkStateReceiver;
+import com.twitter.sdk.android.core.Twitter;
 
 
 public class AppController extends Application {
@@ -24,13 +25,14 @@ public class AppController extends Application {
             .getSimpleName();
 
     private RequestQueue mRequestQueue;
-
+    public static boolean activityVisible;
     private static AppController mInstance;
 
     @Override
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+        Twitter.initialize(this);
     }
 
     public static synchronized AppController getInstance() {
@@ -82,8 +84,8 @@ public class AppController extends Application {
         return false;
     }
 
-    public void setConnectivityListener(ConnectivityReceiver.ConnectivityReceiverListener listener) {
-        ConnectivityReceiver.connectivityReceiverListener = listener;
+    public static boolean isActivityVisible() {
+        return activityVisible;
     }
 
 }

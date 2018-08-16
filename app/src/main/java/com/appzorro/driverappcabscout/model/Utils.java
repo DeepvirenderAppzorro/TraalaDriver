@@ -2,7 +2,6 @@ package com.appzorro.driverappcabscout.model;
 
 import android.Manifest;
 import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -14,14 +13,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.RectF;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
-import android.os.CountDownTimer;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -34,22 +36,16 @@ import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.appzorro.driverappcabscout.R;
-import com.appzorro.driverappcabscout.controller.ModelManager;
-import com.appzorro.driverappcabscout.view.HomeScreenActivity;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
-import org.greenrobot.eventbus.EventBus;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -57,7 +53,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -97,6 +92,9 @@ public class Utils {
         pattern = Pattern.compile(EMAIL_PATTERN);
         matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+    public static double milesTokm(double distanceInMiles) {
+        return distanceInMiles * 1.60934;
     }
 
     public static String getCompleteAddressString(Context context, double LATITUDE, double LONGITUDE) {
@@ -151,6 +149,18 @@ public class Utils {
         return url;
     }
 
+
+    public static String getTimeStamp(){
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+            String currentDateTime = dateFormat.format(new Date()); // Find todays date
+            return currentDateTime;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
     public static void makeSnackBar(Context context, View view, String message) {
         Snackbar snackbar;
         snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
@@ -220,7 +230,7 @@ public class Utils {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.driveracceptlayout);
         dialog.setCancelable(false);
-     //   dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        //   dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         return dialog;
     }
 
@@ -275,6 +285,7 @@ public class Utils {
         //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         return dialog;
     }
+
     public static Dialog createMessageDialog(Context context) {
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -283,7 +294,6 @@ public class Utils {
         //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         return dialog;
     }
-
 
 
     public static void hideSoftKeyboard(Activity activity) {
@@ -306,7 +316,7 @@ public class Utils {
         return dialog;
     }
 
-    public static String getCurrentDate(){
+    public static String getCurrentDate() {
         Date c = Calendar.getInstance().getTime();
         System.out.println("Current time => " + c);
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
@@ -378,7 +388,7 @@ public class Utils {
         return brng;
     }
 
-    public static String midPoint(double lat1,double lon1,double lat2,double lon2){
+    public static String midPoint(double lat1, double lon1, double lat2, double lon2) {
         LatLng latLng;
         double dLon = Math.toRadians(lon2 - lon1);
 
@@ -392,11 +402,11 @@ public class Utils {
         double lat3 = Math.atan2(Math.sin(lat1) + Math.sin(lat2), Math.sqrt((Math.cos(lat1) + Bx) * (Math.cos(lat1) + Bx) + By * By));
         double lon3 = lon1 + Math.atan2(By, Math.cos(lat1) + Bx);
 
-       double lat = Math.toDegrees(lat3);
+        double lat = Math.toDegrees(lat3);
 
-        double lng =  Math.toDegrees(lon3);
+        double lng = Math.toDegrees(lon3);
         double latlng = Math.toDegrees(lat3);
-        String latt = String.valueOf(lng)+","+String.valueOf(latlng);
+        String latt = String.valueOf(lng) + "," + String.valueOf(latlng);
 
 
         return latt;
@@ -404,15 +414,15 @@ public class Utils {
     }
 
 
-    public static void clearNotifications(Context context){
+    public static void clearNotifications(Context context) {
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
 
     }
 
-    public static void sendMessage(final Activity context , JSONObject jsonObject) {
-        Log.d("SocketRequest",jsonObject.toString()+" ");
+    public static void sendMessage(final Context context, JSONObject jsonObject) {
+        Log.d("SocketRequest", jsonObject.toString() + " ");
         //{"ride_request_id":"330","message":"New ride request from Sumit Don","noti_type":"customer_request"}
         Random rnd = new Random();
         int request_id = 1 + rnd.nextInt(999);
@@ -424,18 +434,18 @@ public class Utils {
         chat.invoke("send", parametersToCall, request_id).done(new Action<Void>() {
             @Override
             public void run(Void obj) throws Exception {
-                context.runOnUiThread(new Runnable() {
-                    @SuppressLint("InlinedApi")
-                    public void run() {
-                       // Toast.makeText(context, "Sent", Toast.LENGTH_SHORT).show();
-                    }
-                });
+//                context.runOnUiThread(new Runnable() {
+//                    @SuppressLint("InlinedApi")
+//                    public void run() {
+//                        // Toast.makeText(context, "Sent", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
             }
         });
     }
 
 
-    private boolean isMyServiceRunning(Context context,Class<?> serviceClass) {
+    private boolean isMyServiceRunning(Context context, Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (serviceClass.getName().equals(service.service.getClassName())) {
@@ -447,8 +457,24 @@ public class Utils {
         return false;
     }
 
+    public static String Convert24to12(String time)
+    {
+        String convertedTime ="";
+        try {
+            SimpleDateFormat displayFormat = new SimpleDateFormat("hh:mm a");
+            SimpleDateFormat parseFormat = new SimpleDateFormat("HH:mm:ss");
+            Date date = parseFormat.parse(time);
+            convertedTime=displayFormat.format(date);
+            System.out.println("convertedTime : "+convertedTime);
+        } catch (final ParseException e) {
+            e.printStackTrace();
+        }
+        return convertedTime;
+        //Output will be 10:23 PM
+    }
+
     public void startServices(Context context) {
-        if (!isMyServiceRunning(context,mService.getClass())) {
+        if (!isMyServiceRunning(context, mService.getClass())) {
             serviceIntent = new Intent(context, mService.getClass());
             context.startService(serviceIntent);
             SignalRFuture<Void> connect = connect(Constant.SOCKET_URL);
@@ -458,11 +484,55 @@ public class Utils {
     }
 
 
+    public static Dialog logoutDialog(Context context) {
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.logout_dialog);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
+        return dialog;
+    }
+
+    public static Dialog CancelDialog(Context context) {
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.cancel_dialog);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
+        return dialog;
+    }
+
+    public static Dialog RatingDialog(Context context) {
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.ratoing_thanks);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
+        return dialog;
+    }
+
+
+    //How compress Pic
+
+    public static Bitmap getScaledBitmap(Bitmap b, int reqWidth, int reqHeight) {
+        Matrix m = new Matrix();
+        m.setRectToRect(new RectF(0, 0, b.getWidth(), b.getHeight()), new RectF(0, 0, reqWidth, reqHeight), Matrix.ScaleToFit.CENTER);
+        return Bitmap.createBitmap(b, 0, 0, b.getWidth(), b.getHeight(), m, true);
+    }
+    //End
+
+
     private void configConnectFuture(SignalRFuture<Void> connect) {
         connect.onError(new ErrorCallback() {
             @Override
             public void onError(final Throwable error) {
-                Log.d("ErrorIr",error.getMessage());
+                Log.d("ErrorIr", error.getMessage());
             }
         });
 
@@ -492,12 +562,12 @@ public class Utils {
             if (get_message != null && !get_message.isEmpty() && get_message.equals("restartService")) {
                 //serviceMethods();
                 Log.d("SignalIR", "Service Restarted");
-             //   context.stopService(serviceIntent);
+                //   context.stopService(serviceIntent);
 
                 //SignalRFuture<Void> connect = connect(Constant.SOCKET_URL);
-               // configConnectFuture(connect);
-              //  getMessages();
-               // EventBus.getDefault().post(new Event(Constant.RESTART_SERVICE, ""));
+                // configConnectFuture(connect);
+                //  getMessages();
+                // EventBus.getDefault().post(new Event(Constant.RESTART_SERVICE, ""));
             }
 
             //          message += "\n" + get_message;
@@ -506,7 +576,7 @@ public class Utils {
         }
     };
 
-    public void startBikeAnimation(final GoogleMap googleMap,final Marker carMarker, final LatLng start, final LatLng end) {
+    public void startBikeAnimation(final GoogleMap googleMap, final Marker carMarker, final LatLng start, final LatLng end) {
 
         Log.i(TAG, "startBikeAnimation called...");
 
@@ -544,6 +614,7 @@ public class Utils {
         });
         valueAnimator.start();
     }
+
     private float getBearing(LatLng begin, LatLng end) {
         double lat = Math.abs(begin.latitude - end.latitude);
         double lng = Math.abs(begin.longitude - end.longitude);

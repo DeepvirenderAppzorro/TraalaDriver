@@ -20,8 +20,8 @@ public class UpdateProfileManager {
     private static final String TAG = UpdateProfileManager.class.getSimpleName();
 
     public void UpdateProfileManager(Context context, String url,String params) {
-
-        new UpdateProfileManager.ExecuteApi(context).execute(url,params);
+        Log.e(TAG, "updateprofileresponse--" +params + "  params");
+        new ExecuteApi(context).execute(url,params);
     }
 
     private class ExecuteApi extends AsyncTask<String, String, String> {
@@ -49,20 +49,31 @@ public class UpdateProfileManager {
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     JSONObject jsonObject1 = jsonObject.getJSONObject("response");
-                    int id = Integer.parseInt(jsonObject1.getString("id"));
+                    if(!(jsonObject1.getString("id").equalsIgnoreCase("null")))
+                    {
+                        int id = Integer.parseInt(jsonObject1.getString("id"));
 
-                    String message = jsonObject1.getString("message");
-                    if (id>0){
+                        String message = jsonObject1.getString("message");
+                        if (id>0){
 
-                        EventBus.getDefault().post(new Event(Constant.UPDATEPROFILE,message));
+                            EventBus.getDefault().post(new Event(Constant.UPDATEPROFILE,message));
+
+                        }
+                        else {
+
+                            EventBus.getDefault().post(new Event(Constant.ERROR,message));
+                        }
+                    }
+                    else
+                    {
+                        EventBus.getDefault().post(new Event(Constant.ERROR,"Server Error"));
 
                     }
-                    else {
 
-                        EventBus.getDefault().post(new Event(Constant.ERROR,message));
-                    }
 
                 } catch (JSONException e) {
+                    EventBus.getDefault().post(new Event(Constant.ERROR,"Server Error"));
+
                     e.printStackTrace();
                 }
             }else {

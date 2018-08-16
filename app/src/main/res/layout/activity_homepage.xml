@@ -40,11 +40,12 @@
                         android:id="@+id/checkbox1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="true"
+                        android:checked="false"
                         android:thumbTint="@color/white"
                         android:trackTint="@color/white"
                         android:longClickable="false"
                         android:showText="false"
+                        android:layout_marginEnd="3dp"
                         android:textColor="@android:color/white"
                         android:textOff="OFF" />
 
@@ -52,9 +53,21 @@
                         android:id="@+id/txtstatus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Online"
+                        android:text="Offline"
+                        android:layout_marginEnd="5dp"
                         android:textColor="@android:color/white" />
+
                 </LinearLayout>
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/fb_Location"
+                    android:layout_gravity="end"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="30dp"
+                    android:src="@drawable/ic_icon_location"
+                    />
+
             </android.support.v7.widget.Toolbar>
 
             <android.support.design.widget.FloatingActionButton
@@ -72,6 +85,7 @@
                 android:visibility="gone"
                 app:backgroundTint="@color/white"
                 app:rippleColor="#eeeeee" />
+
         </RelativeLayout>
 
         <RelativeLayout

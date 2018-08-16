@@ -7,7 +7,7 @@ package com.appzorro.driverappcabscout.model.Beans;
 public class CashCollect_bean {
      String Base,tym,dis,tot;
 
-    public CashCollect_bean(String base, String tym, String dis) {
+    public CashCollect_bean(String base) {
         Base = base;
         this.tym=tym;
         this.dis=dis;

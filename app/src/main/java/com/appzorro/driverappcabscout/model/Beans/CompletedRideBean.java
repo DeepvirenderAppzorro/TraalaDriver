@@ -5,7 +5,7 @@ package com.appzorro.driverappcabscout.model.Beans;
  */
 
 public class CompletedRideBean {
-    String requestid,pickuplat,pickuplng,droplat,droplng,startdate, edndtime,totalamount,name,profilepic,mobile,start_tym,end_tym,id,curPage,lastPage,pagesize;
+    String requestid,pickuplat,pickuplng,droplat,droplng,startdate, edndtime,edndtym,totalamount,name,profilepic,mobile,start_tym,end_tym,id,curPage,lastPage,pagesize,start_Tym,dropLoc,pickUpLoc;
 
     public String getEnd_tym() {
         return end_tym;
@@ -47,7 +47,7 @@ public class CompletedRideBean {
     }
 
     public String getStart_tym() {
-        return start_tym;
+        return start_Tym;
     }
 
     public void setStart_tym(String start_tym) {
@@ -58,20 +58,49 @@ public class CompletedRideBean {
         this.id = id;
     }
 
-    public CompletedRideBean(String requestid, String pickuplat, String pickuplng, String droplat, String droplng, String startdate,String start_tym,
-                             String edndtime,String end_tym, String totalamount, String name, String profilepic, String mobile) {
+    public String getDropLoc() {
+        return dropLoc;
+    }
+
+    public String getPickUpLoc() {
+        return pickUpLoc;
+    }
+
+    public void setPickUpLoc(String pickUpLoc) {
+        this.pickUpLoc = pickUpLoc;
+    }
+
+    public void setDropLoc(String dropLoc) {
+        this.dropLoc = dropLoc;
+    }
+
+    public CompletedRideBean(String requestid, String pickuplat, String pickuplng, String droplat, String droplng, String startdate, String start_tym,
+                             String edndtime, String end_tym, String totalamount, String name, String profilepic, String mobile, String dropLocc, String PickupLoc) {
         this.requestid = requestid;
         this.pickuplat = pickuplat;
         this.pickuplng = pickuplng;
         this.droplat=droplat;
+
         this.droplng=droplng;
         this.startdate=startdate;
         this.edndtime = edndtime;
+        this.edndtym = end_tym;
 
         this.totalamount=totalamount;
         this.name = name;
         this.profilepic=profilepic;
         this.mobile=mobile;
+        start_Tym=start_tym;
+        dropLoc=dropLocc;
+        pickUpLoc=PickupLoc;
+    }
+
+    public String getEdndtym() {
+        return edndtym;
+    }
+
+    public void setEdndtym(String edndtym) {
+        this.edndtym = edndtym;
     }
 
     public String getRequestid() {

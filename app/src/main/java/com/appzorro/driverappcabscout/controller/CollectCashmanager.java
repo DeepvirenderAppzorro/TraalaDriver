@@ -59,14 +59,10 @@ public class CollectCashmanager {
 
           //      int id = Integer.parseInt(jsonObject1.getString("id"));
 
-                String message = jsonObject1.getString("Message");
-                String tot_amt=jsonObject1.getString("Total Amount");
-                JSONObject hh=jsonObject1.getJSONObject("Fare Detail");
-                String base_fare=hh.getString("Base Fare");
-                String tym_fare=hh.getString("Time Fare");
-
-                    String dis_fare=hh.getString("Distance Fare");
-                    CashCollect_bean cash = new CashCollect_bean(base_fare, tym_fare, dis_fare);
+                String message = jsonObject1.getString("message");
+              JSONObject jsonObject2=jsonObject1.getJSONObject("fare");
+                String baseFare=jsonObject2.getString("fare");
+                    CashCollect_bean cash = new CashCollect_bean(baseFare);
                     cash_list.add(cash);
                     EventBus.getDefault().post(new Event(Constant.COLLECTCASH,message));
 

@@ -2,6 +2,7 @@ package com.appzorro.driverappcabscout.model.AllAdapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,18 +34,27 @@ public class CompleteAdapter_new extends RecyclerView.Adapter<CompleteAdapter_ne
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.ridehistoryadapter,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.ride_history_adapter,parent,false);
 
         return  new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-
         final CompletedRideBean users = list.get(position);
+        if (users.getTotalamount().equalsIgnoreCase("null")) {
+            holder.txtprice.setText("N/A");
 
-        holder.txtprice.setText(""+users.getName());
-        holder.txtdate.setText(""+users.getEdndtime());
+        } else {
+            holder.txtprice.setText("$" + users.getTotalamount());
+
+
+        }
+        Log.d("time",users.getStart_tym()+" start tym in holder");
+        holder.txtdate.setText(users.getStartdate());
+        holder.txt_tym.setText(users.getEdndtym());
+        holder.txt_location1.setText(users.getDropLoc());
+        holder.txt_location2.setText(users.getPickUpLoc());
 
     }
     @Override
@@ -60,7 +70,7 @@ public class CompleteAdapter_new extends RecyclerView.Adapter<CompleteAdapter_ne
 
     class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView txtprice,txtdate;
+        private TextView txtprice, txtdate, txt_tym, txt_location1, txt_location2;
         ImageView showimage;
         RelativeLayout baselayout;
 
@@ -68,8 +78,11 @@ public class CompleteAdapter_new extends RecyclerView.Adapter<CompleteAdapter_ne
 
             super(itemView);
 
-            txtprice=(TextView)itemView.findViewById(R.id.txtprice);
-            txtdate=(TextView)itemView.findViewById(R.id.texttime);
+            txtprice = (TextView) itemView.findViewById(R.id.txt_price);
+            txtdate = (TextView) itemView.findViewById(R.id.txt_date);
+            txt_tym = (TextView) itemView.findViewById(R.id.ride_tym);
+            txt_location1 = (TextView) itemView.findViewById(R.id.txt_add1st);
+            txt_location2 = (TextView) itemView.findViewById(R.id.txt_add2nd);
 
         }
     }

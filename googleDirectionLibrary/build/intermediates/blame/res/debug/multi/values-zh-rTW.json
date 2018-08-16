@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "/Users/appzorro/Downloads/DriverAppCabscout (3)/googleDirectionLibrary/build/intermediates/incremental/mergeDebugResources/merged.dir/values-zh-rTW/values-zh-rTW.xml",
+        "outputFile": "/Users/appzorro/Downloads/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/incremental/mergeDebugResources/merged.dir/values-zh-rTW/values-zh-rTW.xml",
         "map": [
             {
                 "to": {
@@ -12,6 +12,30 @@
                 },
                 "from": {
                     "file": "/Users/appzorro/.android/build-cache/b7ea76908b78a55d02675c6374bbb1d34b73ddec/output/res/values-zh-rTW/values.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 0,
+                        "startOffset": 289,
+                        "endColumn": 161,
+                        "endOffset": 450
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/incremental/mergeDebugResources/merged.dir/values-zh-rTW/values-zh-rTW.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 105,
+                    "endColumn": 161,
+                    "endOffset": 262
+                },
+                "from": {
+                    "file": "/home/vijay/.android/build-cache/25bfd21df5a3a2603c983328827ed68e6ac29450/output/res/values-zh-rTW/values.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 0,
