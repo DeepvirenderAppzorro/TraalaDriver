@@ -1,17 +1,21 @@
 package com.appzorro.driverappcabscout.model.AllAdapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.appzorro.driverappcabscout.R;
 import com.appzorro.driverappcabscout.model.Beans.CompletedRideBean;
+import com.appzorro.driverappcabscout.model.Utils;
+import com.appzorro.driverappcabscout.view.Activity.TripDetail;
 
 import java.util.ArrayList;
 
@@ -23,10 +27,10 @@ public class CompleteAdapter_new extends RecyclerView.Adapter<CompleteAdapter_ne
 
     private Context context;
     ArrayList<CompletedRideBean> list;
-    String status="1";
+    String status = "1";
 
-    public CompleteAdapter_new(Context context, ArrayList<CompletedRideBean> list){
-   this.list=list;
+    public CompleteAdapter_new(Context context, ArrayList<CompletedRideBean> list) {
+        this.list = list;
         this.context = context;
 
     }
@@ -34,9 +38,9 @@ public class CompleteAdapter_new extends RecyclerView.Adapter<CompleteAdapter_ne
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.ride_history_adapter,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ride_history_adapter, parent, false);
 
-        return  new ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -46,43 +50,55 @@ public class CompleteAdapter_new extends RecyclerView.Adapter<CompleteAdapter_ne
             holder.txtprice.setText("N/A");
 
         } else {
-            holder.txtprice.setText("$" + users.getTotalamount());
+            holder.txtprice.setText( Utils.currencyConverter(Double.parseDouble(users.getTotalamount())));
 
 
         }
-        Log.d("time",users.getStart_tym()+" start tym in holder");
+        Log.d("time", users.getStart_tym() + " start tym in holder");
         holder.txtdate.setText(users.getStartdate());
         holder.txt_tym.setText(users.getEdndtym());
-        holder.txt_location1.setText(users.getDropLoc());
-        holder.txt_location2.setText(users.getPickUpLoc());
+
+        holder.lltripD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, TripDetail.class);
+                intent.putExtra("ListData", users);
+                context.startActivity(intent);
+
+
+            }
+        });
 
     }
+
+
     @Override
     public int getItemCount() {
         return list.size();
     }
 
     public void customNotify(Context context, ArrayList<CompletedRideBean> trips) {
-        this.context=context;
-        this.list=trips;
+        this.context = context;
+        this.list = trips;
         notifyDataSetChanged();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView txtprice, txtdate, txt_tym, txt_location1, txt_location2;
+        private TextView txtprice, txtdate, txt_tym;
         ImageView showimage;
         RelativeLayout baselayout;
+        LinearLayout lltripD;
 
         public ViewHolder(View itemView) {
 
             super(itemView);
+            lltripD = itemView.findViewById(R.id.rl_address);
 
             txtprice = (TextView) itemView.findViewById(R.id.txt_price);
             txtdate = (TextView) itemView.findViewById(R.id.txt_date);
             txt_tym = (TextView) itemView.findViewById(R.id.ride_tym);
-            txt_location1 = (TextView) itemView.findViewById(R.id.txt_add1st);
-            txt_location2 = (TextView) itemView.findViewById(R.id.txt_add2nd);
+
 
         }
     }

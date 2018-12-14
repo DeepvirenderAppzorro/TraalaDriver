@@ -1,0 +1,266 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.appzorro.driverappcabscout.view.Fragments.Pending_Trip">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="5dp"
+            android:background="@drawable/background_grey_design"
+            android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="8dp"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/tvDate"
+                style="@style/TextAppearance.AppCompat.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PRODUCT DESCRIPTION"
+                android:textColor="@color/colorBlack" />
+
+            <TextView
+                android:id="@+id/tvCashVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="$158888888"
+                android:textColor="@color/colorBlack" />
+
+            <TextView
+                android:id="@+id/pro_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvDate"
+                android:layout_marginTop="5dp"
+                android:text="3 lounge chairs" />
+
+            <TextView
+                android:id="@+id/pro_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/tvCashVal"
+                android:layout_marginTop="5dp"
+                android:text="Ongoing"
+                android:textColor="#ee69a305" />
+
+            <TextView
+                android:id="@+id/pro_Des"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/pro_quantity"
+                android:layout_marginTop="5dp"
+                android:text="1 sofa" />
+
+            <TextView
+                android:id="@+id/pro_blank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/pro_state"
+                android:layout_marginTop="2dp"
+                android:text="f2f3f6"
+                android:textColor="#f2f3f6" />
+
+            <ImageView
+                android:id="@+id/img_monthly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/pro_blank"
+                android:layout_marginTop="3dp"
+                android:src="@drawable/ic_icon_next_arrow" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1.2dp"
+            android:layout_marginTop="5dp"
+            android:background="#E9E9E9"></LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/order_on"
+                style="@style/TextAppearance.AppCompat.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ORDERED ON"
+                android:textColor="@color/colorBlack" />
+
+            <TextView
+                android:id="@+id/payment_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="PAYMENT"
+                android:textColor="@color/colorBlack" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
+
+            <ImageView
+                android:id="@+id/img_greenDot"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginTop="1dp"
+                android:src="@drawable/ic_icon_clanders" />
+
+
+            <TextView
+                android:id="@+id/trip_info_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/img_greenDot"
+                android:paddingLeft="5dp"
+                android:text="08/07/2018" />
+
+            <TextView
+                android:id="@+id/tvtxtAt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/trip_info_date"
+                android:paddingLeft="3dp"
+                android:text="," />
+
+            <TextView
+                android:id="@+id/tvTym"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/tvtxtAt"
+                android:paddingLeft="3dp"
+                android:text="12:10PM" />
+
+            <TextView
+                android:id="@+id/pro_cash_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Cash $150" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/rl_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_date"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:weightSum="1">
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:id="@+id/address"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+               >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/img_greenDo"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_icon_green_dots" />
+
+                    <TextView
+                        android:id="@+id/tx_picup_ad"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:maxLines="1"
+                        android:layout_toRightOf="@+id/img_greenDo"
+                        android:text="PICKUP ADDRESS"
+                        android:textColor="@android:color/black"
+                        android:textSize="13dp" />
+                    <TextView
+                        android:id="@+id/tx_picup_val"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:maxLines="1"
+                        android:layout_marginTop="8dp"
+                        android:layout_below="@+id/tx_picup_ad"
+                        android:layout_toRightOf="@+id/img_greenDo"
+                        android:text="#75 North del mall"
+                        android:textSize="13dp" />
+                    <ImageView
+                        android:id="@+id/img_greenD"
+                        android:layout_below="@+id/tx_picup_val"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/ic_icon_green_dots" />
+                    <TextView
+                        android:id="@+id/tx_picup_add_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:maxLines="1"
+                        android:layout_marginTop="10dp"
+                        android:layout_toRightOf="@+id/img_greenD"
+                        android:layout_below="@+id/tx_picup_val"
+                        android:text="DELIVERY ADDRESS"
+                        android:textColor="@android:color/black"
+                        android:textSize="13dp" />
+                    <TextView
+                        android:id="@+id/tx_delivry_val"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:maxLines="1"
+                        android:layout_marginTop="8dp"
+                        android:layout_below="@+id/tx_picup_add_value"
+                        android:layout_toRightOf="@+id/img_greenDo"
+                        android:text="#85 South del mall"
+                        android:textSize="13dp" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_below="@+id/address"
+                android:background="@drawable/background_grey_design"
+                android:layout_height="20dp">
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

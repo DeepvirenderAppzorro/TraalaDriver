@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.appzorro.driverappcabscout.model.Beans.CashCollect_bean;
+import com.appzorro.driverappcabscout.model.CSPreferences;
 import com.appzorro.driverappcabscout.model.Constant;
 import com.appzorro.driverappcabscout.model.Event;
 import com.appzorro.driverappcabscout.model.HttpHandler;
@@ -26,7 +27,11 @@ public class CollectAmtManager {
 
     public void getAmount(Context context, String params) {
 
-        new CollectAmtManager.ExecuteApi(context).execute(params);
+        new ExecuteApi(context).execute(params);
+    }
+    public void AmountPaid(Context context, String params) {
+
+        new ExecuteAmountDoneApi(context).execute(params);
     }
 
     private class ExecuteApi extends AsyncTask<String, String, String> {
@@ -56,12 +61,9 @@ public class CollectAmtManager {
                     JSONObject jsonObject = new JSONObject(s);
 
                     JSONObject jsonObject1 = jsonObject.getJSONObject("response");
-
-                    //      int id = Integer.parseInt(jsonObject1.getString("id"));
-
                     String message = jsonObject1.getString("message");
-                    JSONObject jsonObject2 = jsonObject1.getJSONObject("fare");
-                    String baseFare = jsonObject2.getString("fare");
+                    String baseFare = jsonObject1.getString("fare");
+                    CSPreferences.putString(mContext,"FareBase",baseFare);
                     CashCollect_bean cash = new CashCollect_bean(baseFare);
                     cash_list.add(cash);
                     EventBus.getDefault().post(new Event(Constant.COLLECTAMT, message));
@@ -71,11 +73,36 @@ public class CollectAmtManager {
 
                     e.printStackTrace();
                 }
-            } else {
+             } else {
 
 
                 EventBus.getDefault().post(new Event(Constant.SERVER_ERROR, ""));
             }
+        }
+    }
+
+    private class ExecuteAmountDoneApi extends AsyncTask<String, String, String> {
+
+        Context mContext;
+
+        ExecuteAmountDoneApi(Context mContext) {
+            this.mContext = mContext;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            HttpHandler httpHandler = new HttpHandler();
+            String response = httpHandler.makeServiceCall(strings[0]);
+
+            Log.e(TAG, "getAmtDone--" + response);
+
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            EventBus.getDefault().post(new Event(Constant.COLLECTAMT_DONE, ""));
         }
     }
 

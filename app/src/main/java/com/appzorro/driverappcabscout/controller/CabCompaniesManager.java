@@ -22,12 +22,6 @@ public class CabCompaniesManager implements OnApihit{
     //public static final HashMap<Integer, String> cabCompaniesList = new HashMap<>();
     public  static CompanyLocationBean companyLocationBean ;
     public void getCabCompanies(Context context, String params) {
-
-        //HashMap<String,String> stringStringHashMap =  new HashMap<>();
-        //stringStringHashMap.put("action","get_cab");
-        //stringStringHashMap.put("cab_alias",cabName);
-        //Log.d("Params_getCabCompanies",Config.BaseURL+stringStringHashMap);
-        //new VolleyBase(this).main(stringStringHashMap, Config.BaseURL,0);
         new ExecuteApi(context).execute(params);
     }
     public void getLocationId(Context context, String params) {

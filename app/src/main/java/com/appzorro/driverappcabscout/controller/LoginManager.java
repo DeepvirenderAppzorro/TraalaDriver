@@ -31,7 +31,7 @@ public class LoginManager {
     private class ExecuteApi extends AsyncTask<String, String, String> {
         Context mContext;
 
-         ExecuteApi(Context mContext) {
+        ExecuteApi(Context mContext) {
             this.mContext = mContext;
         }
 
@@ -41,15 +41,16 @@ public class LoginManager {
             HttpHandler httpHandler = new HttpHandler();
             String response = httpHandler.makeServiceCall(strings[0]);
 
-            Log.e(TAG, "logintimeresponse--" +response);
+            Log.e(TAG, "logintimeresponse--" + response);
 
             return response;
         }
+
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if (s!=null) {
-                String companyID="";
+            if (s != null) {
+                String companyID = "";
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     JSONObject response = jsonObject.getJSONObject("response");
@@ -57,28 +58,26 @@ public class LoginManager {
                     if (response.has("company_id")) {
                         companyID = response.getString("company_id");
                     }
-                     Log.d("Driverid",id+"");
+                    Log.d("Driverid", id + "");
                     String message = response.getString("message");
-                    if (id>0) {
-
-
-                        CSPreferences.putString(mContext, "customer_id",String.valueOf(id));
-                        CSPreferences.putString(mContext, COMPANYID,companyID);
+                    if (id > 0) {
+                        CSPreferences.putString(mContext, "customer_id", String.valueOf(id));
+                        Log.d("driverId", id + " driver id");
+                        CSPreferences.putString(mContext, COMPANYID, companyID);
                         EventBus.getDefault().post(new Event(Constant.LOGIN_STATUS, ""));
-                    }
-                    else{
+                    } else {
 
                         EventBus.getDefault().post(new Event(Constant.LOGINERROR, message));
                     }
 
                 } catch (JSONException e) {
-                    EventBus.getDefault().post(new Event(Constant.SERVER_ERROR,""));
+                    EventBus.getDefault().post(new Event(Constant.SERVER_ERROR, ""));
 
                     e.printStackTrace();
                 }
-            }else {
+            } else {
 
-                EventBus.getDefault().post(new Event(Constant.SERVER_ERROR,""));
+                EventBus.getDefault().post(new Event(Constant.SERVER_ERROR, ""));
             }
         }
     }

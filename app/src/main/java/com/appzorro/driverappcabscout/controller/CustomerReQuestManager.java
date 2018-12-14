@@ -1,20 +1,20 @@
 package com.appzorro.driverappcabscout.controller;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.appzorro.driverappcabscout.model.Beans.CustomerRequest;
+import com.appzorro.driverappcabscout.model.Beans.CustomersRequestBean;
 import com.appzorro.driverappcabscout.model.CSPreferences;
-import com.appzorro.driverappcabscout.model.Config;
 import com.appzorro.driverappcabscout.model.Constant;
 import com.appzorro.driverappcabscout.model.Event;
 import com.appzorro.driverappcabscout.model.HttpHandler;
-import com.appzorro.driverappcabscout.view.NotificatonDialog;
+import com.appzorro.driverappcabscout.view.Activity.NotificatonDialog;
+import com.appzorro.driverappcabscout.view.Activity.PathmapActivity.model.CustomerListResponse;
+import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,19 +27,24 @@ import java.util.ArrayList;
 public class CustomerReQuestManager {
 
     private static final String TAG = CustomerReQuestManager.class.getSimpleName();
-    public static ArrayList<CustomerRequest> requestlis;
+    public static ArrayList<CustomerRequest> requestlis = new ArrayList<>();
+    public static CustomersRequestBean customersRequestBean;
+    public static CustomerListResponse customerListResponse;
+    public static String sourcelat = "", sourcelng = "", destlat = "", destlng = "";
+    public static String driverFlag = "false";
+    public String key = "";
 
-    public void CustomerReQuestManager(Context context, String params) {
 
+    public void CustomerReQuestManager(Context context, String params, String key) {
+
+        this.key = key;
         new ExecuteApi(context).execute(params);
     }
 
-
-    public void hitRequestApi(Context context, String params) {
-
-        new ExecuteRideRequestApi(context).execute(params);
+    public void CustomerRequestDetails(Context context, String params, String key) {
+        this.key = key;
+        new ExecuteDetailsApi(context).execute(params);
     }
-
 
     private class ExecuteApi extends AsyncTask<String, String, String> {
         Context mContext;
@@ -59,121 +64,77 @@ public class CustomerReQuestManager {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            requestlis = new ArrayList<>();
-            String payment_method = "";
-            String customer_id = "";
             String name = "";
-            String status="";
-            String profilpic = "";
-            String pickupadd = "";
-            String sourcelat = "";
-            String sourcelng = "";
-            String destlat = "";
-            String destlng = "";
-            String requestid = "";
-            String mobilenumber = "";
-            String price = "";
-            String picloc="";
-            String droploc="";
-            String vehicleType="";
+            String status = "";
 
             if (s != null) {
-
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     JSONObject response = jsonObject.getJSONObject("response");
-                  status=  response.getString("status");
-                  if(status.equalsIgnoreCase("1"))
-                  {
-                      JSONArray jsonArray = response.getJSONArray("data");
-                      for (int i = 0; i < jsonArray.length(); i++) {
+                    status = response.getString("status");
+                    if (status.equalsIgnoreCase("1")) {
+                        Gson gson = new Gson();
+                        customersRequestBean = gson.fromJson(s, CustomersRequestBean.class);
+                        customerListResponse = gson.fromJson(s, CustomerListResponse.class);
+                        //   CSPreferences.putString(mContext, Constant.RIDER_ID, customer_id);
+                        CSPreferences.putString(mContext, Constant.RIDER_NAME, name);
+                        // CSPreferences.putString(mContext, Constant.CUSTOMER_TOKEN, aceessToken);
 
-                          JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                          requestid = jsonObject1.getString("ride_request_id");
-                          CSPreferences.putString(mContext, "request_id", requestid);
-                          Log.e("request_id", requestid);
-                          int id = Integer.parseInt(requestid);
-                          if (id > 0) {
+                        switch (key) {
+                            case "no_event":
+                                EventBus.getDefault().post(new Event(Constant.UPDATE_CUSTOMER_LIST, ""));
+                                break;
+                            case "no_msg":
+                                Log.d("NoEvent", "True");
+                                //Added by deep 3oct
+                                // mContext.startActivity(new Intent(mContext, CashCollect.class));
+                                break;
 
-                              name = jsonObject1.getString("name");
+                            case "checkin_splash":
+                                EventBus.getDefault().post(new Event(Constant.SPLASH_CHECKIN, ""));
+                                break;
+                            case "rating":
+                                EventBus.getDefault().post(new Event(Constant.RATING_SCREEN, ""));
+                                break;
+                           /* case "firstTime":
+                                EventBus.getDefault().post(new Event(Constant.RATING_SCREEN, ""));
+                                break;*/
+                            default:
+                                EventBus.getDefault().post(new Event(Constant.CUSTOMERREQUEST, ""));
+                                break;
+                        }
+                    } else {
+                        customersRequestBean = null;
+                        if (key.equals("checkin_splash"))
+                            EventBus.getDefault().post(new Event(Constant.SPLASH_CHECKIN, ""));
+                        else
+                            EventBus.getDefault().post(new Event(Constant.SERVER_ERROR, ""));
 
-                              customer_id = jsonObject1.getString("customer_id");
-                              CSPreferences.putString(mContext, "CustomerId", customer_id);
-                              Log.e("exception request", customer_id);
-                              vehicleType = jsonObject1.getString("vehicle_type");
-                              Log.d("VehicleType",vehicleType);
-
-                              picloc = jsonObject1.getString("pickup_location");
-                              droploc = jsonObject1.getString("drop_location");
-
-                              profilpic = jsonObject1.getString("profile_pic");
-                              pickupadd = jsonObject1.getString("pickup_cordinates");
-                              price = jsonObject1.getString("price");
-
-                              String[] picksplit = pickupadd.split(",");
-                              sourcelat = picksplit[picksplit.length - 2];
-                              sourcelng = picksplit[picksplit.length - 1];
-
-                              String dropadd = jsonObject1.getString("drop_cordinates");
-                              String[] dropsplit = dropadd.split(",");
-
-                              destlat = dropsplit[dropsplit.length - 2];
-                              destlng = dropsplit[dropsplit.length - 1];
-
-                              if (jsonObject1.has("payment_type")) {
-                                  payment_method = jsonObject1.getString("payment_type");
-                                  CSPreferences.putString(mContext, Constant.PAYEMENT_METHOD, payment_method);
-                              }
-                              mobilenumber = jsonObject1.getString("mobile");
-
-                           /* CustomerRequest customerRequest = new CustomerRequest(name, requestid, customer_id,
-                                    Config.baserurl_image + profilpic, sourcelat, sourcelng,
-                                    destlat, destlng, mobilenumber, payment_method);
-
-                            requestlis.add(customerRequest);*/
-
-
-                          } else {
-
-                              String message = jsonObject1.getString("message");
-
-                          }
-
-                      }
-
-                      CustomerRequest customerRequest = new CustomerRequest(name, requestid, customer_id,
-                              Config.baserurl_image + profilpic, sourcelat, sourcelng,
-                              destlat, destlng, mobilenumber, payment_method,price,vehicleType,picloc,droploc);
-
-                      requestlis.add(customerRequest);
-                      CSPreferences.putString(mContext, Constant.CUSTOMER_ID, customer_id);
-                      CSPreferences.putString(mContext, Constant.RIDER_NAME, name);
-                      CSPreferences.putString(mContext, Constant.RIDE_PRICE, price);
-                      mContext.startActivity(new Intent(mContext, NotificatonDialog.class).addFlags((Intent.FLAG_ACTIVITY_NEW_TASK)));
-                      EventBus.getDefault().post(new Event(Constant.CUSTOMERREQUEST, ""));
-                  }
-                  else
-                  {
-                      EventBus.getDefault().post(new Event(Constant.SERVER_ERROR, ""));
-
-                  }
+                    }
 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    customersRequestBean = null;
+                    if (key.equals("checkin_splash"))
+                        EventBus.getDefault().post(new Event(Constant.SPLASH_CHECKIN, ""));
+                    else
+                        EventBus.getDefault().post(new Event(Constant.SERVER_ERROR, ""));
                     Log.e("exception request", e.toString());
                 }
             } else {
-
-                EventBus.getDefault().post(new Event(Constant.SERVER_ERROR, ""));
+                if (key.equals("checkin_splash"))
+                    EventBus.getDefault().post(new Event(Constant.SPLASH_CHECKIN, ""));
+                else
+                    EventBus.getDefault().post(new Event(Constant.SERVER_ERROR, ""));
             }
         }
     }
 
-    private class ExecuteRideRequestApi extends AsyncTask<String, String, String> {
+    private class ExecuteDetailsApi extends AsyncTask<String, String, String> {
         Context mContext;
 
-        ExecuteRideRequestApi(Context mContext) {
+        ExecuteDetailsApi(Context mContext) {
             this.mContext = mContext;
         }
 
@@ -181,101 +142,73 @@ public class CustomerReQuestManager {
         protected String doInBackground(String... strings) {
             HttpHandler httpHandler = new HttpHandler();
             String response = httpHandler.makeServiceCall(strings[0]);
-            Log.e(TAG, "customer__ride_request_get--" + response);
+            Log.e(TAG, "customer_details_get--" + response);
             return response;
         }
 
         @Override
         protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            requestlis = new ArrayList<>();
-            String payment_method = "";
-            String customer_id = "";
-            String name = "";
-            String profilpic = "";
-            String pickupadd = "";
-            String sourcelat = "";
-            String sourcelng = "";
-            String destlat = "";
-            String destlng = "";
-            String requestid = "";
-            String mobilenumber = "";
-            String price = "";
-            String picloc="";
-            String droploc="";
-            String vehicleType="";
+            boolean isDriverID = false;
+            String ride_request_id = "";
+            String distance = "";
+            String poolorNot = "";
+            String token = "";
+            boolean showDialog = false;
+            String driver_status = CSPreferences.readString(mContext, Constant.DRIVER_STATUS);
 
-            if (s != null) {
-
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    String message1 = jsonObject.getString("message");
+            try {
+                JSONObject jsonObject1 = new JSONObject(s);
+                JSONObject jsonObject = jsonObject1.getJSONObject("detail");
+                String message = jsonObject1.getString("message");
+                String vehicleType = jsonObject.getString("vehicle_type");
+                token = jsonObject.getString("device_token");
+                if (vehicleType.equals("4"))
+                    poolorNot = "pool";
+                if (message.equals("success")) {
 
 
-                    if (message1.equals("success")) {
-                        JSONObject jsonObject1 = jsonObject.getJSONObject("detail");
-                        requestid = jsonObject1.getString("ride_request_id");
-                        CSPreferences.putString(mContext, "request_id", requestid);
-                        name = jsonObject1.getString("name");
-                        price = jsonObject1.getString("price");
-                        customer_id = jsonObject1.getString("customer_id");
-                        Log.e("exception request", customer_id);
-                        vehicleType = jsonObject1.getString("vehicle_type");
-                        profilpic = jsonObject1.getString("profile_pic");
-                        pickupadd = jsonObject1.getString("pickup_cordinates");
-
-                        String[] picksplit = pickupadd.split(",");
-                        sourcelat = picksplit[picksplit.length - 2];
-                        sourcelng = picksplit[picksplit.length - 1];
-
-                        picloc = jsonObject1.getString("pickup_location");
-                        droploc = jsonObject1.getString("drop_location");
-
-
-                        String dropadd = jsonObject1.getString("drop_cordinates");
-                        String[] dropsplit = dropadd.split(",");
-
-                        destlat = dropsplit[dropsplit.length - 2];
-                        destlng = dropsplit[dropsplit.length - 1];
-
-                        if (jsonObject1.has("payment_type")) {
-                            payment_method = jsonObject1.getString("payment_type");
-                            CSPreferences.putString(mContext, Constant.PAYEMENT_METHOD, payment_method);
+                    if (jsonObject.has("ride_request_id") && isDriverID && !NotificatonDialog.isActive) {
+                        ride_request_id = jsonObject.getString("ride_request_id");
+                        if (jsonObject.has("distance")) {
+                            distance = jsonObject.getString("distance");
                         }
-                        mobilenumber = jsonObject1.getString("mobile");
+                        CSPreferences.putString(mContext, Constant.DISTANCE, distance);
+                        CSPreferences.putString(mContext, Constant.REQUEST_ID, ride_request_id);
+                        showDialog = true;
 
-                           /* CustomerRequest customerRequest = new CustomerRequest(name, requestid, customer_id,
-                                    Config.baserurl_image + profilpic, sourcelat, sourcelng,
-                                    destlat, destlng, mobilenumber, payment_method);
-
-                            requestlis.add(customerRequest);*/
-
-
-                    } else {
-
-                        EventBus.getDefault().post(new Event(Constant.SERVER_ERROR, ""));
-
+                    } else if (jsonObject.has("ride_request_id") && isDriverID && NotificatonDialog.isActive) {
+                        ride_request_id = jsonObject.getString("ride_request_id");
+                        CSPreferences.putString(mContext, Constant.CUSTOMER_TOKEN, token);
                     }
 
-                    CustomerRequest customerRequest = new CustomerRequest(name, requestid, customer_id,
-                            Config.baserurl_image + profilpic, sourcelat, sourcelng,
-                            destlat, destlng, mobilenumber, payment_method,price,vehicleType,picloc,droploc);
+                    if (!driver_status.equals("2") && key.equals("customer_request") && showDialog || poolorNot.equals("pool")) {
+                        String customer_id = jsonObject.getString("customer_id");
+                        CSPreferences.putString(mContext, Constant.CUSTOMER_TOKEN, token);
+                        CSPreferences.putString(mContext, Constant.RIDER_ID, customer_id);
 
-                    requestlis.add(customerRequest);
-
-                    CSPreferences.putString(mContext, Constant.CUSTOMER_ID, customer_id);
-                    CSPreferences.putString(mContext, Constant.RIDER_NAME, name);
-                    EventBus.getDefault().post(new Event(Constant.LAST_RIDE_STATE_SUCCCESS, ""));
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.e("exception request", e.toString());
+                        if (!driver_status.equals("2") && !poolorNot.equals("pool")) {
+                            CSPreferences.putString(mContext, Constant.IS_POOLTYPE, "false");
+                            //  sendNotification(message);
+                           /* ModelManager.getInstance().getCustomerReQuestManager().CustomerReQuestManager(mContext, Operations.
+                                    getCustomerRequest(mContext, CSPreferences.readString(mContext, "customer_id")), "no_msg");
+*/
+                        } else if (poolorNot.equals("pool")) {
+                            CSPreferences.putString(mContext, Constant.IS_POOLTYPE, "true");
+                            if (jsonObject.getString("driver_id").equals(CSPreferences.readString(mContext, "customer_id"))) {
+                               /* ModelManager.getInstance().getCustomerReQuestManager().CustomerReQuestManager(mContext, Operations.
+                                        getCustomerRequest(mContext, CSPreferences.readString(mContext, "customer_id")), "no_msg");*/
+                            }
+                        }
+                    }
                 }
-            } else {
 
-                EventBus.getDefault().post(new Event(Constant.SERVER_ERROR, ""));
+
+                EventBus.getDefault().post(new Event(Constant.RIDE_DETAILS, ""));
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
     }
+
 
 }

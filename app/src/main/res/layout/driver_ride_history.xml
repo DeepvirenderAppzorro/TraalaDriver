@@ -1,12 +1,12 @@
-<RelativeLayout android:background="@color/white"
-    android:layout_height="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:background="@color/white"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/linear1_"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <include
@@ -15,115 +15,115 @@
     </LinearLayout>
 
     <TextView
-        style="@style/TextAppearance.AppCompat.Large"
-        android:gravity="center"
         android:id="@+id/lbl_month"
-        android:layout_below="@+id/ll_date"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="match_parent"
-        android:text="May 18"
-        android:textColor="@android:color/black"
-        android:textStyle="bold" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_date"
+        android:fontFamily="@font/montserratsemibold"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        />
 
     <LinearLayout
-        android:background="@drawable/ride_his_drawable"
-        android:gravity="center"
         android:id="@+id/ll_date"
-        android:layout_below="@+id/linear1_"
+        android:layout_width="match_parent"
         android:layout_height="70dp"
+        android:layout_below="@+id/linear1_"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
+        android:background="@drawable/ride_his_drawable"
+        android:gravity="center"
         android:orientation="vertical"
         android:padding="1dp"
         android:visibility="gone">
 
         <TextView
-            android:gravity="center"
             android:id="@+id/datetime"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="13-06-2018"
             android:textColor="@android:color/black" />
 
         <TextView
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:gravity="center"
             android:id="@+id/dayearning"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
+            android:gravity="center"
             android:text="00:00"
             android:textColor="@android:color/holo_red_dark" />
     </LinearLayout>
 
     <TextView
-        android:gravity="center"
         android:id="@+id/lbl_detail"
-        android:layout_below="@+id/ll_date"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_date"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
         android:text="Detail"
         android:textColor="@android:color/black"
         android:visibility="gone" />
 
     <RelativeLayout
-        android:background="@drawable/ride_his_drawable"
         android:id="@+id/rl_ave_rating"
-        android:layout_below="@+id/lbl_detail"
+        android:layout_width="match_parent"
         android:layout_height="70dp"
+        android:layout_below="@+id/lbl_detail"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:layout_width="match_parent"
+        android:background="@drawable/ride_his_drawable"
         android:visibility="gone">
 
         <RatingBar
-            style="?android:attr/ratingBarStyleSmall"
             android:id="@+id/ratingbar"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/detail"
-            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
-            android:layout_width="wrap_content"
             android:numStars="5" />
 
         <TextView
             android:id="@+id/txtrating"
-            android:layout_below="@+id/ratingbar"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/ratingbar"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
-            android:layout_width="wrap_content"
             android:text="Avg Rating"
             android:textColor="@android:color/black"
             android:textSize="15dp" />
 
         <TextView
             android:id="@+id/txttotaltrips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/detail"
-            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="60dp"
             android:layout_marginTop="5dp"
-            android:layout_width="wrap_content"
             android:text="0"
             android:textColor="@android:color/black"
             android:textSize="15dp" />
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/txttotaltrips"
-            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
-            android:layout_width="wrap_content"
             android:text="Completed trips"
             android:textColor="@android:color/black"
             android:textSize="15dp" />
@@ -131,57 +131,58 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/completedridelist"
-        android:layout_below="@+id/lbl_month"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent" />
+        android:layout_below="@+id/lbl_month"
+        android:layout_marginTop="10dp" />
 
     <ProgressBar
         android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
         android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/ll_noRecord"
-        android:layout_centerInParent="true"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:orientation="vertical"
         android:visibility="gone">
 
         <ImageView
             android:id="@+id/noData"
-            android:layout_gravity="center"
-            android:layout_height="150dp"
             android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
             android:padding="10dp"
             android:src="@drawable/ic_icon_no_found_img" />
 
         <TextView
-            style="@style/TextAppearance.AppCompat.Medium"
             android:id="@+id/notrips"
-            android:layout_gravity="center"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            style="@style/TextAppearance.AppCompat.Large"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
             android:padding="5dp"
-            android:text="NO DATA FOUND "
+            android:text="NO DATA FOUND FOR THIS DATE"
             android:textColor="@android:color/holo_red_dark"
-            android:textSize="10dp"
+            android:textSize="14dp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/noTrips"
-            android:layout_gravity="center"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            style="@style/TextAppearance.AppCompat.Medium"
             android:padding="5dp"
             android:text="@string/no_record_found"
             android:textColor="@color/black"
-            android:textSize="10dp" />
+            android:textSize="12dp" />
     </LinearLayout>
 </RelativeLayout>

@@ -36,7 +36,7 @@
                 android:id="@+id/txtmessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="your Request cancel by driver due to some reason"
+                android:text="your Request cancel by Customer due to some reason"
                 android:layout_centerHorizontal="true" />
 
             <TextView
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:text="OK"
                 android:textAlignment="center"
-                android:background="#0083db"
+                android:background="@color/gray_btn_bg_color"
                 android:padding="8dp"
                 android:textColor="@color/white"
                 android:layout_below="@+id/txtmessage"

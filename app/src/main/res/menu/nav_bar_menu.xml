@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/payment"
-        android:title=" Map"
-        android:icon="@drawable/ic_icon_map"/>
+    <item android:id="@+id/settings"
+        android:title=" My Profile"
+        android:icon="@drawable/ic_icon_setting"/>
     <item android:id="@+id/rideHistory"
         android:title=" Ride_history"
        android:icon="@drawable/ic_icon_history" />
    <!-- <item android:id="@+id/myBooking"
         android:title="My_booking"
         android:icon="@drawable/ic_icon_payment" />-->
-    <item android:id="@+id/settings"
-        android:title=" Setting"
-        android:icon="@drawable/ic_icon_setting"/>
+
     <item android:id="@+id/review"
         android:title=" Reviews"
         android:icon="@mipmap/review"/>

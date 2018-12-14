@@ -21,14 +21,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/linear1_"
-        android:padding="5dp">
+        android:padding="3dp">
 
         <ImageView
             android:id="@+id/image_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="10dp"
             android:src="@drawable/ic_icon_logo" />
 
         <TextView
@@ -49,6 +49,7 @@
             android:layout_height="40dp"
             android:layout_centerInParent="true"
             android:layout_margin="8dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/btn_design"
             android:orientation="horizontal">
 
@@ -60,7 +61,7 @@
                 android:layout_weight=".10"
                 android:src="@drawable/ic_icon_taxi" />
 
-         <!--   <TextView
+            <TextView
                 android:id="@+id/txt_select_company"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -68,9 +69,9 @@
                 android:layout_marginLeft="10dp"
                 android:layout_weight=".90"
                 android:gravity="start"
-                android:text="Select Company Name"
+                android:text="NO Data Available"
                 android:textSize="12sp"
-                android:visibility="visible" />-->
+                android:visibility="gone" />
             <com.appzorro.driverappcabscout.model.CustomSearchableSpinner
                 android:id="@+id/selectCab"
                 android:layout_width="0dp"
@@ -130,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight=".10"
-                android:src="@mipmap/ic_icon_location" />
+                android:src="@drawable/ic_icon_map" />
 
         <!--    <TextView
                 android:id="@+id/txt_select_Location"

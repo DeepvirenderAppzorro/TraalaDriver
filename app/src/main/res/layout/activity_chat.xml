@@ -1,0 +1,76 @@
+<LinearLayout android:background="@color/cardview_light_background"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
+    app:ignore="NamespaceTypo">
+
+    <include layout="@layout/chat_activity_toolbar" />
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight=".8"
+            android:layout_width="match_parent" />
+
+        <android.support.v7.widget.CardView
+            android:foreground="?android:attr/selectableItemBackground"
+            android:id="@+id/card_view_get"
+            android:layout_height="0dp"
+            android:layout_marginBottom="2dp"
+            android:layout_weight=".10"
+            android:layout_width="match_parent"
+            android:padding="5dp"
+            app:cardBackgroundColor="@color/chatbg"
+            card_view:cardCornerRadius="5dp"
+            card_view:cardElevation="7dp">
+
+            <LinearLayout
+                android:background="@color/cardview_light_background"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:background="@color/white"
+                    android:fontFamily="@font/montserratmedium"
+                    android:hint="@string/type_query"
+                    android:id="@+id/edit_query"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_weight=".8"
+                    android:layout_width="0dp"
+                    android:paddingEnd="3dp"
+                    android:paddingStart="3dp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+
+                <LinearLayout
+                    android:layout_height="match_parent"
+                    android:layout_weight=".2"
+                    android:layout_width="0dp">
+
+                    <TextView
+                        android:fontFamily="@font/montserratsemibold"
+                        android:gravity="center"
+                        android:id="@+id/send"
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:text="Send"
+                        android:textColor="@color/light_blue"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</LinearLayout>

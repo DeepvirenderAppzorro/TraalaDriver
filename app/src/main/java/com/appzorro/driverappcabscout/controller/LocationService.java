@@ -28,7 +28,7 @@ public class LocationService implements LocationListener {
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0; // 10 meters
 
     // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 60; // 1 minute
+    public static final long MIN_TIME_BW_UPDATES = 5000; // 1 minute
 
     public Location getLocation(Context mContext) {
      //   context = mContext;

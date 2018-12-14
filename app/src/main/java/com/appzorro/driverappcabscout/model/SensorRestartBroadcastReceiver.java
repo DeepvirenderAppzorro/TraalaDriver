@@ -14,7 +14,11 @@ public class SensorRestartBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.i(TAG, "Service Stops, let's restart again.");
-        context.startService(new Intent(context, SignalRService.class));
+        Log.i(TAG, "ServiceStops, let's restart again.");
+        Log.d("chkService","Intent start  service");
+        Utils.sendMessageIo(context, "socketDisconnect", CSPreferences.readString(context, Constant.SOCKET_ID));
+
+
+
     }
 }

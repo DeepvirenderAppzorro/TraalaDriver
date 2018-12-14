@@ -49,7 +49,7 @@ public class CancelTripManager {
                     JSONObject jsonObject = new JSONObject(s);
                     JSONObject response = jsonObject.getJSONObject("response");
                     int id = Integer.parseInt(response.getString("id"));
-                    String message = response.getString("message");
+                    String message = response.optString("message");
                     EventBus.getDefault().post(new Event(Constant.CANCELTRIP,""));
 
 

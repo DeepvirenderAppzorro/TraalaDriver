@@ -15,7 +15,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by vijay on 20/2/17.
@@ -53,6 +56,8 @@ public class Tripsmanager {
             super.onPostExecute(s);
             if (s != null) {
                 trips = new ArrayList<>();
+                String paymentTyp = "";
+                String customername="";
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     JSONObject res = jsonObject.getJSONObject("response");
@@ -67,15 +72,45 @@ public class Tripsmanager {
                             String pickcordinate = jsonObject1.getString("pickup_cordinates");
                             String dropcordinate = jsonObject1.getString("drop_cordinates");
                             String startdate = jsonObject1.getString("start_date");
+                            SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+                            SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = null;
+                            try {
+                                date = inputFormat.parse(startdate);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            System.out.println(outputFormat.format(date));
                             String startTym = jsonObject1.getString("start_time");
-                            Log.d("time",startTym+" start tym in tripmanger");
-                                String dropLoc= jsonObject1.getString("drop_location");
-                               String pickupLoc= jsonObject1.getString("pickup_location");
+                            Log.d("time", startTym + " start tym in tripmanger");
+                            String dropLoc = jsonObject1.getString("drop_location");
+                            String pathImg = jsonObject1.getString("path_image");
+
+                            String paymentType = jsonObject1.getString("payment_type");
+                            if (paymentType.equalsIgnoreCase("0")) {
+                                paymentTyp = "Cash";
+
+                            } else if (paymentType.equalsIgnoreCase("1")) {
+                                paymentTyp = "Credit";
+                            } else if (paymentType.equalsIgnoreCase("2")) {
+                                paymentTyp = "corporate acc";
+                            }
+
+                            String pickupLoc = jsonObject1.getString("pickup_location");
                             String enddate = jsonObject1.getString("end_date");
                             String endTym = jsonObject1.getString("end_time");
+
+                            String feedBack = jsonObject1.getString("rating");
+                            Log.d("f", feedBack);
+                            String vehicleName = jsonObject1.getString("vehicle_category_name");
+
                             String totalamount = jsonObject1.getString("total_amount");
                             JSONObject jsonObject2 = jsonObject1.getJSONObject("Customer Detail");
-                            String customername = jsonObject2.getString("name");
+                           customername = jsonObject2.getString("name");
+                            if(customername.equalsIgnoreCase("")||customername.equalsIgnoreCase("null"))
+                            {
+                                customername="N/A";
+                            }
                             String id = jsonObject2.getString("id");
                             String profile = jsonObject2.getString("profile_pic");
                             String mobile = jsonObject2.getString("mobile");
@@ -86,7 +121,7 @@ public class Tripsmanager {
                             String droplat = dropsplit[dropsplit.length - 2];
                             String droplng = dropsplit[dropsplit.length - 1];
                             CompletedRideBean completedRideBean = new CompletedRideBean(requestid, picklat, picklng, droplat, droplng,
-                                    startdate, startTym, enddate, endTym, totalamount, customername, Config.baserurl_image + profile, mobile,dropLoc,pickupLoc);
+                                    outputFormat.format(date), startTym, enddate, endTym, totalamount, customername, Config.baserurl_image + profile, mobile, dropLoc, pickupLoc, feedBack, vehicleName, paymentTyp, Config.pathurl_image + pathImg);
                             trips.add(completedRideBean);
 
 

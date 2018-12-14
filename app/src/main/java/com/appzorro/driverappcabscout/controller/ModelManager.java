@@ -9,6 +9,7 @@ public class ModelManager {
     private static ModelManager modelManager;
     private CustomerReQuestManager customerReQuestManager;
     private AcceptCustomerRequest acceptCustomerRequest;
+    private DailyEarning dailyEarning;
     private LaterBookingManager laterBookingManager;
     private ChangepasswordManager changepasswordManager;
     private UpdateProfileManager updateProfileManager;
@@ -28,6 +29,7 @@ public class ModelManager {
     private NearestRoadManager nearestRoadManager;
     private UpdateProfilePicManager updateProfilePicManager;
     private CollectAmtManager collectAmtManager;
+    private CustomerDetail customerRideStatus;
 
 
     private ModelManager() {
@@ -57,6 +59,8 @@ public class ModelManager {
         fareManager = new FareDetailManager();
         locationSendManager = new LocationSendManager();
         nearestRoadManager = new NearestRoadManager();
+        customerRideStatus = new CustomerDetail();
+        dailyEarning=new DailyEarning();
 
 
     }
@@ -77,10 +81,17 @@ public class ModelManager {
 
         return nearestRoadManager;
     }
+    public DailyEarning getDailyEarning() {
+
+        return dailyEarning;
+    }
 
 
     public LocationSendManager getLocationSendManager() {
         return locationSendManager;
+    }
+    public CustomerDetail getCustomerRideStatus() {
+        return customerRideStatus;
     }
 
     public GetCityManager getCityManagerr() {

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:gravity="center">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:id="@+id/parentLayout"
+        android:orientation="horizontal"
+        android:padding="3dp">
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".08"
+            android:button="@drawable/checkbox_circle_drawable" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/customer_image"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight=".15"
+            android:src="@drawable/ic_icon_pic"
+            app:civ_border_color="@color/grey_light"
+            app:civ_border_width="0.5dp" />
+
+        <TextView
+            android:id="@+id/riderName"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".33"
+            android:fontFamily="@font/montserratsemibold"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="Rider Name"
+            android:paddingStart="2dp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/txtpayment"
+            style="@style/Base.TextAppearance.AppCompat.Small"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".35"
+            android:fontFamily="@font/montserratsemibold"
+            android:gravity="center|end"
+            android:text="Payment By Cash"
+            android:textSize="12dp" />
+
+        <ImageView
+            android:id="@+id/callButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="2dp"
+            android:layout_weight=".15"
+            android:src="@drawable/ic_icon_call" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

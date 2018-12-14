@@ -5,7 +5,7 @@
     android:id="@+id/activity_driver_path"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.appzorro.driverappcabscout.view.DriverPathActivity">
+    tools:context="com.appzorro.driverappcabscout.view.Activity.DriverPathActivity">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"

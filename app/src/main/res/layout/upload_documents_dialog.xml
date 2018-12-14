@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    tools:context="com.appzorro.driverappcabscout.view.UploaDocument">
+
+    <LinearLayout
+        android:id="@+id/linear1_"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/upload_toolbar" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linear1_">
+
+        <RelativeLayout
+            android:id="@+id/rlDocuments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/uploadText"
+                    style="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:text="Upload Documents"
+                    android:textColor="#5f0e0e0e"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/uploadFirst"
+                    style="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/uploadText"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:text="1. Upload Front"
+                    android:textColor="#ea0e0e0e"
+                    android:textStyle="bold" />
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cardView_mail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/uploadFirst"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="2dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:padding="5dp"
+                    card_view:cardElevation="2dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/uploadFront"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:src="@drawable/ic_icon_aadhar_front" />
+
+                        <View
+                            android:id="@+id/View03"
+                            android:layout_width="match_parent"
+                            android:layout_height="3dip"
+                            android:layout_below="@+id/uploadFront"
+                            android:layout_marginTop="10dp"
+                            android:background="#315e665e" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/View03">
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="0.5"
+                                android:layout_height="wrap_content">
+                                <ImageView
+                                    android:id="@+id/camerImg"
+                                    android:layout_width="0dp"
+                                    android:layout_height="40dp"
+                                    android:layout_gravity="center"
+                                    android:layout_weight=".20"
+                                    android:padding="8dp"
+                                    android:src="@drawable/ic_icon_cameras" />
+
+                                <TextView
+                                    android:id="@+id/cameraPic"
+                                    android:layout_width="0dp"
+                                    android:layout_height="50dp"
+                                    android:layout_weight="0.80"
+                                    android:gravity="start|center"
+                                    android:text="Camera"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <View
+                                android:id="@+id/View04"
+                                android:layout_width="0dp"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="0.01"
+                                android:background="#315e665e" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="0.5"
+                            android:weightSum="1"
+                            android:gravity="center"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:layout_weight=".40"
+                                android:padding="8dp"/>
+
+                            <ImageView
+                                android:id="@+id/imgalry"
+                                android:layout_width="0dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:layout_weight=".20"
+                                android:padding="8dp"
+                                android:src="@drawable/ic_icon_galleryes" />
+
+                            <TextView
+                                android:id="@+id/galeryPic"
+                                android:layout_width="0dp"
+                                android:layout_height="50dp"
+                                android:layout_weight="0.40"
+                                android:gravity="start|center"
+                                android:text="Gallery"
+                                android:textColor="@color/black"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <View
+                    android:id="@+id/View7"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dip"
+                    android:layout_below="@+id/cardView_mail"
+                    android:background="#315e665e" />
+
+                <TextView
+                    android:id="@+id/uploadSecond"
+                    style="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/View7"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:text="2. Upload Back"
+                    android:textColor="#ea0e0e0e"
+                    android:textStyle="bold" />
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cardView_2nd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/uploadSecond"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="2dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:padding="5dp"
+                    card_view:cardElevation="2dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/uploadBack"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:src="@drawable/ic_icon_aadhar_back" />
+
+                        <View
+                            android:id="@+id/View6"
+                            android:layout_width="match_parent"
+                            android:layout_height="3dip"
+                            android:layout_below="@+id/uploadBack"
+                            android:layout_marginTop="10dp"
+                            android:background="#315e665e" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/View6">
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="0.5"
+                                android:layout_height="wrap_content">
+                                <ImageView
+                                    android:id="@+id/img_camerback"
+                                    android:layout_width="0dp"
+                                    android:layout_height="40dp"
+                                    android:layout_gravity="center"
+                                    android:layout_weight=".20"
+                                    android:padding="8dp"
+                                    android:src="@drawable/ic_icon_cameras" />
+
+                                <TextView
+                                    android:id="@+id/cameraPic2"
+                                    android:layout_width="0dp"
+                                    android:layout_height="50dp"
+                                    android:layout_weight="0.80"
+                                    android:gravity="start|center"
+                                    android:text="Camera"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <View
+                                android:id="@+id/View06"
+                                android:layout_width="0dp"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="0.01"
+                                android:background="#315e665e" />
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="0.5"
+                                android:weightSum="1"
+                                android:layout_height="wrap_content">
+                                <ImageView
+                                    android:layout_width="0dp"
+                                    android:layout_height="40dp"
+                                    android:layout_gravity="center"
+                                    android:layout_weight=".40"
+                                    android:padding="8dp"/>
+
+                                <ImageView
+                                    android:id="@+id/imgglryback"
+                                    android:layout_width="0dp"
+                                    android:layout_height="40dp"
+                                    android:layout_gravity="center"
+                                    android:layout_weight=".20"
+                                    android:padding="8dp"
+                                    android:src="@drawable/ic_icon_galleryes" />
+
+                                <TextView
+                                    android:id="@+id/galeryPic2"
+                                    android:layout_width="0dp"
+                                    android:layout_height="50dp"
+                                    android:layout_weight="0.40"
+                                    android:gravity="start|center"
+                                    android:text="Gallery"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/cardView_2nd"
+                    android:layout_margin="8dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/btCansel"
+                        style="@style/TextAppearance.AppCompat.Medium"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_weight="0.5"
+                        android:background="@drawable/button_design"
+                        android:gravity="center"
+                        android:text="Cancel"
+                        android:textColor="@android:color/white" />
+                    <TextView
+                        android:id="@+id/upLoadData"
+                        style="@style/TextAppearance.AppCompat.Medium"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@drawable/button_design"
+                        android:gravity="center"
+                        android:text="Upload"
+                        android:textColor="@android:color/white" />
+                </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

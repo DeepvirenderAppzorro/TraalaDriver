@@ -31,6 +31,13 @@
                 android:layout_marginBottom="30dp"
                 android:layout_width="wrap_content"
                 android:visibility="gone" />
+            <com.twitter.sdk.android.core.identity.TwitterLoginButton
+                android:id="@+id/tw_login_button"
+                android:layout_margin="20dp"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
             <ImageView
                 android:id="@+id/image_main"
                 android:layout_gravity="center"
@@ -40,7 +47,6 @@
         </LinearLayout>
         <LinearLayout
             android:gravity="center"
-
             android:layout_height="0dp"
             android:layout_weight="0.05"
             android:layout_width="match_parent"

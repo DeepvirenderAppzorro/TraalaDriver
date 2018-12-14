@@ -52,6 +52,19 @@ public class StopRideManager {
                     String message = response.getString("message");
                     String driver_status = response.getString("driver_status");
                     CSPreferences.putString(mContext,Constant.DRIVER_STATUS,driver_status);
+                    Log.e("ChkSt",driver_status+ " Complete trip");
+                    String ck= CSPreferences.readString(mContext,"chkCash");
+                    if(ck.equals("1"))
+                    {
+                        CSPreferences.putString(mContext,"stat",driver_status);
+
+                    }
+                    else
+                    {
+                        CSPreferences.putString(mContext,"stat","");
+
+                    }
+
                     if (id>0) {
 
                         EventBus.getDefault().post(new Event(Constant.STOPRIDE,message));

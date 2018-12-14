@@ -38,7 +38,7 @@ public class RatingManager {
             HttpHandler httpHandler = new HttpHandler();
             String response = httpHandler.makeServiceCall(strings[0]);
 
-            Log.e(TAG, "rating submit url--" +response);
+            Log.e(TAG, "ratingsubmiturl--" +response);
 
             return response;
         }
@@ -59,7 +59,7 @@ public class RatingManager {
 
                     }
                 } catch (JSONException e) {
-
+                    EventBus.getDefault().post(new Event(Constant.SERVER_ERROR,""));
                     e.printStackTrace();
                 }
             }else {

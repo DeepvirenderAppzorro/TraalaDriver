@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Traala-Driver</string>
+    <string name="CONSUMER_KEY">1EewsDHADPZl3KV0mPk0mwkxK</string>
+    <string name="CONSUMER_SECRET">ROsJZjZBVrMTqDcOFO7EngcmuaubL9AZ1qKXdd5RTSaN9klxCa</string>
+
     <string name="title_activity_maps">Traala-Driver</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string><!-- TODO: Remove or change this placeholder text -->
@@ -12,6 +15,7 @@
     <string name="confirmation_accept">Accept</string>
     <string name="confirmation_cancel">Cancel</string>
     <string name="ride_history">Ride History</string>
+    <string name="internet_connection">Please check your internet connection and try again</string>
     <string name="my_booking">My Bookings</string>
     <string name="consumer_secret">ROsJZjZBVrMTqDcOFO7EngcmuaubL9AZ1qKXdd5RTSaN9klxCa</string>
 
@@ -28,8 +32,11 @@
 
     <string name="com.twitter.sdk.android.CONSUMER_KEY">1EewsDHADPZl3KV0mPk0mwkxK</string>
     <string name="com.twitter.sdk.android.CONSUMER_SECRET">ROsJZjZBVrMTqDcOFO7EngcmuaubL9AZ1qKXdd5RTSaN9klxCa</string>
-    <string name="google_android_map_api_key_none">AIzaSyCgCisN2V6RkAWoqT1SpgetqejcDuHsRYA</string>
-
+    <!--
+   <string name="google_android_map_api_key_none">AIzaSyCgCisN2V6RkAWoqT1SpgetqejcDuHsRYA</string>
+-->
+    <!--<string name="google_android_map_api_key_none">AIzaSyDiZhhJqvheIOhxmCS5zdahobWwtdJnq2o</string>-->
+    <string name="google_android_map_api_key_none">AIzaSyDIyHNW33sg-dhV3tzVP_XFNkUIstsRuRM</string>
     <string name="google_android_map_api_key_v2">AIzaSyDIyHNW33sg-dhV3tzVP_XFNkUIstsRuRM</string>
     <string name="google_android_map_api_key_server">AIzaSyD29Wwqna7uhKeTovB2FQl9SfZ2rMGqVro</string>
     //End ------
@@ -45,6 +52,9 @@
     <string name="free_rides">Send your free friends  \n free rides  </string>
     <string name="free_ride_desp">Share the traala love and give friends free \n  rides To try Traala, worth upto try $1 each! </string>
     <string name="free_rides_invite"> How Invites Work </string>
+    <string name="daily_earning"> Daily Earning </string>
+    <string name="montly_earning"> Monthly Earning </string>
+    <string name="weekly_earning"> Weekly Earning </string>
 
     <string name="ResetPassword">Reset Password</string>
     <string name="free_whtsapp">Whatsapp</string>
@@ -276,4 +286,19 @@
         <item>260,ZM</item>
         <item>263,ZW</item>
     </string-array>
+    <string name="title_activity_login1">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="type_query"> Enter your Messages</string>
 </resources>

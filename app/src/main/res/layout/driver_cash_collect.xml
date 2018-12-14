@@ -13,22 +13,16 @@
         android:weightSum="1"
         android:layout_margin="5dp"
         android:layout_height="match_parent">
-    <RelativeLayout
-        android:id="@+id/titletrip"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1"
-        android:padding="5dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="TRIP"
-            android:textColor="@color/colorBlack"
-            android:textSize="22dp" />
-    </RelativeLayout>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            android:layout_below="@+id/toolbar1"
+            app:cardCornerRadius="2dp">
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/cash_collect_toolbar" />
+        </android.support.v7.widget.CardView>
         <fragment
             android:id="@+id/map12"
             android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -45,17 +39,18 @@
         android:layout_marginTop="5dp"
         android:layout_below="@+id/map"
         android:layout_height="0dp">
-        <ImageView
-            android:layout_width="wrap_content"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="60dp"
             android:layout_centerHorizontal="true"
             android:src="@drawable/ic_icon_pic"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:id="@+id/user_pic"/>
    <TextView
        android:layout_width="wrap_content"
        android:text="Monday 25 July"
        android:textStyle="bold"
        android:layout_marginTop="5dp"
+       android:fontFamily="@font/montserratsemibold"
        android:layout_centerHorizontal="true"
        android:layout_below="@+id/user_pic"
        android:textColor="@color/black"
@@ -77,6 +72,7 @@
             android:layout_width="wrap_content"
             android:text="Details"
             android:textStyle="bold"
+            android:fontFamily="@font/montserratsemibold"
             android:layout_marginTop="5dp"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/txt_date"
@@ -108,6 +104,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:id="@+id/tvtm"
+            android:fontFamily="@font/montserratregular"
             android:layout_height="wrap_content"
             android:text="Base Fare"
             android:textColor="@color/colorBlack" />
@@ -116,6 +113,7 @@
             android:id="@+id/txtbasefare"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/montserratregular"
             android:layout_alignParentRight="true"
             android:text="$10.65"
             android:textColor="@color/colorBlack" />
@@ -134,12 +132,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Time"
+            android:fontFamily="@font/montserratregular"
             android:textColor="@color/colorBlack" />
 
         <TextView
             android:id="@+id/txttimefare"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/montserratregular"
             android:layout_alignParentRight="true"
             android:text="$110.65"
             android:textColor="@color/colorBlack" />
@@ -148,6 +148,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:text="00"
+                android:fontFamily="@font/montserratregular"
                 android:visibility="visible"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="5dp"
@@ -168,12 +169,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Distance"
+            android:fontFamily="@font/montserratregular"
             android:textColor="@color/colorBlack" />
 
         <TextView
             android:id="@+id/txtdistancefare"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/montserratregular"
             android:layout_alignParentRight="true"
             android:text="$05.35"
             android:textColor="@color/colorBlack" />
@@ -191,11 +194,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Promo Code"
+            android:fontFamily="@font/montserratregular"
             android:textColor="@color/colorBlack" />
 
         <TextView
             android:id="@+id/txtriderdiscount"
             android:layout_width="wrap_content"
+            android:fontFamily="@font/montserratregular"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="$05.35"
@@ -214,6 +219,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cash"
+            android:fontFamily="@font/montserratsemibold"
             android:textStyle="bold"
             android:textColor="@color/colorBlack" />
 
@@ -223,6 +229,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="$05.35"
+            android:fontFamily="@font/montserratsemibold"
             android:textColor="@color/colorBlack" />
         </RelativeLayout>
 
@@ -235,6 +242,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="5dp"
             android:padding="5dp"
+            android:fontFamily="@font/montserratsemibold"
             android:textAllCaps="false"
             android:layout_marginTop="10dp"
             android:gravity="center"

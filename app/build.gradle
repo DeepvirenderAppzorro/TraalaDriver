@@ -19,6 +19,11 @@ android {
         }
     }
     useLibrary 'org.apache.http.legacy'
+    lintOptions {
+
+        checkReleaseBuilds false
+
+    }
 }
 
 dependencies {
@@ -26,6 +31,9 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'com.android.support:design:25.1.0'
     compile 'com.android.support:support-v4:25.1.1'
+    compile 'com.twitter.sdk.android:twitter:3.1.0'
+    compile 'com.twitter.sdk.android:twitter-core:3.1.0'
+
     compile 'com.github.MAXDeliveryNG:slideview:1.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.1.2'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2',
@@ -36,8 +44,8 @@ dependencies {
     compile 'com.android.support:cardview-v7:26.1.0'
     compile 'com.google.android.gms:play-services-maps:11.0.2'
     compile 'com.google.android.gms:play-services-location:11.0.2'
-    compile 'com.jakewharton:butterknife:7.0.1'
-  /*  implementation 'com.jakewharton:butterknife:8.8.1'
+    /* compile 'com.jakewharton:butterknife:7.0.1'*/
+    /*  implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'*/
     compile 'cn.pedant.sweetalert:library:1.3'
     compile 'com.android.volley:volley:1.0.0'
@@ -55,10 +63,13 @@ dependencies {
     compile 'com.github.rahatarmanahmed:circularprogressview:2.5.0'
     compile 'com.facebook.android:facebook-android-sdk:4.19.0'
     compile 'com.wang.avi:library:2.1.3'
+    compile 'com.github.nkzawa:socket.io-client:0.3.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.google.android.gms:play-services-auth:11.0.2'
     compile 'com.twitter.sdk.android:twitter-core:3.1.1'
     compile 'com.stripe:stripe-android:6.1.2'
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     // Include all the Twitter APIs
     compile 'com.twitter.sdk.android:twitter:3.1.1'
     compile 'com.github.MAXDeliveryNG:slideview:1.1.0'
@@ -68,7 +79,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.1.1'
     compile project(':slide-button')
     compile project(':library')
-    compile files('libs/signalr-client-sdk.jar')
     compile 'com.github.jd-alexander:library:1.1.0'
     compile 'com.facebook.android:account-kit-sdk:4.19.0'
     compile 'com.toptoche.searchablespinner:searchablespinnerlibrary:1.3.1'

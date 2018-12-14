@@ -9,17 +9,25 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".AppController"
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".view.SplashActivity"
+            android:name=".view.Activity.SplashActivity"
             android:label="@string/title_activity_maps">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,41 +36,32 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.LoginActivity"
+            android:name=".view.Activity.loginActivity.LoginActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".view.Activity.ReviewActivity" />
+        <activity
+            android:name=".view.Activity.SignUp"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".view.HomeScreenActivity"
-            android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".view.ReviewActivity" />
-        <activity
-            android:name=".view.SignUp"
+            android:name=".view.Activity.CabCompanyActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".view.CabCompanyActivity"
+            android:name=".view.Activity.RideHistory"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".view.TripHistory"
+            android:name=".view.Activity.MyBookingActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".view.PathMapActivity"
+            android:name=".view.Activity.Profile_Activity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".view.RideHistory"
+            android:name=".view.Activity.CashCollect"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".view.MyBookingActivity"
+            android:name=".view.Activity.HelpActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".view.Profile_Activity"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".view.CashCollect"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".view.HelpActivity"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".view.FareDetail"
+            android:name=".view.Activity.FareDetail"
             android:windowSoftInputMode="stateHidden" />
 
         <service android:name=".model.FireIDService">
@@ -75,6 +74,9 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <service
+            android:name=".model.AppService"
+            android:stopWithTask="false" />
 
         <meta-data
             android:name="com.facebook.accountkit.ApplicationName"
@@ -98,6 +100,7 @@
                 <data android:scheme="@string/Account_protocol_scheme" />
             </intent-filter>
         </activity>
+
         <!--
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -115,35 +118,37 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".view.HistoryDeatil"
+            android:name=".view.Activity.HistoryDeatil"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".view.DriverPathActivity"
+            android:name=".view.Activity.PathmapActivity.view.PathMapActivity"
+            android:windowSoftInputMode="stateHidden">
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+        <activity
+            android:name=".view.Activity.DriverPathActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".view.Practiseactivity"
+            android:name=".view.Activity.Practiseactivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".view.Rating"
+            android:name=".view.Activity.Rating"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".view.StopTripsActivity"
+            android:name=".view.Activity.StopTripsActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".view.NotificatonDialog"
+            android:name=".view.Activity.NotificatonDialog"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.MyDialog" />
 
-        <service
-            android:name=".model.SignalRService"
-            android:enabled="true" />
-
-        <receiver android:name=".view.PathMapActivity$ShutDownReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.ACTION_SHUTDOWN" />
-                <action android:name="android.intent.action.QUICKBOOT_POWEROFF" />
-            </intent-filter>
-        </receiver>
         <receiver
             android:name=".model.SensorRestartBroadcastReceiver"
             android:enabled="true"
@@ -160,15 +165,28 @@
 
                 <!-- Intent filters for broadcast receiver -->
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
             </intent-filter>
         </receiver>
 
         <activity
-            android:name=".view.ForgotPassword"
+            android:name=".view.Activity.ForgotPassword"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".view.ContactUsActivity" />
+        <activity android:name=".view.Activity.ContactUsActivity" />
         <!-- <activity android:name=".view.Twitter"></activity> -->
-        <activity android:name=".view.Main5Activity"></activity>
+        <activity android:name=".view.Activity.Main5Activity" />
+        <activity android:name=".view.Activity.TripDetail" />
+        <activity android:name=".view.Activity.MyEarning" />
+        <activity android:name=".view.Activity.Trip_info_Detail" />
+        <activity
+            android:name=".view.HomeActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".view.Activity.InternetStatus"
+            android:theme="@style/Theme.MyDialog" />
+        <activity android:name=".view.Activity.ChatActivity"></activity>
     </application>
 
 </manifest>

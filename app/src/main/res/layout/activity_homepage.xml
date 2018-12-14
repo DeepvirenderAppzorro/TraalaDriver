@@ -1,7 +1,9 @@
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
+    android:keepScreenOn="true"
     android:layout_height="match_parent">
 
     <android.support.design.widget.CoordinatorLayout
@@ -13,19 +15,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <fragment
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar1"
+                android:theme="@style/AppTheme.PopupOverlay"
+                xmlns:app="schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorBlack"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:theme="@style/AppTheme.PopupOverlay">
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:contentInsetLeft="0dp"
+                android:contentInsetStart="0dp"
+                app:contentInsetLeft="0dp"
+                app:contentInsetStart="0dp"
+                android:contentInsetRight="0dp"
+                android:contentInsetEnd="0dp"
+                app:contentInsetRight="0dp"
+                app:contentInsetEnd="0dp" >
+
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -69,6 +74,13 @@
                     />
 
             </android.support.v7.widget.Toolbar>
+            <fragment
+                android:id="@+id/map"
+                android:layout_below="@+id/toolbar1"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fbMyloc"
@@ -88,18 +100,6 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/bottom_sheet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:visibility="gone"
-            app:behavior_hideable="true"
-            app:behavior_peekHeight="300dp"
-            app:layout_behavior="com.appzorro.driverappcabscout.model.ExpandedBottomSheetBehavior">
-
-            <include layout="@layout/driveraccept_new" />
-        </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView

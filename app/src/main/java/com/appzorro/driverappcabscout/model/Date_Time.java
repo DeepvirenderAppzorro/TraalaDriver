@@ -37,8 +37,8 @@ public class Date_Time {
         DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                if (month < 10) {
-
+                //11 Changed by deep at oct22
+                if (month < 9) {
 
                     date = dayOfMonth + "-" + "0" + String.valueOf(month + 1) + "-" + year;
                     EventBus.getDefault().post(new Event(Constant.DATE, date));
@@ -48,11 +48,9 @@ public class Date_Time {
                     EventBus.getDefault().post(new Event(Constant.DATE, date));
                 }
 
-
             }
         }, year, month, day);
         datePickerDialog.show();
-
 
     }
 

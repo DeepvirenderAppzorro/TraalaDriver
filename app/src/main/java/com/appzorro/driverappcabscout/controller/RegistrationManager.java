@@ -8,12 +8,14 @@ import com.appzorro.driverappcabscout.model.CSPreferences;
 import com.appzorro.driverappcabscout.model.Constant;
 import com.appzorro.driverappcabscout.model.Event;
 import com.appzorro.driverappcabscout.model.HttpHandler;
+import com.appzorro.driverappcabscout.model.Utils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import static com.appzorro.driverappcabscout.model.Constant.COMPANYID;
+import static com.appzorro.driverappcabscout.model.Constant.SOCKET_ID;
 
 /**
  * Created by Pankaj on 23/1/17.
@@ -42,6 +44,7 @@ public class RegistrationManager {
             super.onPostExecute(s);
             String companyID="";
             String message="";
+            String socketID="";
             if(s!=null) {
                 try {
                     JSONObject jsonObject = new JSONObject(s);
@@ -50,17 +53,24 @@ public class RegistrationManager {
                     if (response.has("company_id")) {
                          companyID = response.getString("company_id");
                     }
+                    if (response.has("socket_id")) {
+                         socketID= response.getString("socket_id");
+                         Log.d("soc_id",socketID);
+                    }
                      message = response.getString("message");
 
                     if (id>0){
                         CSPreferences.putString(mContext, "customer_id",String.valueOf(id));
                         CSPreferences.putString(mContext, COMPANYID,companyID);
+                        CSPreferences.putString(mContext,SOCKET_ID,socketID);
+                        if(socketID!=null)
+                        {
+                            Utils.sendMessageIo(mContext,"onlineDriver",socketID);
+                        }
                         EventBus.getDefault().post(new Event(Constant.SIGNUPRESPONSE,message));
 
                     }
                     else {
-
-
                         EventBus.getDefault().post(new Event(Constant.ERROR,message));
 
                     }

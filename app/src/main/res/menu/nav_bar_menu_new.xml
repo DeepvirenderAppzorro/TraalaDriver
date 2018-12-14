@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:id="@+id/grp1">
-        <item android:id="@+id/payment"
-            android:title=" Map"
-            android:icon="@mipmap/ic_icon_map_new"/>
+
+    <group android:id="@+id/grp4" >
+        <item android:id="@+id/settings"
+            android:title=" My Profile"
+            android:icon="@drawable/ic_icon_profile"/>
     </group>
     <group android:id="@+id/grp2">
         <item android:id="@+id/rideHistory"
             android:title=" Ride History"
             android:icon="@mipmap/ic_icon_history" />
     </group>
-   <!-- <group android:id="@+id/grp3">
-        <item android:id="@+id/my_bookings"
-            android:title=" My Bookings"
-            android:icon="@mipmap/ic_icon_my_bookings"/>
-    </group>-->
-    <group android:id="@+id/grp4" >
-        <item android:id="@+id/settings"
-            android:title=" Settings"
-            android:icon="@mipmap/ic_icon_setting"/>
-    </group>
+    <!-- <group android:id="@+id/grp3">
+         <item android:id="@+id/my_bookings"
+             android:title=" My Bookings"
+             android:icon="@mipmap/ic_icon_my_bookings"/>
+     </group>-->
+
     <group android:id="@+id/grp5">
         <item android:id="@+id/contact"
             android:title=" Contact"
@@ -28,18 +25,22 @@
     <group android:id="@+id/grp6">
         <item android:id="@+id/help"
             android:title=" Help"
-            android:icon="@mipmap/ic_icon_help_new"/>
+            android:icon="@drawable/ic_icon_help"/>
     </group>
-
+    <group android:id="@+id/grp9">
+        <item android:id="@+id/earning"
+            android:title="My Earnings"
+            android:icon="@drawable/ic_icon_earning"/>
+    </group>
 
     <group android:id="@+id/grp7">
         <item android:id="@+id/logout"
             android:title=" Logout"
-            android:icon="@mipmap/ic_icon_logout"/>
-    </group>
-    <group android:id="@+id/grp8">
+            android:icon="@drawable/ic_icon_logout"/>
     </group>
 
+    <group android:id="@+id/grp8">
+    </group>
 
     <!-- <item android:id="@+id/myBooking"
          android:title="My_booking"

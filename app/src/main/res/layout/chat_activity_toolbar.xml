@@ -1,0 +1,46 @@
+<RelativeLayout android:background="@color/white"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools">
+
+    <android.support.v7.widget.CardView
+        android:foreground="?android:attr/selectableItemBackground"
+        android:id="@+id/card_view_get"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        app:cardBackgroundColor="@color/white"
+        card_view:cardElevation="7dp">
+
+        <RelativeLayout
+            android:layout_height="?actionBarSize"
+            android:layout_marginBottom="2dp"
+            android:layout_width="match_parent">
+
+            <ImageView
+                android:id="@+id/image_back"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:padding="15dp"
+                android:src="@drawable/ic_icon_back" />
+
+            <TextView
+                android:fontFamily="@font/montserratbold"
+                android:gravity="center"
+                android:id="@+id/toolbar_title"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:text="Chat Activity"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

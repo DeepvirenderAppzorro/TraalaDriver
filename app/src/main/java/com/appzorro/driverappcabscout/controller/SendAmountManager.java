@@ -40,7 +40,7 @@ public class SendAmountManager {
             HttpHandler httpHandler = new HttpHandler();
             String response = httpHandler.makeServiceCall(strings[0]);
 
-            Log.e(TAG, "user update detail--" + response);
+            Log.e(TAG, "userupdatedetail--" + response);
 
             return response;
         }

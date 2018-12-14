@@ -1,0 +1,835 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp">
+
+            <LinearLayout
+                android:id="@+id/linear1_"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:orientation="horizontal">
+
+                <include
+                    android:id="@+id/toolbar"
+                    layout="@layout/my_profile_toolbar" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linear1_">
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/driverpic"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    app:civ_border_width="1dp"
+                    app:civ_border_color="@color/grey"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/ic_icon_profile_pic" />
+
+                <ImageView
+                    android:id="@+id/imageedit"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignEnd="@+id/driverpic"
+                    android:layout_alignRight="@+id/driverpic"
+                    android:layout_alignTop="@+id/driverpic"
+                    android:src="@drawable/ic_icon_blue_edit" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rel_image"
+                android:padding="3dp">
+
+                <TextView
+                    android:id="@+id/lbl_first_name"
+                    style="@style/TextAppearance.AppCompat.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="First Name"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/lbl_first_name"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/txtview_design"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/image"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_weight=".10"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_icon_user" />
+
+                    <EditText
+                        android:id="@+id/edtfirstname"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_weight=".90"
+                        android:background="@null"
+                        android:hint="Jacob"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="5dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rel_13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/rel_1"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/lbl_email"
+                    style="@style/TextAppearance.AppCompat.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Email"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/lbl_email"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/txtview_design"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/image_3"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_weight=".10"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_icon_email" />
+
+                    <TextView
+                        android:id="@+id/edtemail"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_weight=".90"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="Jacob@gmail.com"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="5dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel_14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rel_13"
+                android:layout_marginTop="5dp"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/lbl_mob"
+                    style="@style/TextAppearance.AppCompat.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Mobile Number"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/lbl_mob"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/txtview_design"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/image_4"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_weight=".10"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_icon_contact_number" />
+                    <EditText
+                        android:id="@+id/edphonenumber"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_weight=".90"
+                        android:background="@null"
+                        android:enabled="false"
+                        android:hint="+1234567890"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="5dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel_16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rel_14"
+                android:layout_marginTop="5dp"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/lbl_chnge_pwd"
+                    style="@style/TextAppearance.AppCompat.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Change Password"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/lbl_chnge_pwd"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/txtview_design"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/image_6"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_weight=".10"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_icon_password" />
+
+                    <TextView
+                        android:id="@+id/txtpassworddd"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.90"
+                        android:gravity="center|start"
+                        android:paddingLeft="10dp"
+                        android:inputType="textPassword"
+                        android:enabled="false"
+                        android:paddingRight="5dp"
+                        android:text="CHANGE PASSWORD"
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel_17"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rel_16"
+                android:layout_marginTop="5dp"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/lbl_chnge_cmp"
+                    style="@style/TextAppearance.AppCompat.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Change Company"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/lbl_chnge_cmp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/txtview_design"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/image_7"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_weight=".10"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_icon_company" />
+
+                    <com.appzorro.driverappcabscout.model.CustomSearchableSpinner
+                        android:id="@+id/selectCab"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight=".99"
+                        android:background="@null"
+                        android:visibility="gone"
+                        android:dropDownVerticalOffset="-5dp"
+                        android:hint="Select Your taxi Company"
+                        android:overlapAnchor="false"
+                        android:spinnerMode="dropdown"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp" />
+                    <ImageView
+                        android:id="@+id/dropdown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight=".01"
+                        android:src="@mipmap/ic_launcher_dropdown"
+                        android:visibility="gone" />
+                    <TextView
+                        android:id="@+id/txtchangeccompany"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.90"
+                        android:gravity="center|start"
+                        android:paddingLeft="10dp"
+                        android:visibility="visible"
+                        android:enabled="false"
+                        android:paddingRight="5dp"
+                        android:text="CHANGE COMPANY"
+                        android:textColor="@color/black"
+                        android:textSize="13dp" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel_18"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/rel_17"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/lbl_address"
+                    style="@style/TextAppearance.AppCompat.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Address"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/lbl_address"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/txtview_design"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/image_address"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_weight=".10"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_icon_email" />
+
+                    <EditText
+                        android:id="@+id/edAddress"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_weight=".90"
+                        android:background="@null"
+                        android:enabled="false"
+                        android:hint="Enter your address"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="5dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel_19"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/rel_18"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/lbl_zip"
+                    style="@style/TextAppearance.AppCompat.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Zip"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/lbl_zip"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/txtview_design"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/img_zip"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_weight=".10"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_icon_email" />
+
+                    <EditText
+                        android:id="@+id/edZip"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_weight=".90"
+                        android:background="@null"
+                        android:enabled="false"
+                        android:hint="Enter your Zipcode"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="5dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel_20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/rel_19"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/lbl_licenseNo"
+                    style="@style/TextAppearance.AppCompat.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="License No."
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/lbl_licenseNo"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/txtview_design"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/img_license"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_weight=".10"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_icon_email" />
+
+                    <EditText
+                        android:id="@+id/edLicense"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_weight=".90"
+                        android:background="@null"
+                        android:enabled="false"
+                        android:hint="Enter your License No."
+                        android:paddingLeft="10dp"
+                        android:paddingRight="5dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="13sp" />
+
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel_21"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/rel_20"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/lbl_licValidity"
+                    style="@style/TextAppearance.AppCompat.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="License Validity"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/lbl_licValidity"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/txtview_design"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/img_licValidity"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_weight=".10"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_icon_email" />
+
+                    <EditText
+                        android:id="@+id/edLicValidity"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_weight=".90"
+                        android:background="@null"
+                        android:enabled="false"
+                        android:hint="Enter your License Validity"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="5dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="13sp" />
+
+
+                </LinearLayout>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rel_22"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rel_21"
+                android:layout_marginTop="5dp"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/lbl_locationName"
+                    style="@style/TextAppearance.AppCompat.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Location Name"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/lbl_locationName"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/txtview_design"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/img_locationName"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_weight=".10"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_icon_company" />
+
+                    <com.appzorro.driverappcabscout.model.CustomSearchableSpinner
+                        android:id="@+id/selectLocation"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight=".89"
+                        android:background="@null"
+                        android:visibility="visible"
+                        android:dropDownVerticalOffset="-5dp"
+                        android:hint="Select Your taxi Company"
+                        android:overlapAnchor="false"
+                        android:spinnerMode="dropdown"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp" />
+                    <ImageView
+                        android:id="@+id/dropdownLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight=".01"
+                        android:src="@mipmap/ic_launcher_dropdown"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel_23"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rel_22"
+                android:layout_marginTop="5dp"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/lblPayroll"
+                    style="@style/TextAppearance.AppCompat.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Driver Payroll"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/lblPayroll"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/txtview_design"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imgPayroll"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_weight=".10"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_icon_company" />
+
+                    <com.appzorro.driverappcabscout.model.CustomSearchableSpinner
+                        android:id="@+id/selectPayroll"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight=".89"
+                        android:background="@null"
+                        android:visibility="visible"
+                        android:dropDownVerticalOffset="-5dp"
+                        android:hint="Select Your taxi Company"
+                        android:overlapAnchor="false"
+                        android:spinnerMode="dropdown"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp" />
+                    <ImageView
+                        android:id="@+id/dropdownPayroll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight=".01"
+                        android:src="@mipmap/ic_launcher_dropdown"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel_24"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rel_23"
+                android:layout_marginTop="5dp"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/lblIdentity"
+                    style="@style/TextAppearance.AppCompat.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Identity Select"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/lblIdentity"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/txtview_design"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imgIdentity"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_weight=".10"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_icon_company" />
+
+                    <com.appzorro.driverappcabscout.model.CustomSearchableSpinner
+                        android:id="@+id/selectIdentity"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight=".89"
+                        android:background="@null"
+                        android:visibility="visible"
+                        android:dropDownVerticalOffset="-5dp"
+                        android:hint="Select Your taxi Company"
+                        android:overlapAnchor="false"
+                        android:spinnerMode="dropdown"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp" />
+                    <ImageView
+                        android:id="@+id/dropdownIdentity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight=".01"
+                        android:src="@mipmap/ic_launcher_dropdown"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel_25"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rel_24"
+                android:layout_marginTop="5dp"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/lblVehicleSelect"
+                    style="@style/TextAppearance.AppCompat.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Vehicle Selection"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/lblVehicleSelect"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/txtview_design"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imgVSelection"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_weight=".10"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_icon_company" />
+
+                    <com.appzorro.driverappcabscout.model.CustomSearchableSpinner
+                        android:id="@+id/selectVehicle"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight=".89"
+                        android:background="@null"
+                        android:visibility="visible"
+                        android:dropDownVerticalOffset="-5dp"
+                        android:hint="Select Vehicle"
+                        android:overlapAnchor="false"
+                        android:spinnerMode="dropdown"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp" />
+                    <ImageView
+                        android:id="@+id/dropdownVehicle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight=".01"
+                        android:src="@mipmap/ic_launcher_dropdown"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_below="@+id/rel_25"
+                android:layout_margin="8dp"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -1,14 +1,67 @@
 package com.appzorro.driverappcabscout.model.Beans;
 
+import java.io.Serializable;
+
 /**
  * Created by vijay on 20/2/17.
  */
 
-public class CompletedRideBean {
-    String requestid,pickuplat,pickuplng,droplat,droplng,startdate, edndtime,edndtym,totalamount,name,profilepic,mobile,start_tym,end_tym,id,curPage,lastPage,pagesize,start_Tym,dropLoc,pickUpLoc;
+public class CompletedRideBean implements Serializable {
+    String requestid, pickuplat, pickuplng, droplat, droplng, startdate, edndtime, edndtym, totalamount, name, profilepic, mobile, start_tym, end_tym, id, curPage, lastPage, pagesize, start_Tym, dropLoc, pickUpLoc, feedback, vehicleName, PaymentType, pathImg;
+
+    public String getPathImg() {
+        return pathImg;
+    }
+
+    public void setPathImg(String pathImg) {
+        this.pathImg = pathImg;
+    }
+
+    public CompletedRideBean(String requestid, String pickuplat, String pickuplng, String droplat, String droplng, String startdate, String start_tym,
+                             String edndtime, String end_tym, String totalamount, String name, String profilepic, String mobile, String dropLocc, String PickupLoc, String feedback, String vehicleName, String paymentType, String pathImg) {
+        this.requestid = requestid;
+        this.pickuplat = pickuplat;
+        this.pickuplng = pickuplng;
+        this.pathImg = pathImg;
+
+        this.droplat = droplat;
+        this.feedback = feedback;
+        PaymentType = paymentType;
+        this.vehicleName = vehicleName;
+
+        this.droplng = droplng;
+        this.startdate = startdate;
+        this.edndtime = edndtime;
+        this.edndtym = end_tym;
+
+        this.totalamount = totalamount;
+        this.name = name;
+        this.profilepic = profilepic;
+        this.mobile = mobile;
+        start_Tym = start_tym;
+        dropLoc = dropLocc;
+        pickUpLoc = PickupLoc;
+    }
+
 
     public String getEnd_tym() {
         return end_tym;
+    }
+
+    public String getVehicleName() {
+        return vehicleName;
+    }
+
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
+    }
+
+    public void setVehicleName(String vehicleName) {
+        this.vehicleName = vehicleName;
     }
 
     public void setEnd_tym(String end_tym) {
@@ -62,6 +115,14 @@ public class CompletedRideBean {
         return dropLoc;
     }
 
+    public String getPaymentType() {
+        return PaymentType;
+    }
+
+    public void setPaymentType(String paymentType) {
+        PaymentType = paymentType;
+    }
+
     public String getPickUpLoc() {
         return pickUpLoc;
     }
@@ -74,26 +135,6 @@ public class CompletedRideBean {
         this.dropLoc = dropLoc;
     }
 
-    public CompletedRideBean(String requestid, String pickuplat, String pickuplng, String droplat, String droplng, String startdate, String start_tym,
-                             String edndtime, String end_tym, String totalamount, String name, String profilepic, String mobile, String dropLocc, String PickupLoc) {
-        this.requestid = requestid;
-        this.pickuplat = pickuplat;
-        this.pickuplng = pickuplng;
-        this.droplat=droplat;
-
-        this.droplng=droplng;
-        this.startdate=startdate;
-        this.edndtime = edndtime;
-        this.edndtym = end_tym;
-
-        this.totalamount=totalamount;
-        this.name = name;
-        this.profilepic=profilepic;
-        this.mobile=mobile;
-        start_Tym=start_tym;
-        dropLoc=dropLocc;
-        pickUpLoc=PickupLoc;
-    }
 
     public String getEdndtym() {
         return edndtym;

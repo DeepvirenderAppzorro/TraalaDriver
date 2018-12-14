@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent">
 
     <android.support.v7.widget.CardView
@@ -13,7 +14,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:padding="5dp"
         app:cardBackgroundColor="@color/white"
-        card_view:cardElevation="7dp">
+        card_view:cardElevation="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -24,7 +25,7 @@
             <ImageView
                 android:id="@+id/back"
                 android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_height="20dp"
                 android:layout_centerVertical="true"
                 android:src="@drawable/ic_icon_back" />
 
@@ -36,10 +37,10 @@
                 android:layout_marginLeft="10dp"
                 android:gravity="center"
                 android:text="RIDE HISTORY"
+                android:fontFamily="@font/montserratsemibold"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/black"
-                android:textStyle="bold" />
-
+               />
             <ImageView
                 android:id="@+id/img_calnder"
                 android:layout_width="25dp"
@@ -48,9 +49,15 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="5dp"
-                android:src="@drawable/ic_icon_clanders" />
+                android:src="@drawable/ic_icon_calendar" />
 
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_below="@+id/card_view_get"
+        android:background="@color/gray_btn_bg_color"
+        android:layout_height="1dp"
+        />
 </RelativeLayout>

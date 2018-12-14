@@ -19,9 +19,9 @@ import org.json.JSONObject;
 public class OnlineOfflineManager {
     private static final String TAG = OnlineOfflineManager.class.getSimpleName();
 
-    public void OnlineOfflineManager(Context context, String url,String params) {
+    public void OnlineOfflineManager(Context context,String params) {
 
-       new ExecuteApi(context).execute(url,params);
+        new ExecuteApi(context).execute(params);
     }
 
     private class ExecuteApi extends AsyncTask<String, String, String> {
@@ -34,7 +34,7 @@ public class OnlineOfflineManager {
         @Override
         protected String doInBackground(String... strings) {
             HttpHandler httpHandler = new HttpHandler();
-            String response = httpHandler.getResponse(strings[0],strings[1]);
+            String response = httpHandler.makeServiceCall(strings[0]);
 
             Log.e(TAG, "onlineofflineresponse--" +response);
 
@@ -57,19 +57,19 @@ public class OnlineOfflineManager {
                     }
                     else
                     {
-                        EventBus.getDefault().post(new Event(Constant.SERVER_ERROR,""));
+                       // EventBus.getDefault().post(new Event(Constant.SERVER_ERROR,""));
 
                     }
 
                 } catch (JSONException e) {
-                    EventBus.getDefault().post(new Event(Constant.SERVER_ERROR,""));
+                  //  EventBus.getDefault().post(new Event(Constant.SERVER_ERROR,""));
 
                     e.printStackTrace();
                 }
             }
             else {
 
-                EventBus.getDefault().post(new Event(Constant.SERVER_ERROR,""));
+               // EventBus.getDefault().post(new Event(Constant.SERVER_ERROR,""));
             }
         }
     }

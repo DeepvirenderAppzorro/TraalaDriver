@@ -2,18 +2,24 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="windowActionBarOverlay">true</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/light_blue</item>
+        <item name="colorAccent">@color/blue</item>
 
     </style>
-    <style name="MyRatingBar" parent="@android:style/Widget.DeviceDefault.RatingBar.Small">
-        <item name="android:minHeight">15dp</item>
-        <item name="android:maxHeight">15dp</item>
+
+    <style name="MyRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:minHeight">20dp</item>
+        <item name="android:maxHeight">20dp</item>
         <item name="colorControlNormal">@color/white</item>
         <item name="colorControlActivated">@color/black</item>
+
+    </style>
+
+    <style name="MyRatingBarTwo" parent="Widget.AppCompat.RatingBar">
+        <item name="android:progressDrawable">@drawable/custom_ratingbar</item>
+        <item name="android:minHeight">32dp</item>
+        <item name="android:minWidth">32dp</item>
 
     </style>
 
@@ -21,9 +27,18 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-    <style name="CustomRatingBar" >
+<!--
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+-->
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">#600083db</item>
+    </style>
+
+
+    <style name="CustomRatingBar">
         <item name="android:numStars">5</item>
         <item name="android:rating">3.5</item>
         <item name="android:stepSize">0.5</item>
@@ -34,8 +49,13 @@
         <item name="android:layout_marginTop">4dip</item>
     </style>
 
+
     <style name="Theme.MyDialog" parent="@style/Theme.AppCompat.Light.Dialog">
-    <item name="windowActionBar">false</item>
-    <item name="windowNoTitle">true</item>
-</style>
-s</resources>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+
+
+    </style>
+
+</resources>
