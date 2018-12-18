@@ -12,10 +12,12 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -423,6 +425,7 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.ECLAIR)
     @Subscribe
     public void onEvent(Event event) {
         switch (event.getKey()) {

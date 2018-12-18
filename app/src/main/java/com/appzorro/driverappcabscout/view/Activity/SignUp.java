@@ -48,7 +48,6 @@ import com.appzorro.driverappcabscout.model.Beans.CountryCode;
 import com.appzorro.driverappcabscout.model.Beans.GetCountryCode;
 import com.appzorro.driverappcabscout.model.Beans.State;
 import com.appzorro.driverappcabscout.model.CSPreferences;
-import com.appzorro.driverappcabscout.model.Config;
 import com.appzorro.driverappcabscout.model.Constant;
 import com.appzorro.driverappcabscout.model.Event;
 import com.appzorro.driverappcabscout.model.Operations;
@@ -578,11 +577,13 @@ public class SignUp extends AppCompatActivity {
                                     if (no.matches("[0-9]+")) {
                                         dialog = new SpotsDialog(context);
                                         dialog.show();
-                                        ModelManager.getInstance().getRegistrationManager().
+
+                                        onSMSLoginFlow();
+                                       /* ModelManager.getInstance().getRegistrationManager().
                                                 registerUser(context, Config.simplesignupurl,
                                                         Operations.simpleuserRegister(context, CSPreferences.readString(context, "LocationId"),
                                                                 cabid, driEmail, drivername, "A", devicetoken, etDrivNo.getText().toString(), covertedImage, drivCity, drivZip, drivLicence, Country, State, latitude + "", longitude + "", drivPasswrd));
-
+*/
                                     }
                                     else
                                     {

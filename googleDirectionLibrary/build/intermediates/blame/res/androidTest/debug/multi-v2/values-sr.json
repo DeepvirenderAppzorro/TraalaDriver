@@ -1,6 +1,28 @@
 {
     "logs": [
         {
+            "outputFile": "/home/vijay/Documents/DriverCabscoutDeep/DriverCabscoutDeep/googleDirectionLibrary/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-sr/values-sr.xml",
+            "map": [
+                {
+                    "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/play-services-basement-11.6.0.aar/73d4a12c66ab2be867478c178fdf25c4/res/values-sr/values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "285",
+                        "endColumns": "188",
+                        "endOffsets": "473"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "105",
+                        "endColumns": "188",
+                        "endOffsets": "289"
+                    }
+                }
+            ]
+        },
+        {
             "outputFile": "/home/vijay/Documents/DriverCabscout(Deep)/DriverCabscout(Deep)/googleDirectionLibrary/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-sr/values-sr.xml",
             "map": [
                 {

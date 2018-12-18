@@ -40,6 +40,47 @@
                     }
                 }
             ]
+        },
+        {
+            "outputFile": "/home/vijay/Documents/DriverCabscoutDeep/DriverCabscoutDeep/googleDirectionLibrary/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values/values.xml",
+            "map": [
+                {
+                    "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/326ddddd4040d248e52aba6d9f2d65ac/res/values/values.xml",
+                    "from": {
+                        "startLines": "2,3,7,10",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,93,301,461",
+                        "endLines": "2,6,9,14",
+                        "endColumns": "37,12,12,12",
+                        "endOffsets": "88,296,456,708"
+                    },
+                    "to": {
+                        "startLines": "14,17,21,24",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "1414,1687,1895,2055",
+                        "endLines": "14,20,23,28",
+                        "endColumns": "37,12,12,12",
+                        "endOffsets": "1447,1890,2050,2302"
+                    }
+                },
+                {
+                    "source": "/home/vijay/.gradle/caches/transforms-1/files-1.1/play-services-basement-11.6.0.aar/73d4a12c66ab2be867478c178fdf25c4/res/values/values.xml",
+                    "from": {
+                        "startLines": "4,7",
+                        "startColumns": "0,0",
+                        "startOffsets": "276,439",
+                        "endColumns": "63,166",
+                        "endOffsets": "339,605"
+                    },
+                    "to": {
+                        "startLines": "15,16",
+                        "startColumns": "4,4",
+                        "startOffsets": "1452,1520",
+                        "endColumns": "67,166",
+                        "endOffsets": "1515,1682"
+                    }
+                }
+            ]
         }
     ]
 }

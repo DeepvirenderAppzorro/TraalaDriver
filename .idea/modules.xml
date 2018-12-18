@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DriverCabscout(Deep).iml" filepath="$PROJECT_DIR$/DriverCabscout(Deep).iml" />
+      <module fileurl="file://$PROJECT_DIR$/DriverCabscoutDeep.iml" filepath="$PROJECT_DIR$/DriverCabscoutDeep.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/googleDirectionLibrary/googleDirectionLibrary.iml" filepath="$PROJECT_DIR$/googleDirectionLibrary/googleDirectionLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
